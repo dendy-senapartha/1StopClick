@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion project.androidCompileSdkVersion
+    defaultConfig {
+        applicationId "com.a1stopclick"
+        minSdkVersion project.androidMinSdkVersion
+        targetSdkVersion project.androidTargetSdkVersion
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}.${buildNumber}"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        def appName
+        if(project.hasProperty("applicationName"))
+        {
+            appName = applicationName
+        } else {
+            appName = parent.name
+        }
+        variant.outputs.all {
+            def version = variant.versionName
+            outputFileName = "${appName}-${version}.apk"
+        }
+    }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    rootProject.appDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
+}
