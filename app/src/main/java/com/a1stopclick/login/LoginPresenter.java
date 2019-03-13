@@ -1,6 +1,12 @@
 package com.a1stopclick.login;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.domain.DefaultObserver;
+import com.domain.login.LoginRequest;
+import com.domain.login.LoginResult;
+import com.domain.login.interactor.Login;
 
 import javax.inject.Inject;
 
@@ -15,15 +21,33 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private final LoginContract.View view;
 
+    private Login login;
+
     @Inject
-    public LoginPresenter(Context context, LoginContract.View view) {
+    public LoginPresenter(Context context, LoginContract.View view, Login login) {
         this.context = context;
         this.view = view;
+        this.login = login;
     }
 
     @Override
     public void SignIn(String email, String password) {
+        login.execute(new DefaultObserver<LoginResult>() {
 
+            @Override
+            public void onNext(LoginResult result) {
+                //TODO: need to record the user identity on share preference
+                view.OnLoginSuccess();
+            }
+
+            @Override
+            public void onError(Throwable er) {
+                //TODO : need show error message based on error code from BE
+                Log.d("SignIn", "onError: " + er.toString());
+                view.OnLoginFailed(er.getMessage());
+            }
+
+        }, new LoginRequest(email, password));
     }
 
     @Override

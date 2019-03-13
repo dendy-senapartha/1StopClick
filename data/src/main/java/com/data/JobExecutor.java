@@ -1,4 +1,4 @@
-package com;
+package com.data;
 
 import android.support.annotation.NonNull;
 

@@ -11,8 +11,10 @@ import com.a1stopclick.base.BaseContract;
 public interface LoginContract {
 
     interface View{
-        void OnSignInSuccess();
+        void OnLoginSuccess();
+        void OnLoginFailed(String message);
         void OnSignOutSuccess();
+        void OnSignOutFailed(String message);
     }
 
     interface Presenter extends BaseContract.BasePresenterContract{

@@ -3,10 +3,12 @@ package com.a1stopclick.dependencyinjection.modules;
 import android.app.Application;
 import android.content.Context;
 
-import com.JobExecutor;
+import com.data.JobExecutor;
 import com.a1stopclick.base.UIThread;
+import com.data.user.repository.UserDataRepository;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
+import com.domain.login.repository.UserRepository;
 
 import javax.inject.Singleton;
 
@@ -48,6 +50,13 @@ public class ApplicationModule {
     @Singleton
     PostExecutionThread providePostExecutionThread(UIThread uiThread) {
         return uiThread;
+    }
+
+
+    @Provides
+    @Singleton
+    UserRepository provideUserRepository(UserDataRepository userDataRepository) {
+        return userDataRepository;
     }
 
 }

@@ -14,6 +14,9 @@ ext {
     butterknifeVersion = '8.8.1'
     rxAndroidVersion = '2.0.2'
     rxJavaVersion = '2.x.x'
+    volleyVersion = '1.0.0'
+
+    fastjsonVersion = '1.1.70.android'
 
     //Testing
     jUnitVersion = '4.12'
@@ -35,7 +38,9 @@ ext {
             dagger              : [group: 'com.google.dagger', name: 'dagger', version: daggerVersion],
             daggerCompiler      : [group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion],
             rxAndroid           : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxAndroidVersion],
-            rxJava              : [group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxJavaVersion]
+            rxJava              : [group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxJavaVersion],
+            fastjson            : [group: 'com.alibaba', name: 'fastjson', version: fastjsonVersion],
+            volley              : [group: 'com.android.volley', name: 'volley', version: volleyVersion]
 
     ]
 
@@ -55,6 +60,7 @@ ext {
             [configuration: "implementation", dependency: libs.rxAndroid],
             [configuration: "implementation", dependency: libs.rxJava],
             [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "implementation", dependency: libs.volley],
             [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler],
             [configuration: "annotationProcessor", dependency: libs.daggerCompiler]
     ]
@@ -76,6 +82,8 @@ ext {
             [configuration: "implementation", dependency: libs.rxAndroid],
             [configuration: "implementation", dependency: libs.rxJava],
             [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "implementation", dependency: libs.fastjson],
+            [configuration: "implementation", dependency: libs.volley],
             [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
             [configuration: "testImplementation", dependency: testLibs.junit],
             [configuration: "testImplementation", dependency: testLibs.mockito],
