@@ -1,10 +1,10 @@
 package com.data.user.repository.source.network.request;
 
-public class UserRequest {
+public class LoginRequest {
     public String email;
     public String password;
 
-    public UserRequest(String email, String password)
+    public LoginRequest(String email, String password)
     {
         this.password = password;
         this.email = email;

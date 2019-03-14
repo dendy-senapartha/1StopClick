@@ -4,9 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.domain.DefaultObserver;
-import com.domain.login.LoginRequest;
-import com.domain.login.LoginResult;
-import com.domain.login.interactor.Login;
+import com.domain.user.LoginResult;
+import com.domain.user.interactor.Login;
 
 import javax.inject.Inject;
 
@@ -47,7 +46,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 view.OnLoginFailed(er.getMessage());
             }
 
-        }, new LoginRequest(email, password));
+        }, Login.Params.forLogin(email, password));
     }
 
     @Override

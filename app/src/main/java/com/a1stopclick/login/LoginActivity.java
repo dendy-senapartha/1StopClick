@@ -1,5 +1,6 @@
 package com.a1stopclick.login;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerLoginActivityComponent;
 import com.a1stopclick.dependencyinjection.components.LoginActivityComponent;
 import com.a1stopclick.dependencyinjection.modules.LoginActivityModule;
+import com.a1stopclick.userregistration.UserRegistrationActivity;
 
 import javax.inject.Inject;
 
@@ -86,6 +88,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @OnClick(R.id.buttonSignIn)
     public void onClickSignIn(View view) {
         signIn();
+    }
+
+    @OnClick(R.id.buttonSignUp)
+    public void onClickSignUp(View view) {
+        Intent intent = new Intent(this, UserRegistrationActivity.class);
+        startActivity(intent);
     }
 
     private void signIn() {

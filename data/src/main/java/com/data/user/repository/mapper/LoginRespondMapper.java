@@ -1,21 +1,21 @@
 package com.data.user.repository.mapper;
 
 import com.data.user.repository.source.network.response.LoginResponse;
-import com.domain.login.LoginResult;
+import com.domain.user.LoginResult;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /*
  * Created by dendy-prtha on 11/03/2019.
- * TODO: Add a class header comment!
+ * Mapper between LoginResponse at data modul to LoginResult at domain module
  */
 
 @Singleton
-public class UserRespondMapper {
+public class LoginRespondMapper {
 
     @Inject
-    public UserRespondMapper() {
+    public LoginRespondMapper() {
 
     }
 

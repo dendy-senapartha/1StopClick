@@ -3,5 +3,15 @@
     <string name="sign_up">Sign Up</string>
     <string name="hint_password">password</string>
     <string name="hint_email">email</string>
-    <string name="sign_in">Sign In</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_submit">Submit</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <string name="title_user_registration">User Registration</string>
+
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_dob">Date of Birth</string>
+    <string name="hint_phone">Phone Number</string>
+    <string name="hint_profile_photo">Photo Profile</string>
 </resources>

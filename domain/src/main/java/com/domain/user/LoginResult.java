@@ -1,4 +1,4 @@
-package com.domain.login;
+package com.domain.user;
 
 
 /*

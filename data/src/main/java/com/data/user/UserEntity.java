@@ -1,7 +1,5 @@
 package com.data.user;
 
-import com.domain.login.LoginResult;
-
 /*
  * Created by dendy-prtha on 11/03/2019.
  * User entitiy, representation of BE response

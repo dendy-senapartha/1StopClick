@@ -3,12 +3,15 @@ package com.data.user.repository.source.network;
 
 /*
  * Created by dendy-prtha on 11/03/2019.
- * TODO: Add a class header comment!
+ * User entity data implementation on Network layer
  */
 
 import com.data.user.repository.source.UserEntityData;
-import com.data.user.repository.source.network.request.UserRequest;
+import com.data.user.repository.source.network.request.LoginRequest;
+import com.data.user.repository.source.network.request.UserRegistrationRequest;
 import com.data.user.repository.source.network.response.LoginResponse;
+import com.data.user.repository.source.network.response.UserRegistrationResponse;
+
 
 import java.util.concurrent.Callable;
 
@@ -50,9 +53,16 @@ public class NetworkUserEntityData implements UserEntityData {
     }
 
     @Override
-    public Observable<LoginResponse> Login(UserRequest userRequest) {
+    public Observable<LoginResponse> Login(LoginRequest userRequest) {
         return initObservable(()->{
             return userNetwork.Login(userRequest);
+        });
+    }
+
+    @Override
+    public Observable<UserRegistrationResponse> UserRegistration(UserRegistrationRequest request) {
+        return initObservable(()->{
+            return userNetwork.userRegistration(request);
         });
     }
 

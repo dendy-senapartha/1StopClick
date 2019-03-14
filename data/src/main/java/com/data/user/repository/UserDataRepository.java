@@ -1,12 +1,15 @@
 package com.data.user.repository;
 
 import com.data.Source;
-import com.data.user.repository.mapper.UserRespondMapper;
+import com.data.user.repository.mapper.LoginRespondMapper;
+import com.data.user.repository.mapper.UserRegistrationResponMapper;
 import com.data.user.repository.source.UserEntityData;
 import com.data.user.repository.source.UserEntityDataFactory;
-import com.domain.login.LoginRequest;
-import com.domain.login.LoginResult;
-import com.domain.login.repository.UserRepository;
+import com.domain.user.LoginResult;
+import com.domain.user.UserRegistrationResult;
+import com.domain.user.interactor.Login;
+import com.domain.user.interactor.RegisterUser;
+import com.domain.user.repository.UserRepository;
 import com.data.user.repository.source.network.request.*;
 
 import javax.inject.Inject;
@@ -24,12 +27,16 @@ public class UserDataRepository implements UserRepository {
 
     private final UserEntityDataFactory userEntityDataFactory;
 
-    private final UserRespondMapper mapper;
+    private final LoginRespondMapper loginRespondMapper;
+
+    private final UserRegistrationResponMapper userRegistrationResponMapper;
 
     @Inject
-    public UserDataRepository(UserEntityDataFactory userEntityDataFactory, UserRespondMapper mapper) {
+    public UserDataRepository(UserEntityDataFactory userEntityDataFactory, LoginRespondMapper loginRespondMapper
+            , UserRegistrationResponMapper userRegistrationResponMapper) {
         this.userEntityDataFactory = userEntityDataFactory;
-        this.mapper = mapper;
+        this.loginRespondMapper = loginRespondMapper;
+        this.userRegistrationResponMapper = userRegistrationResponMapper;
     }
 
     /*Instructs an ObservableSource to pass control to another ObservableSource rather than invoking onError if it encounters an error.
@@ -44,11 +51,21 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public Observable<LoginResult> Login(LoginRequest loginRequest) {
+    public Observable<LoginResult> Login(Login.Params loginRequest) {
         return initializedRequest(createUserData()
-                .Login(new UserRequest(loginRequest.email, loginRequest.password))
-                .map(mapper::transform)
+                .Login(new LoginRequest(loginRequest.email, loginRequest.password))
+                .map(loginRespondMapper::transform)
         );
+    }
+
+    @Override
+    public Observable<UserRegistrationResult> UserRegistration(RegisterUser.Params params) {
+        return initializedRequest(createUserData()
+                .UserRegistration(new UserRegistrationRequest(params.username, params.password,
+                        params.firstName, params.lastName, params.dob, params.phone, params.profilePhoto))
+                .map(userRegistrationResponMapper::transform)
+        );
+
     }
 
     @Override
