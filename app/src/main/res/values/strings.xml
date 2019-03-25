@@ -1,4 +1,5 @@
 <resources>
+    <string name="server_client_id">468601289624-if5agp4dd7ufej3cptkp1fj16qctmhhl.apps.googleusercontent.com</string>
     <string name="app_name">1StopClick</string>
     <string name="sign_up">Sign Up</string>
     <string name="hint_password">password</string>
@@ -6,7 +7,7 @@
     <string name="btn_login">Login</string>
     <string name="btn_submit">Submit</string>
     <string name="btn_cancel">Cancel</string>
-
+    <string name="btn_google_signin">Login Using Google</string>
     <string name="title_user_registration">User Registration</string>
 
     <string name="hint_first_name">First Name</string>
@@ -14,4 +15,5 @@
     <string name="hint_dob">Date of Birth</string>
     <string name="hint_phone">Phone Number</string>
     <string name="hint_profile_photo">Photo Profile</string>
+    <string name="navigation_view_header_title">1StopClick</string>
 </resources>

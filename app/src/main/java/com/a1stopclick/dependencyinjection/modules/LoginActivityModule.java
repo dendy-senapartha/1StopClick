@@ -9,7 +9,7 @@ import dagger.Provides;
 
 /*
  * Created by dendy-prtha on 08/03/2019.
- * Login module for DI
+ * LocalLogin module for DI
  */
 
 @Module

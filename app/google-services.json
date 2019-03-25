@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "468601289624",
+    "firebase_url": "https://stopclick-5026c.firebaseio.com",
+    "project_id": "stopclick-5026c",
+    "storage_bucket": "stopclick-5026c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468601289624:android:2f9b1808c055273a",
+        "android_client_info": {
+          "package_name": "com.a1stopclick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468601289624-hs4sebad8lf25rn9lbasmtj8od29kq6a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.a1stopclick",
+            "certificate_hash": "dff8943bd2ab4b8d629125f0c0c9a7a159d2bc57"
+          }
+        },
+        {
+          "client_id": "468601289624-if5agp4dd7ufej3cptkp1fj16qctmhhl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOmWvBtBjeQhCVNSuh0ZtH_NqI8j6V1tE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468601289624-if5agp4dd7ufej3cptkp1fj16qctmhhl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

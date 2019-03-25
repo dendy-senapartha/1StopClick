@@ -8,7 +8,7 @@ import dagger.Component;
 
 /*
  * Created by dendy-prtha on 08/03/2019.
- * Login view activity DI
+ * LocalLogin view activity DI
  */
 
 @PerActivity

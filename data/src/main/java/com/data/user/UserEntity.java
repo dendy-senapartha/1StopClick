@@ -8,18 +8,20 @@ package com.data.user;
 public class UserEntity {
 
     public String id;
-    public String userName;
+    public String email;
+    public boolean emailVerified;
+    public String provider;
+    public String providerId;
     public String password;
     public UserProfile userProfile;
 
     public class UserProfile
     {
         public String id;
-        public String firstName;
-        public String lastName;
+        public String name;
         public String dob;
         public String phone;
-        public String profilePhoto;
+        public String imageUrl;
     }
 
 }

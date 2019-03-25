@@ -4,24 +4,22 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
+
 import com.data.BEUrl;
 import com.data.Serializer;
+import com.data.account.HTTPResponseHeader;
+
 import com.data.user.UserEntity;
-import com.data.user.repository.source.network.request.LoginRequest;
+import com.data.user.repository.source.network.request.LocalLoginRequest;
+import com.data.user.repository.source.network.request.SocialLoginRequest;
 import com.data.user.repository.source.network.request.UserRegistrationRequest;
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
+import com.data.volley.VolleyHandler;
 
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -42,29 +40,57 @@ public class UserNetwork {
     private final Context context;
 
     private final Serializer serializer;
-    private static RequestQueue mRequestQueue;
+    //private static RequestQueue mRequestQueue;
+    private final VolleyHandler volleyHandler;
 
     @Inject
-    public UserNetwork(Context context, Serializer serializer) {
+    public UserNetwork(Context context, Serializer serializer, VolleyHandler volleyHandler) {
         this.context = context;
         this.serializer = serializer;
+        this.volleyHandler = volleyHandler;
     }
 
-    public void init() {
-        mRequestQueue = Volley.newRequestQueue(context);
+    public LoginResponse SocialLogin(SocialLoginRequest loginRequest) {
+        LoginResponse response = new LoginResponse();
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("email", loginRequest.email);
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            paramHeader.put("X-ID-TOKEN", loginRequest.xidToken);
+            paramHeader.put("PROVIDER", loginRequest.provider);
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.LOGIN, new JSONObject(params), paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            UserEntity entity = JSON.parseObject(object.toString(), UserEntity.class);
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            response.userEntity = entity;
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
+            Log.d("SignIn", "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
     }
 
-    public LoginResponse Login(LoginRequest loginRequest) throws NullPointerException {
+    public LoginResponse LocalLogin(LocalLoginRequest loginRequest) {
+        //initChecking();
         Log.d("SignIn", "login in wait");
         LoginResponse response = new LoginResponse();
         //TODO : need to create error handler and mapping from BE
         try {
             Map<String, String> params = new HashMap<String, String>();
-            params.put("username", loginRequest.email);
+            params.put("email", loginRequest.email);
             params.put("password", loginRequest.password);
-            JSONObject object = postRouteDataObject(BEUrl.LOGIN, new JSONObject(params));
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            paramHeader.put("PROVIDER", "local");
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.LOGIN, new JSONObject(params), paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
             UserEntity entity = JSON.parseObject(object.toString(), UserEntity.class);
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
             response.userEntity = entity;
+            response.httpResponseHeader = httpResponseHeader;
             response.exception = null;
             Log.d("SignIn", "Json object : " + object);
         } catch (InterruptedException | ExecutionException | JSONException e) {
@@ -81,55 +107,28 @@ public class UserNetwork {
         try {
             Map<String, String> userProfile = new HashMap<String, String>();
             userProfile.put("id", null);
-            userProfile.put("firstName", request.firstName);
+            userProfile.put("name", request.firstName);
             userProfile.put("lastName", request.lastName);
             userProfile.put("dob", request.dob);
             userProfile.put("phone", request.phone);
-            userProfile.put("profilePhoto", request.profilePhoto);
+            userProfile.put("imageUrl", request.profilePhoto);
 
             Map<String, Object> user = new HashMap<String, Object>();
-
-            user.put("username", request.username);
+            user.put("email", request.username);
             user.put("password", request.password);
             user.put("user_profile", userProfile);
-            JSONObject object = postRouteDataObject(BEUrl.INSERT_USER, new JSONObject(user));
-            UserEntity entity = JSON.parseObject(object.toString(), UserEntity.class);
-            //response.userEntity = entity;
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.INSERT_USER, new JSONObject(user), null);
+            String status = object.getString("result");
+            response.status = status;
             response.exception = null;
-            Log.d("SignIn", "Json object : " + object);
+            Log.d(TAG, "Json object : " + object);
         } catch (InterruptedException | ExecutionException | JSONException e) {
-            Log.e("routes", e.getMessage());
+            Log.e(TAG, e.getMessage());
             e.printStackTrace();
             response.exception = e.getMessage();
         }
         return response;
     }
 
-    private JSONObject getRouteDataObject(String Url) throws ExecutionException, InterruptedException {
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, Url, null, future, future);
-        mRequestQueue.add(req);
-        return future.get();
-    }
 
-    private JSONArray getRouteDataArray(String Url) throws ExecutionException, InterruptedException {
-        RequestFuture<JSONArray> future2 = RequestFuture.newFuture();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, Url, null, future2, future2);
-        mRequestQueue.add(request);
-        return future2.get();
-    }
-
-    private JSONObject postRouteDataObject(String Url, JSONObject jsonObj) throws ExecutionException, InterruptedException {
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, Url, jsonObj, future, future);
-        mRequestQueue.add(req);
-        return future.get();
-    }
-
-    private JSONArray postRouteDataArray(String Url) throws ExecutionException, InterruptedException {
-        RequestFuture<JSONArray> future2 = RequestFuture.newFuture();
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, Url, null, future2, future2);
-        mRequestQueue.add(request);
-        return future2.get();
-    }
 }

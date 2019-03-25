@@ -2,8 +2,9 @@ package com.domain.user.repository;
 
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
-import com.domain.user.interactor.Login;
+import com.domain.user.interactor.LocalLogin;
 import com.domain.user.interactor.RegisterUser;
+import com.domain.user.interactor.SocialLogin;
 
 /*
  * Created by dendy-prtha on 11/03/2019.
@@ -13,7 +14,9 @@ import com.domain.user.interactor.RegisterUser;
 import io.reactivex.Observable;
 
 public interface UserRepository {
-    Observable<LoginResult> Login(Login.Params loginRequest);
+    Observable<LoginResult> LocalLogin(LocalLogin.Params loginRequest);
+
+    Observable<LoginResult> SocialLogin(SocialLogin.Params loginRequest);
 
     Observable<UserRegistrationResult> UserRegistration(RegisterUser.Params params);
 

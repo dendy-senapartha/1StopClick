@@ -1,14 +1,15 @@
 package com.data.user.repository;
 
 import com.data.Source;
-import com.data.user.repository.mapper.LoginRespondMapper;
-import com.data.user.repository.mapper.UserRegistrationResponMapper;
+import com.data.user.mapper.LoginRespondMapper;
+import com.data.user.mapper.UserRegistrationResponMapper;
 import com.data.user.repository.source.UserEntityData;
 import com.data.user.repository.source.UserEntityDataFactory;
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
-import com.domain.user.interactor.Login;
+import com.domain.user.interactor.LocalLogin;
 import com.domain.user.interactor.RegisterUser;
+import com.domain.user.interactor.SocialLogin;
 import com.domain.user.repository.UserRepository;
 import com.data.user.repository.source.network.request.*;
 
@@ -51,9 +52,17 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public Observable<LoginResult> Login(Login.Params loginRequest) {
+    public Observable<LoginResult> LocalLogin(LocalLogin.Params loginRequest) {
         return initializedRequest(createUserData()
-                .Login(new LoginRequest(loginRequest.email, loginRequest.password))
+                .LocalLogin(new LocalLoginRequest(loginRequest.email, loginRequest.password))
+                .map(loginRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<LoginResult> SocialLogin(SocialLogin.Params loginRequest) {
+        return initializedRequest(createUserData()
+                .SocialLogin(new SocialLoginRequest(loginRequest.email, loginRequest.xidToken, loginRequest.provider))
                 .map(loginRespondMapper::transform)
         );
     }

@@ -15,7 +15,8 @@ ext {
     rxAndroidVersion = '2.0.2'
     rxJavaVersion = '2.x.x'
     volleyVersion = '1.0.0'
-
+    googlePlayAuth = '16.0.1'
+    securePreferencesVersion = '0.1.7'
     fastjsonVersion = '1.1.70.android'
 
     //Testing
@@ -40,8 +41,9 @@ ext {
             rxAndroid           : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxAndroidVersion],
             rxJava              : [group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxJavaVersion],
             fastjson            : [group: 'com.alibaba', name: 'fastjson', version: fastjsonVersion],
-            volley              : [group: 'com.android.volley', name: 'volley', version: volleyVersion]
-
+            volley              : [group: 'com.android.volley', name: 'volley', version: volleyVersion],
+            googlePlayAuth      : [group: 'com.google.android.gms', name: 'play-services-auth', version: googlePlayAuth],
+            securePreference    : [group: 'com.scottyab', name: 'secure-preferences-lib', version: securePreferencesVersion]
     ]
 
     def testLibs = [
@@ -61,8 +63,9 @@ ext {
             [configuration: "implementation", dependency: libs.rxJava],
             [configuration: "implementation", dependency: libs.dagger],
             [configuration: "implementation", dependency: libs.volley],
+            [configuration: "implementation", dependency: libs.googlePlayAuth],
             [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler],
-            [configuration: "annotationProcessor", dependency: libs.daggerCompiler]
+            [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
     ]
 
     domainDependencies = [
@@ -82,8 +85,10 @@ ext {
             [configuration: "implementation", dependency: libs.rxAndroid],
             [configuration: "implementation", dependency: libs.rxJava],
             [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "implementation", dependency: libs.securePreference],
             [configuration: "implementation", dependency: libs.fastjson],
             [configuration: "implementation", dependency: libs.volley],
+            [configuration: "implementation", dependency: libs.googlePlayAuth],
             [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
             [configuration: "testImplementation", dependency: testLibs.junit],
             [configuration: "testImplementation", dependency: testLibs.mockito],

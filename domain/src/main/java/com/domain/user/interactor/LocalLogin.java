@@ -12,22 +12,22 @@ import io.reactivex.Observable;
 
 /*
  * Created by dendy-prtha on 11/03/2019.
- * Login interactor
+ * LocalLogin interactor
  */
 
-public class Login extends UseCase<LoginResult, Login.Params> {
+public class LocalLogin extends UseCase<LoginResult, LocalLogin.Params> {
 
     private final UserRepository userRepository;
 
     @Inject
-    public Login(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, UserRepository userRepository) {
+    public LocalLogin(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, UserRepository userRepository) {
         super(threadExecutor, postExecutionThread);
         this.userRepository = userRepository;
     }
 
     @Override
     protected Observable<LoginResult> buildUseCaseObservable(Params loginRequest) {
-        return userRepository.Login(loginRequest);
+        return userRepository.LocalLogin(loginRequest);
     }
 
     public static class Params {

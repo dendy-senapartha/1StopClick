@@ -3,13 +3,17 @@ package com.domain.user;
 
 /*
  * Created by dendy-prtha on 11/03/2019.
- * Login Result
+ * LocalLogin Result
  */
 
 public class LoginResult {
     public String uid;
-    public String username;
+    public String email;
+    public boolean emailVerified;
+    public String provider;
+    public String providerId;
     public UserProfile userProfile;
+    public String authToken;
 
     public LoginResult()
     {
@@ -19,17 +23,16 @@ public class LoginResult {
     public LoginResult(String uid, String username, UserProfile userProfile)
     {
         this.uid = uid;
-        this.username = username;
+        this.email = username;
         this.userProfile = userProfile;
     }
 
     public static class UserProfile
     {
         public String id;
-        public String firstName;
-        public String lastName;
+        public String name;
         public String dob;
         public String phone;
-        public String profilePhoto;
+        public String imageUrl;
     }
 }

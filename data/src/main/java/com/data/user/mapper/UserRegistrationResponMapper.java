@@ -1,4 +1,4 @@
-package com.data.user.repository.mapper;
+package com.data.user.mapper;
 
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
 import com.domain.user.UserRegistrationResult;

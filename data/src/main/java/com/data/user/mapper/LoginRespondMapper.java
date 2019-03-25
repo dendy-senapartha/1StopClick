@@ -1,4 +1,4 @@
-package com.data.user.repository.mapper;
+package com.data.user.mapper;
 
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.domain.user.LoginResult;
@@ -26,12 +26,16 @@ public class LoginRespondMapper {
             if (response.userEntity.id != null) {
                 LoginResult.UserProfile usrProfile = new LoginResult.UserProfile();
                 usrProfile.id = response.userEntity.userProfile.id;
-                usrProfile.firstName = response.userEntity.userProfile.firstName;
-                usrProfile.lastName = response.userEntity.userProfile.lastName;
+                usrProfile.name = response.userEntity.userProfile.name;
+
                 usrProfile.dob = response.userEntity.userProfile.dob;
                 usrProfile.phone = response.userEntity.userProfile.phone;
-                usrProfile.profilePhoto = response.userEntity.userProfile.profilePhoto;
-                result = new LoginResult(response.userEntity.id, response.userEntity.userName, usrProfile);
+                usrProfile.imageUrl = response.userEntity.userProfile.imageUrl;
+                result = new LoginResult(response.userEntity.id, response.userEntity.email, usrProfile);
+                result.emailVerified = response.userEntity.emailVerified;
+                result.provider = response.userEntity.provider;
+                result.providerId = response.userEntity.providerId;
+                result.authToken = response.httpResponseHeader.authorization;
             } else {
                 result = new LoginResult();
             }

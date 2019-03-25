@@ -1,5 +1,6 @@
 package com.a1stopclick.userregistration;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerUserRegistrationComponent;
 import com.a1stopclick.dependencyinjection.components.UserRegistrationComponent;
 import com.a1stopclick.dependencyinjection.modules.UserRegistrationModule;
+import com.a1stopclick.homeactivity.HomeActivity;
 
 import javax.inject.Inject;
 
@@ -88,4 +90,14 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
         presenter.registerUser(username, password, firstname, lastname, dob, phone, photoProfile);
     }
 
+    @Override
+    public void onRegisterUserSucces() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRegisterUserFailed(String msg) {
+
+    }
 }

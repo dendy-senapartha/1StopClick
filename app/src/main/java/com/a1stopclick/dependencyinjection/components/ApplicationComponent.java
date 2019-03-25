@@ -8,6 +8,7 @@ import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.modules.ApplicationModule;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
+import com.domain.account.repository.AccountRepository;
 import com.domain.user.repository.UserRepository;
 
 import javax.inject.Singleton;
@@ -36,4 +37,6 @@ public interface ApplicationComponent {
     PostExecutionThread postExecutionThread();
 
     UserRepository provideUserRepository();
+
+    AccountRepository provideAccountRepository();
 }
