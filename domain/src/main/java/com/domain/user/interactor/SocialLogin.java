@@ -34,17 +34,19 @@ public class SocialLogin extends UseCase<LoginResult, SocialLogin.Params> {
 
     public static class Params {
         public String email;
+        public String password;
         public String xidToken;
         public String provider;
 
-        private Params(String email, String xidToken, String provider) {
+        private Params(String email,String password, String xidToken, String provider) {
             this.email = email;
+            this.password = password;
             this.xidToken = xidToken;
             this.provider = provider;
         }
 
-        public static Params forLogin(String email, String xidToken, String provider) {
-            return new Params(email, xidToken, provider);
+        public static Params forLogin(String email, String password, String xidToken, String provider) {
+            return new Params(email, password, xidToken, provider);
         }
     }
 }

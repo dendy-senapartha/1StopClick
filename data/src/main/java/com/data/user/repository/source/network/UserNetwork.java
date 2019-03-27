@@ -55,6 +55,7 @@ public class UserNetwork {
         try {
             Map<String, String> params = new HashMap<String, String>();
             params.put("email", loginRequest.email);
+            params.put("password", loginRequest.password);
             Map<String, String> paramHeader = new HashMap<String, String>();
             paramHeader.put("X-ID-TOKEN", loginRequest.xidToken);
             paramHeader.put("PROVIDER", loginRequest.provider);

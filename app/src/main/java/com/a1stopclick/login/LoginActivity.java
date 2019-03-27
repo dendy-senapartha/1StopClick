@@ -1,7 +1,6 @@
 package com.a1stopclick.login;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,11 +16,7 @@ import com.a1stopclick.homeactivity.HomeActivity;
 import com.a1stopclick.userregistration.UserRegistrationActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import javax.inject.Inject;
@@ -55,8 +50,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @Inject
     LoginContract.Presenter presenter;
 
-    private GoogleSignInClient mGoogleSignInClient;
-
     @Override
     public int getLayout() {
         return R.layout.login_layout;
@@ -65,28 +58,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @Override
     public void init() {
         initComponent();
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.server_client_id))
-                    .requestEmail()
-                    .build();
-            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-            /*need to detect changes to a user's auth state that happen outside your app, such as access
-            token or ID token revocation, or to perform cross-device sign-in,*/
-            mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-                @Override
-                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                    presenter.HandleGoogleSignInResult(task);
-                }
-            });
-        } else {
-
-        }
-        //updateUI(account);
+        presenter.checkLastUsedAccount();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -96,7 +70,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            presenter.HandleGoogleSignInResult(task);
+            presenter.handleGoogleSignInResult(task);
         }
     }
 
@@ -136,7 +110,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @OnClick(R.id.buttonGoogleSignin)
     public void onClickGoogleSignIn(View view) {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Intent signInIntent = presenter.getGoogleSingInClient().getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -157,10 +131,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             return;
         }
 
-        //showProgressDialog();
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
-        presenter.SignIn(email, password);
+        presenter.localSignIn(email, password);
     }
 
     private boolean validateForm() {

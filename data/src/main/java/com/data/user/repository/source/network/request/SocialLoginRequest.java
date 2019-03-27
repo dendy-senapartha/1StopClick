@@ -9,12 +9,14 @@ package com.data.user.repository.source.network.request;
 public class SocialLoginRequest {
 
     public String email;
+    public String password;
     public String xidToken;
     public String provider;
 
-    public SocialLoginRequest(String email, String xidToken, String provider)
+    public SocialLoginRequest(String email, String password, String xidToken, String provider)
     {
         this.provider = provider;
+        this.password = password;
         this.xidToken = xidToken;
         this.email = email;
     }

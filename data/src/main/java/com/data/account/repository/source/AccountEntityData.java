@@ -13,4 +13,7 @@ public interface AccountEntityData {
 
     Observable<AccountResponse> saveAccount(String email, String name, String provider_id, String provider, String avatarUrl, String authorization);
 
+    Observable<AccountResponse> getAccount();
+
+    Observable<Boolean> removeAccount();
 }

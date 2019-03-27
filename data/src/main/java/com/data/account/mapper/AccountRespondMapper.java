@@ -29,7 +29,7 @@ public class AccountRespondMapper {
             result.setProvider_id(response.provider_id);
             result.setProvider(response.provider);
             result.setAvatarUrl(response.avatarUrl);
-            //result.setAuthorization(response.);
+            result.setAuthorization(response.authorization);
         }
         return result;
     }

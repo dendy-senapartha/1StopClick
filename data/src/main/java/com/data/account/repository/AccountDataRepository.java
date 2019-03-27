@@ -47,6 +47,19 @@ public class AccountDataRepository implements AccountRepository {
         return null;
     }
 
+    @Override
+    public Observable<AccountResult> getAccount() {
+        return initializedRequest(accountEntityDataFactory.createData(Source.LOCAL)
+                .getAccount()
+                .map(mapper::transform));
+    }
+
+    @Override
+    public Observable<Boolean> removeAccount() {
+        return initializedRequest(accountEntityDataFactory.createData(Source.LOCAL)
+                .removeAccount());
+    }
+
     /*Instructs an ObservableSource to pass control to another ObservableSource rather than invoking onError if it encounters an error.
      * */
     protected <T> Observable<T> initializedRequest(Observable<T> observable) {

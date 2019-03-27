@@ -1,7 +1,5 @@
 package com.data.account.repository.source.preference;
 
-import android.text.TextUtils;
-
 import com.data.account.AccountEntity;
 import com.data.account.repository.source.AccountEntityData;
 import com.data.account.repository.source.preference.response.AccountResponse;
@@ -40,6 +38,20 @@ public class PreferenceAccountEntityData implements AccountEntityData {
         });
     }
 
+    @Override
+    public Observable<AccountResponse> getAccount() {
+        return initObservable(() -> {
+            return accountPreference.getAccount();
+        });
+    }
+
+    @Override
+    public Observable<Boolean> removeAccount() {
+        return initObservable(() -> {
+            return accountPreference.removeAccount();
+        });
+    }
+
     private <T> Observable<T> initObservable(Callable<T> callable) {
         return initializedRequest(Observable.fromCallable(callable));
     }
@@ -53,9 +65,9 @@ public class PreferenceAccountEntityData implements AccountEntityData {
         return (Function<Throwable, Observable<? extends T>>) throwable -> {
             if (throwable instanceof UnInitializedSecuredPreferencesException) {
                 String userId = "MockUserID";
-                if (!TextUtils.isEmpty(userId)) {
-                    return init(userId).concatMap(aBoolean -> resumedObservable);
-                }
+                //if (!TextUtils.isEmpty(userId)) {
+                return init(userId).concatMap(aBoolean -> resumedObservable);
+                //}
             }
             return Observable.error(throwable);
         };

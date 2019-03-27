@@ -8,6 +8,7 @@ package com.a1stopclick.login;
 
 import com.a1stopclick.base.BaseContract;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.Task;
 
 public interface LoginContract {
@@ -20,11 +21,14 @@ public interface LoginContract {
     }
 
     interface Presenter extends BaseContract.BasePresenterContract{
-        void SignIn(String email, String password);
+        void localSignIn(String email, String password);
         void SignUp(String email, String password);
-        void HandleGoogleSignInResult(Task<GoogleSignInAccount> completedTask);
+        void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask);
         void SignOut();
         void IsSignIn();
+        void checkLastUsedAccount();
+
+        GoogleSignInClient getGoogleSingInClient();
     }
 
 }

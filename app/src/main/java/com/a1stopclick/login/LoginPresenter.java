@@ -1,16 +1,23 @@
 package com.a1stopclick.login;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.a1stopclick.R;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
+import com.domain.account.interactor.GetAccount;
 import com.domain.account.interactor.SaveAccount;
 import com.domain.user.LoginResult;
-import com.domain.user.interactor.LocalLogin;
+
 import com.domain.user.interactor.SocialLogin;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import javax.inject.Inject;
@@ -26,29 +33,38 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private final LoginContract.View view;
 
-    private LocalLogin localLogin;
+
     private SocialLogin socialLogin;
     private SaveAccount saveAccount;
 
+    private GetAccount getAccount;
+
     private static final String TAG = LoginPresenter.class.getSimpleName();
 
+    private GoogleSignInClient mGoogleSignInClient;
+
     @Inject
-    public LoginPresenter(Context context, LoginContract.View view, LocalLogin localLogin,
-                          SocialLogin socialLogin, SaveAccount saveAccount) {
+    public LoginPresenter(Context context, LoginContract.View view, SocialLogin socialLogin,
+                          SaveAccount saveAccount, GetAccount getAccount) {
         this.context = context;
         this.view = view;
-        this.localLogin = localLogin;
         this.socialLogin = socialLogin;
         this.saveAccount = saveAccount;
+        this.getAccount = getAccount;
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(context.getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
     }
 
     @Override
-    public void SignIn(String email, String password) {
-        localLogin.execute(new DefaultObserver<LoginResult>() {
+    public void localSignIn(String email, String password) {
+        socialLogin.execute(new DefaultObserver<LoginResult>() {
 
             @Override
             public void onNext(LoginResult result) {
-                //TODO: need to record the user identity on share preference
                 view.OnLoginSuccess();
                 saveAccount(result.email, result.userProfile.name, result.providerId, result.provider,
                         result.userProfile.imageUrl, result.authToken);
@@ -57,11 +73,10 @@ public class LoginPresenter implements LoginContract.Presenter {
             @Override
             public void onError(Throwable er) {
                 //TODO : need show error message based on error code from BE
-                Log.d("SignIn", "onError: " + er.toString());
+                Log.d("localSignIn", "onError: " + er.toString());
                 view.OnLoginFailed(er.getMessage());
             }
-
-        }, LocalLogin.Params.forLogin(email, password));
+        }, SocialLogin.Params.forLogin(email, password, null, LoginOption.LOCAL));
     }
 
     public void saveAccount(String email, String name, String provider_id, String provider
@@ -69,7 +84,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         saveAccount.execute(new DefaultObserver<AccountResult>() {
             @Override
             public void onNext(AccountResult result) {
-                Log.d("saveAccount", "account save "+ result.toString());
+                Log.d("saveAccount", "account save " + result.toString());
             }
 
             @Override
@@ -97,12 +112,80 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
+    public void checkLastUsedAccount() {
+        getAccount.execute(new DefaultObserver<AccountResult>() {
+            @Override
+            public void onNext(AccountResult result) {
+                String provider = result.getProvider();
+                Log.d("checkLastUsedAccount", "get provider " + provider);
+
+                if (provider != null) {
+                    switch (provider) {
+                        case LoginOption.GOOGLE:
+                            googleAccountLoginChecker();
+                            break;
+                        case LoginOption.LOCAL:
+                            if (result.getAuthorization() != null) {
+                                localAccountLoginChecker(result.getAuthorization());
+                            }
+                            break;
+                        case LoginOption.FACEBOOK:
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable er) {
+                //TODO : need show error message based on error code from BE
+                Log.d("checkLastUsedAccount", "onError: " + er.toString());
+
+            }
+        });
+
+    }
+
+    @Override
+    public GoogleSignInClient getGoogleSingInClient() {
+        return mGoogleSignInClient;
+    }
+
+    private void googleAccountLoginChecker() {
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+
+        if (account != null) {
+            /*need to detect changes to a user's auth state that happen outside your app, such as access
+            token or ID token revocation, or to perform cross-device sign-in,*/
+            mGoogleSignInClient.silentSignIn().addOnCompleteListener(new OnCompleteListener<GoogleSignInAccount>() {
+                @Override
+                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                    handleGoogleSignInResult(task);
+                }
+            });
+        } else {
+
+        }
+    }
+
+    /*Do local login checking by check if authorization value is not null*/
+    private void localAccountLoginChecker(String authorization) {
+        if (!authorization.isEmpty()) {
+            view.OnLoginSuccess();
+            //saveAccount(result.getEmail(),result.getName(),result.getProvider_id(),result.getProvider(),result.getAvatarUrl(),result.getAuthorization());
+        } else {
+
+        }
+    }
+
+    @Override
     public void onDestroy() {
 
     }
 
 
-    public void HandleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    public void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String email = account.getEmail();
@@ -121,10 +204,10 @@ public class LoginPresenter implements LoginContract.Presenter {
                 @Override
                 public void onError(Throwable er) {
                     //TODO : need show error message based on error code from BE
-                    Log.d("SignIn", "onError: " + er.toString());
+                    Log.d("localSignIn", "onError: " + er.toString());
                     view.OnLoginFailed(er.getMessage());
                 }
-            }, SocialLogin.Params.forLogin(email, idToken, LoginOption.GOOGLE));
+            }, SocialLogin.Params.forLogin(email, null, idToken, LoginOption.GOOGLE));
             // Signed in successfully, show authenticated UI.
             //updateUI(account);
         } catch (ApiException e) {

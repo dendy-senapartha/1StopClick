@@ -3,7 +3,7 @@ package com.domain.account;
 
 /*
  * Created by dendy-prtha on 22/03/2019.
- * account result bean fro domain
+ * account result bean from domain
  */
 
 public class AccountResult {

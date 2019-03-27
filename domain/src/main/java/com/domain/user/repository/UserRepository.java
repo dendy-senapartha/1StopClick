@@ -2,7 +2,6 @@ package com.domain.user.repository;
 
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
-import com.domain.user.interactor.LocalLogin;
 import com.domain.user.interactor.RegisterUser;
 import com.domain.user.interactor.SocialLogin;
 
@@ -14,7 +13,6 @@ import com.domain.user.interactor.SocialLogin;
 import io.reactivex.Observable;
 
 public interface UserRepository {
-    Observable<LoginResult> LocalLogin(LocalLogin.Params loginRequest);
 
     Observable<LoginResult> SocialLogin(SocialLogin.Params loginRequest);
 

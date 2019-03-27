@@ -8,7 +8,7 @@ package com.a1stopclick.login;
 
 public interface LoginOption {
 
-    public static final String LOCAL = "local";
+    public static final String LOCAL = "local-account";
     public static final String GOOGLE = "google";
     public static final String FACEBOOK = "facebook";
 }

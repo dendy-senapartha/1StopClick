@@ -1,8 +1,3 @@
-/**
- * DANA.id
- * PT. Espay Debit Indonesia Koe.
- * Copyright (c) 2017-2018 All Rights Reserved.
- */
 package com.data;
 
 import android.content.Context;
@@ -16,6 +11,7 @@ import java.util.List;
 /**
  *
  */
+
 public class SecureableSharedPreferences implements PreferenceFacade {
 
     private static final String DEFAULT_PREFERENCE = BuildConfig.APPLICATION_ID;

@@ -26,4 +26,14 @@ public interface AccountRepository {
      * @return avatar url
      */
     Observable<String> getAvatarUrl();
+
+    /**
+     * @return avatar url
+     */
+    Observable<AccountResult> getAccount();
+
+    /**
+     * @return void
+     */
+    Observable<Boolean> removeAccount();
 }

@@ -14,6 +14,10 @@ public class AccountResponse {
     public String avatarUrl;
     public String authorization;
 
+    public AccountResponse(){
+
+    }
+
     public AccountResponse(String email, String name, String provider_id,
                            String provider, String avatarUrl, String authorization) {
         this.email = email;

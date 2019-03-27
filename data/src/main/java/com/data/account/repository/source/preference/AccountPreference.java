@@ -64,11 +64,11 @@ public class AccountPreference {
         //get available notes list first
         JSONObject account = secureableSharedPreferences.getObject(Key.ACCOUNT, JSONObject.class);
 
-        boolean noteIsAvailable = false;
+        boolean accountIsAvailable = false;
         //parse it
         AccountEntity accountEntity = null;
         if (account != null) {
-            noteIsAvailable = true;
+            accountIsAvailable = true;
             TypeReference<AccountEntity> typeRef = new TypeReference<AccountEntity>() {
             };
             accountEntity = JSON.parseObject(account.toString(), typeRef);
@@ -81,7 +81,7 @@ public class AccountPreference {
         }
 
         //if not, then add it
-        if (!noteIsAvailable) {
+        if (!accountIsAvailable) {
             accountEntity = new AccountEntity(email, name, provider_id, provider, avatarUrl, authorization);
         }
         //save again
@@ -90,9 +90,33 @@ public class AccountPreference {
                 accountEntity.getProvider(), accountEntity.getAvatarUrl(), accountEntity.getAuthorization());
     }
 
-    public boolean getNote(String mId) throws UnInitializedSecuredPreferencesException {
+    public AccountResponse getAccount() throws UnInitializedSecuredPreferencesException {
+        initChecking();
+        AccountEntity accountEntity = null;
+
+        JSONObject account = secureableSharedPreferences.getObject(Key.ACCOUNT, JSONObject.class);
+        if (account != null) {
+            TypeReference<AccountEntity> typeRef = new TypeReference<AccountEntity>() {
+            };
+            accountEntity = JSON.parseObject(account.toString(), typeRef);
+            return new AccountResponse(accountEntity.getEmail(), accountEntity.getName(), accountEntity.getProvider_id(),
+                    accountEntity.getProvider(), accountEntity.getAvatarUrl(), accountEntity.getAuthorization());
+        }
+        return new AccountResponse();
+    }
+
+
+    public Boolean removeAccount() throws UnInitializedSecuredPreferencesException {
         initChecking();
 
+        JSONObject account = secureableSharedPreferences.getObject(Key.ACCOUNT, JSONObject.class);
+        if (account != null) {
+            TypeReference<AccountEntity> typeRef = new TypeReference<AccountEntity>() {
+            };
+            secureableSharedPreferences.clearAllData();
+            return true;
+        }
         return false;
     }
+
 }
