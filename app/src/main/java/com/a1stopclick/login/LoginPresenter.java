@@ -11,7 +11,7 @@ import com.domain.account.interactor.GetAccount;
 import com.domain.account.interactor.SaveAccount;
 import com.domain.user.LoginResult;
 
-import com.domain.user.interactor.SocialLogin;
+import com.domain.user.interactor.Login;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,8 +33,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private final LoginContract.View view;
 
-
-    private SocialLogin socialLogin;
+    private Login login;
     private SaveAccount saveAccount;
 
     private GetAccount getAccount;
@@ -44,11 +43,11 @@ public class LoginPresenter implements LoginContract.Presenter {
     private GoogleSignInClient mGoogleSignInClient;
 
     @Inject
-    public LoginPresenter(Context context, LoginContract.View view, SocialLogin socialLogin,
+    public LoginPresenter(Context context, LoginContract.View view, Login login,
                           SaveAccount saveAccount, GetAccount getAccount) {
         this.context = context;
         this.view = view;
-        this.socialLogin = socialLogin;
+        this.login = login;
         this.saveAccount = saveAccount;
         this.getAccount = getAccount;
 
@@ -61,7 +60,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void localSignIn(String email, String password) {
-        socialLogin.execute(new DefaultObserver<LoginResult>() {
+        login.execute(new DefaultObserver<LoginResult>() {
 
             @Override
             public void onNext(LoginResult result) {
@@ -76,7 +75,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 Log.d("localSignIn", "onError: " + er.toString());
                 view.OnLoginFailed(er.getMessage());
             }
-        }, SocialLogin.Params.forLogin(email, password, null, LoginOption.LOCAL));
+        }, Login.Params.forLogin(email, password, null, AccountOption.LOCAL));
     }
 
     public void saveAccount(String email, String name, String provider_id, String provider
@@ -121,15 +120,15 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                 if (provider != null) {
                     switch (provider) {
-                        case LoginOption.GOOGLE:
+                        case AccountOption.GOOGLE:
                             googleAccountLoginChecker();
                             break;
-                        case LoginOption.LOCAL:
+                        case AccountOption.LOCAL:
                             if (result.getAuthorization() != null) {
                                 localAccountLoginChecker(result.getAuthorization());
                             }
                             break;
-                        case LoginOption.FACEBOOK:
+                        case AccountOption.FACEBOOK:
                             break;
                     }
                 }
@@ -184,7 +183,6 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     }
 
-
     public void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -192,7 +190,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             String idToken = account.getIdToken();
             Log.d(TAG, "token : " + idToken);
             account.getEmail();
-            socialLogin.execute(new DefaultObserver<LoginResult>() {
+            login.execute(new DefaultObserver<LoginResult>() {
 
                 @Override
                 public void onNext(LoginResult result) {
@@ -207,7 +205,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     Log.d("localSignIn", "onError: " + er.toString());
                     view.OnLoginFailed(er.getMessage());
                 }
-            }, SocialLogin.Params.forLogin(email, null, idToken, LoginOption.GOOGLE));
+            }, Login.Params.forLogin(email, null, idToken, AccountOption.GOOGLE));
             // Signed in successfully, show authenticated UI.
             //updateUI(account);
         } catch (ApiException e) {

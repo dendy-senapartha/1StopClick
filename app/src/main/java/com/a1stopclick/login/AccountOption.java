@@ -3,10 +3,10 @@ package com.a1stopclick.login;
 
 /*
  * Created by dendy-prtha on 25/03/2019.
- * List of loggin option
+ * List of account Option
  */
 
-public interface LoginOption {
+public interface AccountOption {
 
     public static final String LOCAL = "local-account";
     public static final String GOOGLE = "google";

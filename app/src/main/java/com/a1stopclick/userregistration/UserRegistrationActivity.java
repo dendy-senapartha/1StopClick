@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseActivity;
@@ -11,6 +12,8 @@ import com.a1stopclick.dependencyinjection.components.DaggerUserRegistrationComp
 import com.a1stopclick.dependencyinjection.components.UserRegistrationComponent;
 import com.a1stopclick.dependencyinjection.modules.UserRegistrationModule;
 import com.a1stopclick.homeactivity.HomeActivity;
+import com.a1stopclick.login.AccountOption;
+import com.a1stopclick.login.LoginActivity;
 
 import javax.inject.Inject;
 
@@ -29,13 +32,12 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
     private UserRegistrationComponent component;
 
     @BindView(R.id.fieldEmail)
-    EditText mUsername;
+    EditText mEmail;
     @BindView(R.id.fieldPassword)
     EditText mPasswordField;
     @BindView(R.id.fieldFirstName)
-    EditText mFirstNameField;
-    @BindView(R.id.fieldLastName)
-    EditText mLastNameField;
+    EditText name;
+
     @BindView(R.id.fieldDob)
     EditText mDOBField;
     @BindView(R.id.fieldPhone)
@@ -79,20 +81,23 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
 
     @OnClick(R.id.buttonSubmit)
     public void onClickButtonSubmit(View view) {
-        String username = mUsername.getText().toString();
+        String email = mEmail.getText().toString();
         String password = mPasswordField.getText().toString();
-        String firstname = mFirstNameField.getText().toString();
-        String lastname = mLastNameField.getText().toString();
+        String name = this.name.getText().toString();
+
         String dob = mDOBField.getText().toString();
         String phone = mPhoneField.getText().toString();
         String photoProfile = mPhotoField.getText().toString();
 
-        presenter.registerUser(username, password, firstname, lastname, dob, phone, photoProfile);
+        presenter.registerUser(email, false, password, AccountOption.LOCAL, null,
+                name, dob, phone, photoProfile);
     }
 
     @Override
     public void onRegisterUserSucces() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        finish();
+        Toast.makeText(getApplicationContext(),"Registration Success. Please Login using your created account.",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

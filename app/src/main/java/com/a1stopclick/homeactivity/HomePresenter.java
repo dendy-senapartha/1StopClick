@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.a1stopclick.R;
-import com.a1stopclick.login.LoginOption;
+import com.a1stopclick.login.AccountOption;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
 import com.domain.account.interactor.DeleteAccount;
@@ -56,13 +56,13 @@ public class HomePresenter implements HomeContract.Presenter {
             public void onNext(AccountResult result) {
                 if (result != null) {
                     switch (result.getProvider()) {
-                        case LoginOption.GOOGLE:
+                        case AccountOption.GOOGLE:
                             logoutGoogleAccount();
                             break;
-                        case LoginOption.LOCAL:
+                        case AccountOption.LOCAL:
                             logoutLocalAccount();
                             break;
-                        case LoginOption.FACEBOOK:
+                        case AccountOption.FACEBOOK:
                             break;
                     }
                 }

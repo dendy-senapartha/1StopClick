@@ -31,28 +31,32 @@ public class RegisterUser extends UseCase<UserRegistrationResult, RegisterUser.P
     }
 
     public static class Params {
-        public String username;
+        public String email;
+        public Boolean emailVerified;
         public String password;
-        public String firstName;
-        public String lastName;
+        public String provider;
+        public String providerId;
+        public String name;
         public String dob;
         public String phone;
-        public String profilePhoto;
+        public String imageUrl;
 
-        private Params(String username, String password, String firstName,
-                       String lastName, String dob, String phone, String profilePhoto) {
-            this.username = username;
+        private Params(String email, Boolean emailVerified, String password, String provider,
+                       String providerId, String name, String dob, String phone, String imageUrl) {
+            this.email = email;
+            this.emailVerified = emailVerified;
             this.password = password;
-            this.firstName = firstName;
-            this.lastName = lastName;
+            this.provider = provider;
+            this.providerId = providerId;
+            this.name = name;
             this.dob = dob;
             this.phone = phone;
-            this.profilePhoto = profilePhoto;
+            this.imageUrl = imageUrl;
         }
 
-        public static Params forRegisterUser(String username, String password, String firstName,
-                                             String lastName, String dob, String phone, String profilePhoto) {
-            return new Params(username, password, firstName, lastName, dob, phone, profilePhoto);
+        public static Params forRegisterUser(String email, Boolean emailVerified, String password, String provider,
+                                             String providerId, String name, String dob, String phone, String imageUrl) {
+            return new Params(email, emailVerified, password, provider, providerId, name, dob, phone, imageUrl);
         }
     }
 }

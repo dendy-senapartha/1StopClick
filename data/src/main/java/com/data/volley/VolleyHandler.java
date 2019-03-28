@@ -76,6 +76,29 @@ public class VolleyHandler {
         return future.get();
     }
 
+    public JSONObject postRouteDataObject(String Url, JSONObject paramRequestBody) throws ExecutionException, InterruptedException {
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, Url, paramRequestBody, future, future) {
+
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String jsonString = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
+                    JSONObject jsonResponse = new JSONObject(jsonString);
+                    jsonResponse.put(HEADERS, new JSONObject(response.headers));
+                    return Response.success(jsonResponse,
+                            HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    return Response.error(new ParseError(e));
+                } catch (JSONException je) {
+                    return Response.error(new ParseError(je));
+                }
+            }
+        };
+        getRequestQueue().add(req);
+        return future.get();
+    }
+
     private JSONObject getRouteDataObject(String Url, JSONObject paramRequestBody, Map<String, String> paramRequestHeader) throws ExecutionException, InterruptedException {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, Url, paramRequestBody, future, future) {
@@ -83,6 +106,28 @@ public class VolleyHandler {
                 return paramRequestHeader;
             }
 
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String jsonString = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
+                    JSONObject jsonResponse = new JSONObject(jsonString);
+                    jsonResponse.put(HEADERS, new JSONObject(response.headers));
+                    return Response.success(jsonResponse,
+                            HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    return Response.error(new ParseError(e));
+                } catch (JSONException je) {
+                    return Response.error(new ParseError(je));
+                }
+            }
+        };
+        getRequestQueue().add(req);
+        return future.get();
+    }
+
+    private JSONObject getRouteDataObject(String Url, JSONObject paramRequestBody) throws ExecutionException, InterruptedException {
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, Url, paramRequestBody, future, future) {
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 try {
                     String jsonString = new String(response.data,

@@ -3,7 +3,7 @@ package com.domain.user.repository;
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
 import com.domain.user.interactor.RegisterUser;
-import com.domain.user.interactor.SocialLogin;
+import com.domain.user.interactor.Login;
 
 /*
  * Created by dendy-prtha on 11/03/2019.
@@ -14,7 +14,7 @@ import io.reactivex.Observable;
 
 public interface UserRepository {
 
-    Observable<LoginResult> SocialLogin(SocialLogin.Params loginRequest);
+    Observable<LoginResult> login(Login.Params loginRequest);
 
     Observable<UserRegistrationResult> UserRegistration(RegisterUser.Params params);
 

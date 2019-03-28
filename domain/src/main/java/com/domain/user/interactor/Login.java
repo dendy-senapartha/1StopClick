@@ -15,21 +15,21 @@ import io.reactivex.Observable;
  * social LocalLogin Usecase
  */
 
-public class SocialLogin extends UseCase<LoginResult, SocialLogin.Params> {
+public class Login extends UseCase<LoginResult, Login.Params> {
 
     private final UserRepository userRepository;
 
     @Inject
-    public SocialLogin(ThreadExecutor threadExecutor,
-                       PostExecutionThread postExecutionThread,
-                       UserRepository userRepository) {
+    public Login(ThreadExecutor threadExecutor,
+                 PostExecutionThread postExecutionThread,
+                 UserRepository userRepository) {
         super(threadExecutor, postExecutionThread);
         this.userRepository = userRepository;
     }
 
     @Override
     protected Observable<LoginResult> buildUseCaseObservable(Params params) {
-        return userRepository.SocialLogin(params);
+        return userRepository.login(params);
     }
 
     public static class Params {

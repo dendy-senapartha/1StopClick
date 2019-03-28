@@ -1,7 +1,6 @@
 package com.data.user.repository.source;
 
-import com.data.user.repository.source.network.request.LocalLoginRequest;
-import com.data.user.repository.source.network.request.SocialLoginRequest;
+import com.data.user.repository.source.network.request.Login;
 import com.data.user.repository.source.network.request.UserRegistrationRequest;
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
@@ -16,8 +15,7 @@ import io.reactivex.Observable;
 public interface UserEntityData {
 
     //Observable<Boolean> init();
-    Observable<LoginResponse> LocalLogin(LocalLoginRequest userRequest);
-    Observable<LoginResponse> SocialLogin(SocialLoginRequest userRequest);
+    Observable<LoginResponse> login(Login userRequest);
     Observable<UserRegistrationResponse> UserRegistration(UserRegistrationRequest userRegistrationRequest);
     Observable<Boolean> CheckLogin();
 

@@ -16,8 +16,8 @@ public interface UserRegistrationContract {
     }
 
     interface Presenter extends BaseContract.BasePresenterContract {
-        void registerUser(String username, String password, String firstName,
-                          String lastName, String dob, String phone, String profilePhoto);
+        void registerUser(String email, Boolean emailVerified, String password, String provider,
+                          String providerId, String name, String dob, String phone, String imageUrl);
     }
 
 }

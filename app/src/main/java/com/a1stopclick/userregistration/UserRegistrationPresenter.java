@@ -35,8 +35,8 @@ public class UserRegistrationPresenter implements UserRegistrationContract.Prese
 
 
     @Override
-    public void registerUser(String username, String password, String firstName,
-                             String lastName, String dob, String phone, String profilePhoto) {
+    public void registerUser(String email, Boolean emailVerified, String password, String provider,
+                             String providerId, String name, String dob, String phone, String imageUrl) {
         registerUser.execute(new DefaultObserver<UserRegistrationResult>() {
             @Override
             public void onNext(UserRegistrationResult result) {
@@ -47,6 +47,7 @@ public class UserRegistrationPresenter implements UserRegistrationContract.Prese
             public void onError(Throwable e) {
                 view.onRegisterUserFailed(e.getMessage());
             }
-        }, RegisterUser.Params.forRegisterUser(username, password, firstName, lastName, dob, phone, profilePhoto));
+        }, RegisterUser.Params.forRegisterUser(email, false, password, provider, null,
+                name, dob, phone, imageUrl));
     }
 }

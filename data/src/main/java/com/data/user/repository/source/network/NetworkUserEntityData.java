@@ -7,8 +7,7 @@ package com.data.user.repository.source.network;
  */
 
 import com.data.user.repository.source.UserEntityData;
-import com.data.user.repository.source.network.request.LocalLoginRequest;
-import com.data.user.repository.source.network.request.SocialLoginRequest;
+import com.data.user.repository.source.network.request.Login;
 import com.data.user.repository.source.network.request.UserRegistrationRequest;
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
@@ -31,16 +30,9 @@ public class NetworkUserEntityData implements UserEntityData {
     }
 
     @Override
-    public Observable<LoginResponse> LocalLogin(LocalLoginRequest userRequest) {
+    public Observable<LoginResponse> login(Login userRequest) {
         return initObservable(()->{
-            return userNetwork.LocalLogin(userRequest);
-        });
-    }
-
-    @Override
-    public Observable<LoginResponse> SocialLogin(SocialLoginRequest userRequest) {
-        return initObservable(()->{
-            return userNetwork.SocialLogin(userRequest);
+            return userNetwork.login(userRequest);
         });
     }
 

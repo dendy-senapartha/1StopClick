@@ -8,7 +8,6 @@ import com.data.user.repository.source.UserEntityDataFactory;
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
 import com.domain.user.interactor.RegisterUser;
-import com.domain.user.interactor.SocialLogin;
 import com.domain.user.repository.UserRepository;
 import com.data.user.repository.source.network.request.*;
 
@@ -51,9 +50,9 @@ public class UserDataRepository implements UserRepository {
     }
 
     @Override
-    public Observable<LoginResult> SocialLogin(SocialLogin.Params loginRequest) {
+    public Observable<LoginResult> login(com.domain.user.interactor.Login.Params loginRequest) {
         return initializedRequest(createUserData()
-                .SocialLogin(new SocialLoginRequest(loginRequest.email,loginRequest.password, loginRequest.xidToken, loginRequest.provider))
+                .login(new Login(loginRequest.email, loginRequest.password, loginRequest.xidToken, loginRequest.provider))
                 .map(loginRespondMapper::transform)
         );
     }
@@ -61,8 +60,8 @@ public class UserDataRepository implements UserRepository {
     @Override
     public Observable<UserRegistrationResult> UserRegistration(RegisterUser.Params params) {
         return initializedRequest(createUserData()
-                .UserRegistration(new UserRegistrationRequest(params.username, params.password,
-                        params.firstName, params.lastName, params.dob, params.phone, params.profilePhoto))
+                .UserRegistration(new UserRegistrationRequest(params.email, params.emailVerified, params.password,
+                        params.provider, params.providerId, params.name, params.dob, params.phone, params.imageUrl))
                 .map(userRegistrationResponMapper::transform)
         );
 
