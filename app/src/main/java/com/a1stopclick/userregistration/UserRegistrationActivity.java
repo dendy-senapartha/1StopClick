@@ -14,6 +14,7 @@ import com.a1stopclick.dependencyinjection.modules.UserRegistrationModule;
 import com.a1stopclick.homeactivity.HomeActivity;
 import com.a1stopclick.login.AccountOption;
 import com.a1stopclick.login.LoginActivity;
+import com.a1stopclick.util.AndroidUtils;
 
 import javax.inject.Inject;
 
@@ -48,6 +49,9 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
     Button mSubmitButton;
     @BindView(R.id.buttonCancel)
     Button mCancelButton;
+
+    @BindView(R.id.progress_overlay)
+    View progressOverlay;
 
     @Inject
     UserRegistrationContract.Presenter presenter;
@@ -96,9 +100,19 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
     @Override
     public void onRegisterUserSucces() {
         finish();
-        Toast.makeText(getApplicationContext(),"Registration Success. Please Login using your created account.",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Registration Success. Please Login using your created account.", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void showLoading() {
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+    }
+
+    public void hideLoading() {
+        // Hide it (with animation):
+        AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
     }
 
     @Override

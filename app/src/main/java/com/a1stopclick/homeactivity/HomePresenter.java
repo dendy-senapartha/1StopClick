@@ -51,6 +51,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void logOut() {
+        view.showLoading();
         getAccount.execute(new DefaultObserver<AccountResult>() {
             @Override
             public void onNext(AccountResult result) {
@@ -73,7 +74,11 @@ public class HomePresenter implements HomeContract.Presenter {
             public void onError(Throwable er) {
                 //TODO : need show error message based on error code from BE
                 Log.d("logOut", "onError: " + er.toString());
+            }
 
+            @Override
+            public void onComplete() {
+                view.hideLoading();
             }
         });
     }

@@ -16,18 +16,14 @@ public interface LoginContract {
     interface View{
         void OnLoginSuccess();
         void OnLoginFailed(String message);
-        void OnSignOutSuccess();
-        void OnSignOutFailed(String message);
+        void showLoading();
+        void hideLoading();
     }
 
     interface Presenter extends BaseContract.BasePresenterContract{
         void localSignIn(String email, String password);
-        void SignUp(String email, String password);
         void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask);
-        void SignOut();
-        void IsSignIn();
         void checkLastUsedAccount();
-
         GoogleSignInClient getGoogleSingInClient();
     }
 

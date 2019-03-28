@@ -14,6 +14,7 @@ import com.a1stopclick.dependencyinjection.components.LoginActivityComponent;
 import com.a1stopclick.dependencyinjection.modules.LoginActivityModule;
 import com.a1stopclick.homeactivity.HomeActivity;
 import com.a1stopclick.userregistration.UserRegistrationActivity;
+import com.a1stopclick.util.AndroidUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.SignInButton;
@@ -44,6 +45,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     Button mSignUpButton;
     @BindView(R.id.buttonGoogleSignin)
     SignInButton mGoogleSignIn;
+    @BindView(R.id.progress_overlay)
+    View progressOverlay;
 
     private LoginActivityComponent component;
 
@@ -61,6 +64,15 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         presenter.checkLastUsedAccount();
     }
 
+    public void showLoading() {
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+    }
+
+    public void hideLoading() {
+        // Hide it (with animation):
+        AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -89,22 +101,13 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void OnLoginSuccess() {
+        finish();
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void OnLoginFailed(String message) {
-
-    }
-
-    @Override
-    public void OnSignOutSuccess() {
-
-    }
-
-    @Override
-    public void OnSignOutFailed(String message) {
 
     }
 

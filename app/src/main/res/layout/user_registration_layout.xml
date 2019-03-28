@@ -3,17 +3,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp">
+    android:layout_height="match_parent">
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:text="@string/title_user_registration"/>
 
     <LinearLayout
@@ -22,6 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
@@ -132,7 +131,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutRegistration"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp">
 
         <android.support.design.button.MaterialButton
             android:id="@+id/buttonSubmit"
@@ -153,4 +154,7 @@
             android:layout_toLeftOf="@id/buttonSubmit"
             android:text="@string/btn_cancel" />
     </RelativeLayout>
+
+    <!-- Progress bar overlay; shown while login is in progress -->
+    <include layout="@layout/progress_overlay"/>
 </RelativeLayout>

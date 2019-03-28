@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseActivity;
@@ -12,6 +13,7 @@ import com.a1stopclick.dependencyinjection.components.DaggerHomeActivityComponen
 import com.a1stopclick.dependencyinjection.components.HomeActivityComponent;
 import com.a1stopclick.dependencyinjection.modules.HomeActivityModule;
 import com.a1stopclick.login.LoginActivity;
+import com.a1stopclick.util.AndroidUtils;
 
 
 import javax.inject.Inject;
@@ -30,6 +32,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    @BindView(R.id.progress_overlay)
+    View progressOverlay;
 
     private HomeActivityComponent component;
 
@@ -52,7 +57,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private void initComponent() {
         if (component == null) {
-            component= DaggerHomeActivityComponent.builder()
+            component = DaggerHomeActivityComponent.builder()
                     .applicationComponent(getApplicationComponent())
                     .homeActivityModule(new HomeActivityModule(this))
                     .build();
@@ -94,4 +99,15 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+    public void showLoading() {
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+    }
+
+    public void hideLoading() {
+        // Hide it (with animation):
+        AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+    }
+
 }

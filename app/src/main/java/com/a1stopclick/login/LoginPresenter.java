@@ -60,6 +60,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void localSignIn(String email, String password) {
+        view.showLoading();
         login.execute(new DefaultObserver<LoginResult>() {
 
             @Override
@@ -74,6 +75,11 @@ public class LoginPresenter implements LoginContract.Presenter {
                 //TODO : need show error message based on error code from BE
                 Log.d("localSignIn", "onError: " + er.toString());
                 view.OnLoginFailed(er.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                view.hideLoading();
             }
         }, Login.Params.forLogin(email, password, null, AccountOption.LOCAL));
     }
@@ -96,22 +102,8 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void SignUp(String email, String password) {
-
-    }
-
-    @Override
-    public void SignOut() {
-
-    }
-
-    @Override
-    public void IsSignIn() {
-
-    }
-
-    @Override
     public void checkLastUsedAccount() {
+        view.showLoading();
         getAccount.execute(new DefaultObserver<AccountResult>() {
             @Override
             public void onNext(AccountResult result) {
@@ -139,6 +131,11 @@ public class LoginPresenter implements LoginContract.Presenter {
                 //TODO : need show error message based on error code from BE
                 Log.d("checkLastUsedAccount", "onError: " + er.toString());
 
+            }
+
+            @Override
+            public void onComplete() {
+                view.hideLoading();
             }
         });
 
@@ -190,6 +187,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             String idToken = account.getIdToken();
             Log.d(TAG, "token : " + idToken);
             account.getEmail();
+            view.showLoading();
             login.execute(new DefaultObserver<LoginResult>() {
 
                 @Override
@@ -204,6 +202,11 @@ public class LoginPresenter implements LoginContract.Presenter {
                     //TODO : need show error message based on error code from BE
                     Log.d("localSignIn", "onError: " + er.toString());
                     view.OnLoginFailed(er.getMessage());
+                }
+
+                @Override
+                public void onComplete() {
+                    view.hideLoading();
                 }
             }, Login.Params.forLogin(email, null, idToken, AccountOption.GOOGLE));
             // Signed in successfully, show authenticated UI.

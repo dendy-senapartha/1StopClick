@@ -11,6 +11,8 @@ public interface HomeContract {
     interface View
     {
         void onSuccessLogout();
+        void showLoading();
+        void hideLoading();
     }
 
     interface Presenter extends BasePresenterContract
