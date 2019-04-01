@@ -13,11 +13,9 @@ import com.google.android.gms.tasks.Task;
 
 public interface LoginContract {
 
-    interface View{
+    interface View extends BaseContract.BaseViewContract{
         void OnLoginSuccess();
         void OnLoginFailed(String message);
-        void showLoading();
-        void hideLoading();
     }
 
     interface Presenter extends BaseContract.BasePresenterContract{

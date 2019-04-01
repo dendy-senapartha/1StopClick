@@ -1,12 +1,15 @@
 package com.data.user.repository;
 
 import com.data.Source;
+import com.data.user.mapper.ForgetPasswordRespondMapper;
 import com.data.user.mapper.LoginRespondMapper;
 import com.data.user.mapper.UserRegistrationResponMapper;
 import com.data.user.repository.source.UserEntityData;
 import com.data.user.repository.source.UserEntityDataFactory;
+import com.domain.user.ForgetPasswordResult;
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
+import com.domain.user.interactor.ForgetPassword;
 import com.domain.user.interactor.RegisterUser;
 import com.domain.user.repository.UserRepository;
 import com.data.user.repository.source.network.request.*;
@@ -30,12 +33,15 @@ public class UserDataRepository implements UserRepository {
 
     private final UserRegistrationResponMapper userRegistrationResponMapper;
 
+    private final ForgetPasswordRespondMapper forgetPasswordRespondMapper;
+
     @Inject
     public UserDataRepository(UserEntityDataFactory userEntityDataFactory, LoginRespondMapper loginRespondMapper
-            , UserRegistrationResponMapper userRegistrationResponMapper) {
+            , UserRegistrationResponMapper userRegistrationResponMapper, ForgetPasswordRespondMapper forgetPasswordRespondMapper) {
         this.userEntityDataFactory = userEntityDataFactory;
         this.loginRespondMapper = loginRespondMapper;
         this.userRegistrationResponMapper = userRegistrationResponMapper;
+        this.forgetPasswordRespondMapper = forgetPasswordRespondMapper;
     }
 
     /*Instructs an ObservableSource to pass control to another ObservableSource rather than invoking onError if it encounters an error.
@@ -75,5 +81,13 @@ public class UserDataRepository implements UserRepository {
     @Override
     public Observable<Boolean> CheckLogin() {
         return null;
+    }
+
+    @Override
+    public Observable<ForgetPasswordResult> ForgetPassword(ForgetPassword.Params params) {
+        return initializedRequest(createUserData()
+                .forgetPassword(new ForgetPasswordRequest(params.email))
+                .map(forgetPasswordRespondMapper::transform)
+        );
     }
 }

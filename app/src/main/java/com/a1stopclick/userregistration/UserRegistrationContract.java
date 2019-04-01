@@ -9,10 +9,8 @@ package com.a1stopclick.userregistration;
 import com.a1stopclick.base.BaseContract;
 
 public interface UserRegistrationContract {
-    interface View {
+    interface View extends BaseContract.BaseViewContract {
         void onRegisterUserSucces();
-        void showLoading();
-        void hideLoading();
         void onRegisterUserFailed(String message);
     }
 

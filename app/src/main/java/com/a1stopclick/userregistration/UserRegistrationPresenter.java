@@ -37,7 +37,7 @@ public class UserRegistrationPresenter implements UserRegistrationContract.Prese
     @Override
     public void registerUser(String email, Boolean emailVerified, String password, String provider,
                              String providerId, String name, String dob, String phone, String imageUrl) {
-        view.showLoading();
+        view.showProgress();
         registerUser.execute(new DefaultObserver<UserRegistrationResult>() {
             @Override
             public void onNext(UserRegistrationResult result) {
@@ -47,11 +47,12 @@ public class UserRegistrationPresenter implements UserRegistrationContract.Prese
             @Override
             public void onError(Throwable e) {
                 view.onRegisterUserFailed(e.getMessage());
+                view.dismissProgress();
             }
 
             @Override
             public void onComplete() {
-                view.hideLoading();
+                view.dismissProgress();
             }
         }, RegisterUser.Params.forRegisterUser(email, false, password, provider, null,
                 name, dob, phone, imageUrl));

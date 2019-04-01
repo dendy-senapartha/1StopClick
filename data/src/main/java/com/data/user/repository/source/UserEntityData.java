@@ -1,7 +1,9 @@
 package com.data.user.repository.source;
 
+import com.data.user.repository.source.network.request.ForgetPasswordRequest;
 import com.data.user.repository.source.network.request.Login;
 import com.data.user.repository.source.network.request.UserRegistrationRequest;
+import com.data.user.repository.source.network.response.ForgetPasswordResponse;
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
 
@@ -14,10 +16,11 @@ import io.reactivex.Observable;
 
 public interface UserEntityData {
 
-    //Observable<Boolean> init();
     Observable<LoginResponse> login(Login userRequest);
     Observable<UserRegistrationResponse> UserRegistration(UserRegistrationRequest userRegistrationRequest);
     Observable<Boolean> CheckLogin();
 
     Observable<Boolean> Logout();
+
+    Observable<ForgetPasswordResponse> forgetPassword(ForgetPasswordRequest request);
 }

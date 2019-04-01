@@ -28,7 +28,7 @@ import butterknife.OnClick;
 
 public class UserRegistrationActivity extends BaseActivity implements UserRegistrationContract.View {
 
-    public static final String TAG = UserRegistrationContract.class.getSimpleName();
+    public static final String TAG = UserRegistrationActivity.class.getSimpleName();
 
     private UserRegistrationComponent component;
 
@@ -105,18 +105,25 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
         startActivity(intent);
     }
 
-    public void showLoading() {
+    @Override
+    public void onRegisterUserFailed(String msg) {
+
+    }
+
+    @Override
+    public void showProgress() {
         // Show progress overlay (with animation):
         AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
     }
 
-    public void hideLoading() {
+    @Override
+    public void dismissProgress() {
         // Hide it (with animation):
         AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
     }
 
     @Override
-    public void onRegisterUserFailed(String msg) {
+    public void onError(String errorMsg) {
 
     }
 }

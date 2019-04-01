@@ -7,8 +7,10 @@ package com.data.user.repository.source.network;
  */
 
 import com.data.user.repository.source.UserEntityData;
+import com.data.user.repository.source.network.request.ForgetPasswordRequest;
 import com.data.user.repository.source.network.request.Login;
 import com.data.user.repository.source.network.request.UserRegistrationRequest;
+import com.data.user.repository.source.network.response.ForgetPasswordResponse;
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
 
@@ -51,5 +53,12 @@ public class NetworkUserEntityData implements UserEntityData {
     @Override
     public Observable<Boolean> Logout() {
         return null;
+    }
+
+    @Override
+    public Observable<ForgetPasswordResponse> forgetPassword(ForgetPasswordRequest request) {
+        return initObservable(()->{
+            return userNetwork.forgetPassword(request);
+        });
     }
 }

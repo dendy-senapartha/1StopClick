@@ -1,7 +1,9 @@
 package com.domain.user.repository;
 
+import com.domain.user.ForgetPasswordResult;
 import com.domain.user.LoginResult;
 import com.domain.user.UserRegistrationResult;
+import com.domain.user.interactor.ForgetPassword;
 import com.domain.user.interactor.RegisterUser;
 import com.domain.user.interactor.Login;
 
@@ -21,5 +23,7 @@ public interface UserRepository {
     Observable<Boolean> Logout();
 
     Observable<Boolean> CheckLogin();
+
+    Observable<ForgetPasswordResult> ForgetPassword(ForgetPassword.Params params);
 
 }

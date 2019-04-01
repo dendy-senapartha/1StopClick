@@ -9,6 +9,7 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_google_signin">Login Using Google</string>
     <string name="title_user_registration">User Registration</string>
+    <string name="title_forget_password">Forget Password</string>
 
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
@@ -16,4 +17,6 @@
     <string name="hint_phone">Phone Number</string>
     <string name="hint_profile_photo">Photo Profile</string>
     <string name="navigation_view_header_title">1StopClick</string>
+
+    <string name="text_password_recovery_success">Password recovery successful. Please check your email</string>
 </resources>

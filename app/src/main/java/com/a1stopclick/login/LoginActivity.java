@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerLoginActivityComponent;
 import com.a1stopclick.dependencyinjection.components.LoginActivityComponent;
 import com.a1stopclick.dependencyinjection.modules.LoginActivityModule;
+import com.a1stopclick.forgetpassword.ForgetPasswordActivity;
 import com.a1stopclick.homeactivity.HomeActivity;
 import com.a1stopclick.userregistration.UserRegistrationActivity;
 import com.a1stopclick.util.AndroidUtils;
@@ -41,12 +43,16 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     EditText mPasswordField;
     @BindView(R.id.buttonSignIn)
     Button mSignInButton;
-    @BindView(R.id.buttonSignUp)
-    Button mSignUpButton;
     @BindView(R.id.buttonGoogleSignin)
     SignInButton mGoogleSignIn;
     @BindView(R.id.progress_overlay)
     View progressOverlay;
+
+    @BindView(R.id.txtSignUp)
+    TextView mTxtSignUp;
+
+    @BindView(R.id.txtForgetPassword)
+    TextView mTxtForgetPassword;
 
     private LoginActivityComponent component;
 
@@ -62,16 +68,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void init() {
         initComponent();
         presenter.checkLastUsedAccount();
-    }
-
-    public void showLoading() {
-        // Show progress overlay (with animation):
-        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
-    }
-
-    public void hideLoading() {
-        // Hide it (with animation):
-        AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
     }
 
     @Override
@@ -122,8 +118,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         signIn();
     }
 
-    @OnClick(R.id.buttonSignUp)
-    public void onClickSignUp(View view) {
+    @OnClick(R.id.txtForgetPassword)
+    public void onClickForgetPassword(View view) {
+        Intent intent = new Intent(this, ForgetPasswordActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.txtSignUp)
+    public void onClickTxtSignUp(View view) {
         Intent intent = new Intent(this, UserRegistrationActivity.class);
         startActivity(intent);
     }
@@ -156,5 +158,22 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         }
 
         return result;
+    }
+
+    @Override
+    public void showProgress() {
+        // Show progress overlay (with animation):
+        AndroidUtils.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
+    }
+
+    @Override
+    public void dismissProgress() {
+        // Hide it (with animation):
+        AndroidUtils.animateView(progressOverlay, View.GONE, 0, 200);
+    }
+
+    @Override
+    public void onError(String errorMsg) {
+
     }
 }

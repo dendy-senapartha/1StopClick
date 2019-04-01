@@ -60,7 +60,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void localSignIn(String email, String password) {
-        view.showLoading();
+        view.showProgress();
         login.execute(new DefaultObserver<LoginResult>() {
 
             @Override
@@ -75,11 +75,12 @@ public class LoginPresenter implements LoginContract.Presenter {
                 //TODO : need show error message based on error code from BE
                 Log.d("localSignIn", "onError: " + er.toString());
                 view.OnLoginFailed(er.getMessage());
+                view.dismissProgress();
             }
 
             @Override
             public void onComplete() {
-                view.hideLoading();
+                view.dismissProgress();
             }
         }, Login.Params.forLogin(email, password, null, AccountOption.LOCAL));
     }
@@ -103,7 +104,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void checkLastUsedAccount() {
-        view.showLoading();
+        view.showProgress();
         getAccount.execute(new DefaultObserver<AccountResult>() {
             @Override
             public void onNext(AccountResult result) {
@@ -130,12 +131,12 @@ public class LoginPresenter implements LoginContract.Presenter {
             public void onError(Throwable er) {
                 //TODO : need show error message based on error code from BE
                 Log.d("checkLastUsedAccount", "onError: " + er.toString());
-
+                view.dismissProgress();
             }
 
             @Override
             public void onComplete() {
-                view.hideLoading();
+                view.dismissProgress();
             }
         });
 
@@ -187,7 +188,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             String idToken = account.getIdToken();
             Log.d(TAG, "token : " + idToken);
             account.getEmail();
-            view.showLoading();
+            view.showProgress();
             login.execute(new DefaultObserver<LoginResult>() {
 
                 @Override
@@ -201,12 +202,13 @@ public class LoginPresenter implements LoginContract.Presenter {
                 public void onError(Throwable er) {
                     //TODO : need show error message based on error code from BE
                     Log.d("localSignIn", "onError: " + er.toString());
+                    view.dismissProgress();
                     view.OnLoginFailed(er.getMessage());
                 }
 
                 @Override
                 public void onComplete() {
-                    view.hideLoading();
+                    view.dismissProgress();
                 }
             }, Login.Params.forLogin(email, null, idToken, AccountOption.GOOGLE));
             // Signed in successfully, show authenticated UI.

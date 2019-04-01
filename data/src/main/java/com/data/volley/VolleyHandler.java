@@ -3,6 +3,7 @@ package com.data.volley;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -37,6 +38,7 @@ public class VolleyHandler {
     private static Context context = null;
 
     public static final String HEADERS = "HEADERS";
+    private static final int MY_SOCKET_TIMEOUT_MS = 30_000_000;
 
     @Inject
     public VolleyHandler(Context context) {
@@ -52,7 +54,7 @@ public class VolleyHandler {
 
     public JSONObject postRouteDataObject(String Url, JSONObject paramRequestBody, Map<String, String> paramRequestHeader) throws ExecutionException, InterruptedException {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, Url, paramRequestBody, future, future) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Url, paramRequestBody, future, future) {
             public Map<String, String> getHeaders() {
                 return paramRequestHeader;
             }
@@ -72,13 +74,16 @@ public class VolleyHandler {
                 }
             }
         };
-        getRequestQueue().add(req);
+        request.setRetryPolicy(new DefaultRetryPolicy( MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
         return future.get();
     }
 
     public JSONObject postRouteDataObject(String Url, JSONObject paramRequestBody) throws ExecutionException, InterruptedException {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, Url, paramRequestBody, future, future) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Url, paramRequestBody, future, future) {
 
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 try {
@@ -95,13 +100,16 @@ public class VolleyHandler {
                 }
             }
         };
-        getRequestQueue().add(req);
+        request.setRetryPolicy(new DefaultRetryPolicy( MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
         return future.get();
     }
 
     private JSONObject getRouteDataObject(String Url, JSONObject paramRequestBody, Map<String, String> paramRequestHeader) throws ExecutionException, InterruptedException {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, Url, paramRequestBody, future, future) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Url, paramRequestBody, future, future) {
             public Map<String, String> getHeaders() {
                 return paramRequestHeader;
             }
@@ -121,13 +129,16 @@ public class VolleyHandler {
                 }
             }
         };
-        getRequestQueue().add(req);
+        request.setRetryPolicy(new DefaultRetryPolicy( MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
         return future.get();
     }
 
     private JSONObject getRouteDataObject(String Url, JSONObject paramRequestBody) throws ExecutionException, InterruptedException {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, Url, paramRequestBody, future, future) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Url, paramRequestBody, future, future) {
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 try {
                     String jsonString = new String(response.data,
@@ -143,13 +154,20 @@ public class VolleyHandler {
                 }
             }
         };
-        getRequestQueue().add(req);
+        request.setRetryPolicy(new DefaultRetryPolicy( MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
         return future.get();
     }
 
     private JSONArray getRouteDataArray(String Url) throws ExecutionException, InterruptedException {
         RequestFuture<JSONArray> future2 = RequestFuture.newFuture();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, Url, null, future2, future2);
+        request.setRetryPolicy(new DefaultRetryPolicy( MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
         getRequestQueue().add(request);
         return future2.get();
     }
@@ -158,6 +176,10 @@ public class VolleyHandler {
     private JSONArray postRouteDataArray(String Url) throws ExecutionException, InterruptedException {
         RequestFuture<JSONArray> future2 = RequestFuture.newFuture();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, Url, null, future2, future2);
+        request.setRetryPolicy(new DefaultRetryPolicy( MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        getRequestQueue().add(request);
         getRequestQueue().add(request);
         return future2.get();
     }

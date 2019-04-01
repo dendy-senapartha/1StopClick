@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/icon"
         android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="vertical">
+        android:paddingRight="16dp">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email_text_input"
@@ -62,45 +62,88 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutRegistration"
+        android:orientation="horizontal"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="horizontal">
+        android:paddingRight="16dp">
 
         <android.support.design.button.MaterialButton
             android:id="@+id/buttonSignIn"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:text="@string/btn_login" />
-
-        <android.support.design.button.MaterialButton
-            android:id="@+id/buttonSignUp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_toStartOf="@id/buttonSignIn"
-            android:layout_toLeftOf="@id/buttonSignIn"
-            android:text="@string/sign_up" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutSeparator1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@id/layoutButtons"
+        android:gravity="center_horizontal">
+
+        <View
+            android:id="@+id/separator_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/socialLoginButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutButtons"
+        android:layout_below="@+id/layoutSeparator1"
+        android:gravity="bottom|center"
+        android:orientation="vertical"
         android:paddingLeft="16dp"
+        android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:orientation="horizontal">
+        android:paddingBottom="16dp">
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/buttonGoogleSignin"
-            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/layoutSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonGoogleSignin"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:id="@+id/txtQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Belum punya akun? " />
+            <TextView
+                android:id="@+id/txtSignUp"
+                style="@style/BoldTextWithColoAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/txtQuestion"
+                android:gravity="center_horizontal"
+                android:text="@string/sign_up" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/txtForgetPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutSignUp"
+            style="@style/BoldTextWithColorPromaryDark"
+            android:gravity="center_horizontal"
+            android:text="@string/title_forget_password" />
     </RelativeLayout>
 
     <!-- Progress bar overlay; shown while login is in progress -->
-    <include layout="@layout/progress_overlay"/>
+    <include layout="@layout/progress_overlay" />
 </RelativeLayout>

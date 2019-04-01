@@ -12,8 +12,10 @@ import com.data.Serializer;
 import com.data.account.HTTPResponseHeader;
 
 import com.data.user.UserEntity;
+import com.data.user.repository.source.network.request.ForgetPasswordRequest;
 import com.data.user.repository.source.network.request.Login;
 import com.data.user.repository.source.network.request.UserRegistrationRequest;
+import com.data.user.repository.source.network.response.ForgetPasswordResponse;
 import com.data.user.repository.source.network.response.LoginResponse;
 import com.data.user.repository.source.network.response.UserRegistrationResponse;
 import com.data.volley.VolleyHandler;
@@ -72,7 +74,8 @@ public class UserNetwork {
         return response;
     }
 
-    public UserRegistrationResponse userRegistration(UserRegistrationRequest request) throws NullPointerException {
+    public UserRegistrationResponse userRegistration(UserRegistrationRequest request)
+            throws NullPointerException {
         Log.d(TAG, "UserRegistrationResponse " + request);
         UserRegistrationResponse response = new UserRegistrationResponse();
         try {
@@ -99,6 +102,29 @@ public class UserNetwork {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
             response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public ForgetPasswordResponse forgetPassword(ForgetPasswordRequest request)
+            throws NullPointerException{
+        ForgetPasswordResponse response = new ForgetPasswordResponse();
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("email", request.email);
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.FORGET_PASSWORD, new JSONObject(params));
+            boolean status = object.getBoolean("status");
+            response.status = status;
+            if(object.get("error_message")!=null)
+            {
+                String errorMessage = object.getString("error_message");
+                response.errorMessage = errorMessage;
+            }
+        }
+        catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+            response.errorMessage = e.getMessage();
         }
         return response;
     }
