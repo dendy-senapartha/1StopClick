@@ -3,6 +3,10 @@ package com.a1stopclick.homeactivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +20,16 @@ import com.a1stopclick.login.LoginActivity;
 import com.a1stopclick.util.AndroidUtils;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 
 /*
- * Created by dendy-prtha on 14/03/2019.
+ * Created by dendy-prtha on 14/04/2019.
  * Home Activity
  */
 
@@ -36,10 +44,21 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @BindView(R.id.progress_overlay)
     View progressOverlay;
 
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+
     private HomeActivityComponent component;
 
     @Inject
     HomeContract.Presenter presenter;
+
+    public static final int INDEX_MOVIE_LIST = 0;
+    public static final int INDEX_EBOOK_LIST = INDEX_MOVIE_LIST + 1;
+
+    HomePageAdapter homePageAdapter;
 
     @Override
     public int getLayout() {
@@ -49,6 +68,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void init() {
         initComponent();
+
+        homePageAdapter = new HomePageAdapter(getSupportFragmentManager());
+        homePageAdapter.addFragment(INDEX_MOVIE_LIST, FragmentMovieList.newInstance());
+        homePageAdapter.addFragment(INDEX_EBOOK_LIST, FragmentEbookList.newInstance());
+        viewPager.setAdapter(homePageAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
 
         if (navigationView != null) {
             setupDrawerContent(navigationView);

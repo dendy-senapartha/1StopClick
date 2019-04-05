@@ -12,16 +12,21 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.internal.Preconditions;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /*
  * Created by dendy-prtha on 25/02/2019.
  * as base Activity. all activity must extend this class!
  */
+
 public abstract class BaseActivity extends AppCompatActivity
         implements PresenterHandler, DisposableHandler {
 
     private Unbinder unbinder;
+
+    private CompositeDisposable disposables;
 
     private List<BaseContract.BasePresenterContract> presenterContractList;
 
@@ -43,10 +48,12 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (unbinder != null) {
             unbinder.unbind();
         }
+        dispose();
+        disposePresenter();
+        super.onDestroy();
     }
 
     @Override
@@ -68,12 +75,21 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void addDisposable(Disposable disposable) {
+        if (disposables == null) {
+            disposables = new CompositeDisposable();
+        }
 
+        Preconditions.checkNotNull(disposable);
+        Preconditions.checkNotNull(disposables);
+        disposables.add(disposable);
     }
 
     @Override
     public void dispose() {
-
+        if (disposables != null && !disposables.isDisposed()) {
+            disposables.dispose();
+            disposables = null;
+        }
     }
 
     @Override
