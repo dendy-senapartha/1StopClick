@@ -4,12 +4,17 @@ ext {
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
     multiDexVersion = '1.0.2'
+	androidLifecycleVersion = '1.1.1'
+
+    //kotlin
+    kotlin_version = '1.2.60'
+    coroutinesVersion = '0.25.3'
 
     //Libraries
     appCompatVersion = '28.0.0'
     supportLibraryVersion = '27.1.1'
     archLifecycleExtensionVersion = '1.1.0'
-    daggerVersion = '2.12'
+    daggerVersion = '2.16'
     designVersion = '28.0.0'
     butterknifeVersion = '8.8.1'
     rxAndroidVersion = '2.0.2'
@@ -18,6 +23,9 @@ ext {
     googlePlayAuth = '16.0.1'
     securePreferencesVersion = '0.1.7'
     fastjsonVersion = '1.1.70.android'
+	constrainLayoutVersion = '1.1.2'
+	libVLcVersion = '3.0.13'
+	openSubtitleVersion = '0.0.8'
 
     //Testing
     jUnitVersion = '4.12'
@@ -27,23 +35,36 @@ ext {
 
     def androidLibs = [
             appCompat        : [group: 'com.android.support', name: 'appcompat-v7', version: appCompatVersion],
+            supportMediaCompat    : [group: 'com.android.support', name: 'support-media-compat', version: appCompatVersion],
             supportv4        : [group: 'com.android.support', name: 'support-v4', version: appCompatVersion],
             supportAnnotation: [group: 'com.android.support', name: 'support-annotations', version: supportLibraryVersion],
             androidDesign    : [group: 'com.android.support', name: 'design', version: designVersion],
-            multidex         : [group: 'com.android.support', name: 'multidex', version: multiDexVersion]
+            multidex         : [group: 'com.android.support', name: 'multidex', version: multiDexVersion],
+			constraintLayout : [group: 'com.android.support.constraint', name: 'constraint-layout', version: constrainLayoutVersion],
+			androidLifecycle : [group: 'android.arch.lifecycle', name: 'extensions', version: androidLifecycleVersion]
+    ]
+
+    def kotlinLibs = [
+            stdlibJdk7        : [group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: kotlin_version],
+            coroutinesAndroid : [group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: coroutinesVersion],
+            coroutinesCore    : [group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: coroutinesVersion]
     ]
 
     def libs = [
             butterknife         : [group: 'com.jakewharton', name: 'butterknife', version: butterknifeVersion],
             butterknifeCompiler : [group: 'com.jakewharton', name: 'butterknife-compiler', version: butterknifeVersion],
             dagger              : [group: 'com.google.dagger', name: 'dagger', version: daggerVersion],
+            daggerAndroidSupport: [group: 'com.google.dagger', name: 'dagger-android-support', version: daggerVersion],
+            daggerAndroid       : [group: 'com.google.dagger', name: 'dagger-android', version: daggerVersion],
             daggerCompiler      : [group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion],
             rxAndroid           : [group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxAndroidVersion],
             rxJava              : [group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxJavaVersion],
             fastjson            : [group: 'com.alibaba', name: 'fastjson', version: fastjsonVersion],
             volley              : [group: 'com.android.volley', name: 'volley', version: volleyVersion],
             googlePlayAuth      : [group: 'com.google.android.gms', name: 'play-services-auth', version: googlePlayAuth],
-            securePreference    : [group: 'com.scottyab', name: 'secure-preferences-lib', version: securePreferencesVersion]
+            securePreference    : [group: 'com.scottyab', name: 'secure-preferences-lib', version: securePreferencesVersion],
+			libVlc			    : [group: 'com.github.masterwok', name: 'libvlc-android-sdk', version: libVLcVersion],
+			openSubtitle		: [group: 'com.github.masterwok', name: 'open-subtitles-android', version: openSubtitleVersion]
     ]
 
     def testLibs = [
@@ -65,7 +86,25 @@ ext {
             [configuration: "implementation", dependency: libs.volley],
             [configuration: "implementation", dependency: libs.googlePlayAuth],
             [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler],
-            [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
+            [configuration: "annotationProcessor", dependency: libs.daggerCompiler]
+    ]
+
+    vlcplayerDependencies = [
+            [configuration: "implementation", dependency: androidLibs.appCompat],
+            [configuration: "implementation", dependency: androidLibs.supportMediaCompat],
+            [configuration: "implementation", dependency: androidLibs.androidDesign],
+            [configuration: "implementation", dependency: androidLibs.constraintLayout],
+            [configuration: "implementation", dependency: kotlinLibs.stdlibJdk7],
+            [configuration: "implementation", dependency: kotlinLibs.coroutinesAndroid],
+            [configuration: "implementation", dependency: kotlinLibs.coroutinesCore],
+            [configuration: "implementation", dependency: libs.libVlc],
+            [configuration: "implementation", dependency: libs.openSubtitle],
+            [configuration: "implementation", dependency: androidLibs.androidLifecycle],
+            [configuration: "implementation", dependency: libs.dagger],
+            [configuration: "implementation", dependency: libs.daggerAndroidSupport],
+            [configuration: "implementation", dependency: libs.daggerAndroid],
+            [configuration: "testImplementation", dependency: testLibs.junit],
+
     ]
 
     domainDependencies = [

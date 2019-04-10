@@ -19,7 +19,7 @@ public class FragmentEbookList extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_ebook;
+        return R.layout.fragment_ebook_list;
     }
 
     @Override

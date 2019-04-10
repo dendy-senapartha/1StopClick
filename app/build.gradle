@@ -7,7 +7,7 @@ android {
         minSdkVersion project.androidMinSdkVersion
         targetSdkVersion project.androidTargetSdkVersion
         versionName "${versionMajor}.${versionMinor}.${versionPatch}.${buildNumber}"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
@@ -45,6 +45,7 @@ dependencies {
     rootProject.appDependencies.each {
         add(it.configuration, it.dependency, it.options)
     }
+    implementation project(path: ':vlcplayer')
     implementation project(path: ':domain')
     implementation project(path: ':data')
 }

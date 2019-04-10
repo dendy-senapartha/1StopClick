@@ -18,11 +18,18 @@
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".userregistration.UserRegistrationActivity" />
         <activity android:name=".homeactivity.HomeActivity"></activity>
         <activity android:name=".forgetpassword.ForgetPasswordActivity" />
+
+        <activity
+            android:name=".viewmovie.ViewMovieActivityDummy"
+            android:configChanges="orientation|screenSize">
+
+        </activity>
     </application>
 </manifest>

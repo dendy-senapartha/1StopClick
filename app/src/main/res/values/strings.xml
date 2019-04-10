@@ -19,26 +19,9 @@
     <string name="navigation_view_header_title">1StopClick</string>
 
     <string name="text_password_recovery_success">Password recovery successful. Please check your email</string>
-    <string-array name="tab_A">
+    <string-array name="movie_list">
         <item>Item 1A</item>
         <item>Item 1B</item>
-        <item>Item 1C</item>
-        <item>Item 1D</item>
-        <item>Item 1E</item>
-        <item>Item 1F</item>
-        <item>Item 1G</item>
-        <item>Item 1H</item>
-        <item>Item 1I</item>
-        <item>Item 1J</item>
-        <item>Item 1K</item>
-        <item>Item 1L</item>
-        <item>Item 1M</item>
-        <item>Item 1N</item>
-        <item>Item 1O</item>
-        <item>Item 1P</item>
-        <item>Item 1Q</item>
-        <item>Item 1R</item>
-        <item>Item 1S</item>
-        <item>Item 1T</item>
     </string-array>
+
 </resources>

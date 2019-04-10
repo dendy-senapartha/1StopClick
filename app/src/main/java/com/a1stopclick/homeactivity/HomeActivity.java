@@ -1,11 +1,10 @@
 package com.a1stopclick.homeactivity;
 
 import android.content.Intent;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
@@ -19,10 +18,6 @@ import com.a1stopclick.dependencyinjection.modules.HomeActivityModule;
 import com.a1stopclick.login.LoginActivity;
 import com.a1stopclick.util.AndroidUtils;
 
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 import javax.inject.Inject;
 
