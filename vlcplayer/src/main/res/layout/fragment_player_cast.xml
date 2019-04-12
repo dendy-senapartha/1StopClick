@@ -9,7 +9,7 @@
     android:baselineAligned="false"
     android:fitsSystemWindows="false">
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/player_renderer_image_width"
         android:layout_height="@dimen/player_renderer_image_height"
         android:layout_gravity="center"

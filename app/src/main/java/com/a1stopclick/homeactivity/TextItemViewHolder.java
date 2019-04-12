@@ -1,10 +1,12 @@
 package com.a1stopclick.homeactivity;
 
-import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
 import com.a1stopclick.R;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class TextItemViewHolder extends RecyclerView.ViewHolder {
     private TextView textView;

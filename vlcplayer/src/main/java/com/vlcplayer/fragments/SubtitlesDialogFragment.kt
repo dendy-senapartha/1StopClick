@@ -3,13 +3,14 @@ package com.vlcplayer.fragments
 import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AlertDialog
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.vlcplayer.R
 import com.vlcplayer.adapters.SelectionListAdapter

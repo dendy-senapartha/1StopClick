@@ -3,9 +3,9 @@ package com.vlcplayer.components;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Handler;
-import android.support.v7.widget.AppCompatImageButton;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.Toolbar;
+//import android.support.v7.widget.AppCompatImageButton;
+//import android.support.v7.widget.AppCompatTextView;
+//import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -14,6 +14,10 @@ import com.vlcplayer.R;
 import com.vlcplayer.common.utils.ThreadUtil;
 import com.vlcplayer.common.utils.TimeUtil;
 import com.vlcplayer.common.utils.ViewUtil;
+
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
 
 
 public class PlayerControlComponent

@@ -5,7 +5,8 @@ import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.ContentProvider
 import android.content.Context
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
+
 import com.vlcplayer.dagger.components.DaggerAppComponent
 import dagger.android.*
 import dagger.android.support.HasSupportFragmentInjector

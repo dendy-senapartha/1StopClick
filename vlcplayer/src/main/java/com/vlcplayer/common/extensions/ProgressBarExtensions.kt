@@ -1,7 +1,8 @@
 package com.vlcplayer.common.extensions
 
-import android.support.v4.content.ContextCompat
+
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
 
 
 /**

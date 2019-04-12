@@ -2,11 +2,8 @@ package com.a1stopclick.homeactivity;
 
 import android.content.Intent;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,11 +14,18 @@ import com.a1stopclick.dependencyinjection.components.HomeActivityComponent;
 import com.a1stopclick.dependencyinjection.modules.HomeActivityModule;
 import com.a1stopclick.login.LoginActivity;
 import com.a1stopclick.util.AndroidUtils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import butterknife.BindView;
+import androidx.navigation.ui.*;
 
 /*
  * Created by dendy-prtha on 14/04/2019.
@@ -39,11 +43,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @BindView(R.id.progress_overlay)
     View progressOverlay;
 
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-
-    @BindView(R.id.tabs)
-    TabLayout tabLayout;
+    @BindView(R.id.bottom_nav_view)
+    BottomNavigationView bottomNavigationView;
 
     private HomeActivityComponent component;
 
@@ -53,8 +54,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     public static final int INDEX_MOVIE_LIST = 0;
     public static final int INDEX_EBOOK_LIST = INDEX_MOVIE_LIST + 1;
 
-    HomePageAdapter homePageAdapter;
-
     @Override
     public int getLayout() {
         return R.layout.home_activity_layout;
@@ -63,13 +62,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void init() {
         initComponent();
-
-        homePageAdapter = new HomePageAdapter(getSupportFragmentManager());
-        homePageAdapter.addFragment(INDEX_MOVIE_LIST, FragmentMovieList.newInstance());
-        homePageAdapter.addFragment(INDEX_EBOOK_LIST, FragmentEbookList.newInstance());
-        viewPager.setAdapter(homePageAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
+        setupBottomNavigationView();
 
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -88,28 +81,29 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         registerPresenter(presenter);
     }
 
+    private void setupBottomNavigationView() {
+        NavHostFragment hostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(bottomNavigationView, hostFragment.getNavController());
+    }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.drag_and_drop_example:
-                                //TODO :define the action for list_item
-                                //startActivity(new Intent(MainActivity.this, DragActivity.class));
-                                break;
-                            case R.id.logout:
-                                presenter.logOut();
-                                break;
-                            default:
-                                break;
-                        }
-                        //close the navigation drawer when an item is selected
-                        item.setChecked(true);
-                        drawerLayout.closeDrawers();
-                        return true;
+                item -> {
+                    switch (item.getItemId()) {
+                        case R.id.drag_and_drop_example:
+                            //TODO :define the action for list_item
+                            //startActivity(new Intent(MainActivity.this, DragActivity.class));
+                            break;
+                        case R.id.logout:
+                            presenter.logOut();
+                            break;
+                        default:
+                            break;
                     }
+                    //close the navigation drawer when an item is selected
+                    item.setChecked(true);
+                    drawerLayout.closeDrawers();
+                    return true;
                 }
         );
     }

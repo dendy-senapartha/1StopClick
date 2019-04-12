@@ -11,16 +11,18 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.LocalBroadcastManager
+
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaButtonReceiver
+
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
 import android.view.SurfaceView
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.media.session.MediaButtonReceiver
 
 import com.vlcplayer.R
 import com.vlcplayer.common.utils.AudioUtil
@@ -515,7 +517,7 @@ class MediaPlayerService : InjectableService(), MediaPlayer.Callback, Dialog.Cal
 
         builder.addAction(getStopAction(context))
 
-        builder.setStyle(android.support.v4.media.app.NotificationCompat.MediaStyle()
+        builder.setStyle(androidx.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(mediaSession!!.sessionToken)
                 .setShowActionsInCompactView(0, 1)
         )

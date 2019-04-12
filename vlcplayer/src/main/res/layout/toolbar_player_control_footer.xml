@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,7 +32,7 @@
             android:layout_marginBottom="10dp"
             android:theme="@style/AppTheme.PlayerSeekBar"/>
 
-        <android.support.v7.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imagebutton_play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             app:srcCompat="@drawable/ic_play_arrow_white_36dp"
             tools:ignore="ContentDescription,MissingPrefix,VectorDrawableCompat"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textview_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:textColor="@color/player_toolbar_text_position"
             tools:ignore="RtlHardcoded"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textview_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,4 +63,4 @@
             tools:ignore="RtlHardcoded"/>
     </RelativeLayout>
 
-</android.support.v7.widget.Toolbar>
+</androidx.appcompat.widget.Toolbar>

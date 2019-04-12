@@ -1,7 +1,7 @@
 package com.a1stopclick.login;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 
 import com.a1stopclick.R;
@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
 
 /*
  * Created by dendy-prtha on 08/03/2019.

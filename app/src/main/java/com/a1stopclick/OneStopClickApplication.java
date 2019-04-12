@@ -1,12 +1,14 @@
 package com.a1stopclick;
 
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
+//import android.support.multidex.MultiDexApplication;
 
 import com.a1stopclick.application.ActivityLifecycleBehavior;
 import com.a1stopclick.dependencyinjection.components.ApplicationComponent;
 import com.a1stopclick.dependencyinjection.components.DaggerApplicationComponent;
 import com.a1stopclick.dependencyinjection.modules.ApplicationModule;
+
+import androidx.multidex.MultiDexApplication;
 
 /*
  * Created by dendy-prtha on 08/03/2019.

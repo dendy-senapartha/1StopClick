@@ -4,9 +4,7 @@ package com.a1stopclick.homeactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 
 import com.a1stopclick.R;
@@ -15,6 +13,9 @@ import com.vlcplayer.VlcOptionsProvider;
 import com.vlcplayer.activities.MediaPlayerActivity;
 //import com.a1stopclick.viewmovie.ViewMovieActivity;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /*
@@ -43,10 +44,17 @@ public class FragmentMovieList extends BaseFragment {
 
     @Override
     protected void init() {
+        configureVlcPlayer();
+        configureRecyclerView();
+    }
+
+    private void configureVlcPlayer() {
         VlcOptionsProvider.getInstance().setOptions((new VlcOptionsProvider.Builder(getBaseActivity())
                 .setVerbose(true)
                 .withSubtitleEncoding("KOI8-R").build()));
+    }
 
+    private void configureRecyclerView() {
         //dummy list
         String[] items = getResources().getStringArray(R.array.movie_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -59,7 +67,7 @@ public class FragmentMovieList extends BaseFragment {
                 //Intent intent = new Intent(getContext(), ViewMovieActivity.class);
                 //startActivity(intent);
                 String vidAddress = "https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
-                startMediaPlayerActivity(Uri.parse(vidAddress),null);
+                startMediaPlayerActivity(Uri.parse(vidAddress), null);
             }
 
             @Override
@@ -70,13 +78,13 @@ public class FragmentMovieList extends BaseFragment {
     }
 
     private final void startMediaPlayerActivity(Uri videoUri, Uri subtitleUri) {
-        Intent var3 = new Intent(getBaseActivity(), MediaPlayerActivity.class);
+        Intent intent = new Intent(getBaseActivity(), MediaPlayerActivity.class);
 
-        var3.putExtra(MediaPlayerActivity.Companion.getMediaUri(), videoUri);
-        var3.putExtra(MediaPlayerActivity.Companion.getSubtitleUri(),  subtitleUri);
-        var3.putExtra(MediaPlayerActivity.Companion.getSubtitleDestinationUri(), Uri.fromFile(getBaseActivity().getCacheDir()));
-        var3.putExtra(MediaPlayerActivity.Companion.getOpenSubtitlesUserAgent(), "TemporaryUserAgent");
-        var3.putExtra(MediaPlayerActivity.Companion.getSubtitleLanguageCode(), "rus");
-        this.startActivity(var3);
+        intent.putExtra(MediaPlayerActivity.Companion.getMediaUri(), videoUri);
+        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleUri(), subtitleUri);
+        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleDestinationUri(), Uri.fromFile(getBaseActivity().getCacheDir()));
+        intent.putExtra(MediaPlayerActivity.Companion.getOpenSubtitlesUserAgent(), "TemporaryUserAgent");
+        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleLanguageCode(), "rus");
+        this.startActivity(intent);
     }
 }

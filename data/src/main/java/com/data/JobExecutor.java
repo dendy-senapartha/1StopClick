@@ -1,6 +1,6 @@
 package com.data;
 
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
 
 import com.domain.ThreadExecutor;
 
@@ -11,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import androidx.annotation.NonNull;
 
 /*
  * Created by dendy-prtha on 27/02/2019.

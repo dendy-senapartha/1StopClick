@@ -4,11 +4,12 @@ import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.support.v4.app.Fragment
-import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.media.session.MediaControllerCompat
 
+
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.vlcplayer.R
 
 import com.vlcplayer.dagger.injectors.InjectableAppCompatActivity

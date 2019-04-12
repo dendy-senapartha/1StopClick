@@ -1,7 +1,7 @@
 package com.a1stopclick.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 
 import com.a1stopclick.OneStopClickApplication;
 import com.a1stopclick.dependencyinjection.components.ApplicationComponent;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.internal.Preconditions;

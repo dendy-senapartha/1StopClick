@@ -4,8 +4,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+
 import android.os.IBinder
-import android.support.v7.app.AppCompatDialogFragment
+
 import com.vlcplayer.dagger.injectors.InjectableAppCompatDialogFragment
 import com.vlcplayer.dagger.injectors.InjectableFragment
 import com.vlcplayer.services.MediaPlayerService

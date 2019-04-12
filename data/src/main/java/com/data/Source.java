@@ -1,9 +1,11 @@
 package com.data;
 
-import android.support.annotation.StringDef;
+//import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.StringDef;
 
 /**
  * Choices of data source

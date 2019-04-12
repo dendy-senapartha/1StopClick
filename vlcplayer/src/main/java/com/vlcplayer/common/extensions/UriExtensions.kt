@@ -2,8 +2,9 @@ package com.vlcplayer.common.extensions
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.provider.DocumentFile
+
 import android.webkit.URLUtil
+import androidx.documentfile.provider.DocumentFile
 import java.lang.IllegalArgumentException
 
 

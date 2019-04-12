@@ -1,8 +1,8 @@
 package com.vlcplayer.viewmodels
 
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.ViewModel
 import com.masterwok.opensubtitlesandroid.OpenSubtitlesUrlBuilder
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.masterwok.opensubtitlesandroid.services.contracts.OpenSubtitlesService

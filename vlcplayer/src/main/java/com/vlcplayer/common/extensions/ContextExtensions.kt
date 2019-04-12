@@ -1,8 +1,9 @@
 package com.vlcplayer.common.extensions
 
 import android.content.Context
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+
 
 /**
  * Get color using [ContextCompat] and the provided [id].

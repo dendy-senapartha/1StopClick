@@ -1,8 +1,9 @@
 package com.vlcplayer.dagger.injectors
 
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatDialogFragment
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.Fragment
+
 import com.vlcplayer.dagger.DaggerInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

@@ -34,6 +34,6 @@ dependencies {
         add(it.configuration, it.dependency, it.options)
     }
 
-    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVlcVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVlcVersion"
 }
