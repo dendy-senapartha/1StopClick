@@ -15,10 +15,16 @@ android {
             versionNameSuffix "-debug"
             resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
             debuggable true
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
         }
     }
     applicationVariants.all { variant ->
