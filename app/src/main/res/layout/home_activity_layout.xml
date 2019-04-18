@@ -74,6 +74,6 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu" />
 
-    <!-- Progress bar overlay; shown while login is in progress-->
+    <!-- Progress bar overlay; shown while getMovieList is in progress-->
     <include layout="@layout/progress_overlay" />
 </androidx.drawerlayout.widget.DrawerLayout>

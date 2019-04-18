@@ -95,8 +95,7 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
     private fun getLocalPlayerFragment(): LocalPlayerFragment = supportFragmentManager
             .findFragmentByTag(LocalPlayerFragment.Tag) as? LocalPlayerFragment
             ?: LocalPlayerFragment.createInstance(
-                    //mediaUri = intent.getParcelableExtra(MediaUri)
-                    mediaUri = Uri.parse("https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4")
+                    mediaUri = intent.getParcelableExtra(MediaUri)
                     , subtitleUri = intent.getParcelableExtra(SubtitleUri)
                     , subtitleDestinationUri = intent.getParcelableExtra(SubtitleDestinationUri)
                     , openSubtitlesUserAgent = intent.getStringExtra(OpenSubtitlesUserAgent)

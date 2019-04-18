@@ -6,10 +6,12 @@ import android.content.Context;
 import com.data.JobExecutor;
 import com.a1stopclick.base.UIThread;
 import com.data.account.repository.AccountDataRepository;
+import com.data.movie.repository.MovieDataRepository;
 import com.data.user.repository.UserDataRepository;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.account.repository.AccountRepository;
+import com.domain.movie.repository.MovieRepository;
 import com.domain.user.repository.UserRepository;
 
 import javax.inject.Singleton;
@@ -67,4 +69,9 @@ public class ApplicationModule {
         return accountDataRepository;
     }
 
+    @Provides
+    @Singleton
+    MovieRepository provideMovieRepository(MovieDataRepository movieDataRepository) {
+        return movieDataRepository;
+    }
 }

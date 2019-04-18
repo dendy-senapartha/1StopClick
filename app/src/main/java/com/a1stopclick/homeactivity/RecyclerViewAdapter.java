@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.a1stopclick.R;
+import com.domain.movie.MovieListResult;
+
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder> {
 
-    String[] items;
+    List<MovieListResult> items;
 
-    public RecyclerViewAdapter(String[] items) {
+    public RecyclerViewAdapter(List<MovieListResult> items) {
         this.items = items;
     }
 
@@ -29,7 +32,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder
 
     @Override
     public void onBindViewHolder(TextItemViewHolder holder, int position) {
-        holder.bind(items[position]);
+        holder.bind(items.get(position).productName);
     }
 
     @Override
@@ -39,6 +42,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder
 
     @Override
     public int getItemCount() {
-        return items.length;
+        return items.size();
     }
 }

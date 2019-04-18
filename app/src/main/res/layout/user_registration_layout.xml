@@ -155,6 +155,6 @@
             android:text="@string/btn_cancel" />
     </RelativeLayout>
 
-    <!-- Progress bar overlay; shown while login is in progress -->
+    <!-- Progress bar overlay; shown while getMovieList is in progress -->
     <include layout="@layout/progress_overlay"/>
 </RelativeLayout>

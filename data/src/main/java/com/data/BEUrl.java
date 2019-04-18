@@ -12,4 +12,5 @@ public interface BEUrl {
     public static final String LOGIN = PREFIX_URL + "auth?action=user-login";
     public static final String REGISTER_USER = PREFIX_URL + "signup?action=register-user";
     public static final String FORGET_PASSWORD= PREFIX_URL + "auth?action=user-forgot-password";
+    public static final String GET_MOVIE_LIST= PREFIX_URL + "movies/get-all";
 }
