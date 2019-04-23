@@ -42,6 +42,7 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
         , MediaPlayer.Callback
         , IVLCVout.OnNewVideoLayoutListener {
 
+    private val mediaTitle: String get() = arguments!!.getString(MediaTitleKey)
     private val mediaUri: Uri get() = arguments!!.getParcelable(MediaUriKey)
     private val subtitleUri: Uri? get() = arguments!!.getParcelable(SubtitleUriKey)
     private val subtitleDestinationUri: Uri get() = arguments!!.getParcelable(SubtitleDestinationUriKey)
@@ -69,6 +70,7 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
 
         const val Tag = "tag.localplayerfragment"
 
+        private const val MediaTitleKey = "bundle.mediatitle"
         private const val MediaUriKey = "bundle.mediauri"
         private const val SubtitleUriKey = "bundle.subtitleuri"
         private const val SubtitleDestinationUriKey = "bundle.subtitledestinationuri"
@@ -82,13 +84,15 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
 
         @JvmStatic
         fun createInstance(
-                mediaUri: Uri
+                mediaTitle: String
+                , mediaUri: Uri
                 , subtitleUri: Uri?
                 , subtitleDestinationUri: Uri
                 , subtitleLanguageCode: String
                 , openSubtitlesUserAgent: String
         ): LocalPlayerFragment = LocalPlayerFragment().apply {
             arguments = Bundle().apply {
+                putString(MediaTitleKey, mediaTitle)
                 putParcelable(MediaUriKey, mediaUri)
                 putParcelable(SubtitleUriKey, subtitleUri)
                 putParcelable(SubtitleDestinationUriKey, subtitleDestinationUri)
@@ -312,7 +316,7 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
         val fragmentManager = fragmentManager ?: return
 
         SubtitlesDialogFragment.createInstance(
-                mediaUri.getName(requireContext())
+                mediaTitle
                 , subtitleUri
                 , openSubtitlesUserAgent
                 , subtitleLanguageCode

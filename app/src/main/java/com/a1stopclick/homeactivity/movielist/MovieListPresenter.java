@@ -81,7 +81,6 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                                     view.hideLoading();
                                 }
                             },
-                //GetAllMovie.Params.forGetMovieList("1StopClick-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMTY5ODQyMjczMTg2MDQ5OTM1MjYiLCJleHAiOjQ0MzAwMTcyMDMwNn0.pKvaJSOU3W3fD7Heb91E2Uh9reE4xW6CjxnLln3ugPFUymu_QWC5NjAjCL68hWS09qoOCVzJYUfJU4AtLr5fGg")
                 GetAllMovie.Params.forGetMovieList(userSession.getAuthorization())
         );
     }

@@ -23,6 +23,8 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
 
     companion object {
         @JvmStatic
+        val MediaTitle = "extra.mediatitle"
+        @JvmStatic
         val MediaUri = "extra.mediauri"
         @JvmStatic
         val SubtitleUri = "extra.subtitleuri"
@@ -95,7 +97,8 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
     private fun getLocalPlayerFragment(): LocalPlayerFragment = supportFragmentManager
             .findFragmentByTag(LocalPlayerFragment.Tag) as? LocalPlayerFragment
             ?: LocalPlayerFragment.createInstance(
-                    mediaUri = intent.getParcelableExtra(MediaUri)
+                    mediaTitle = intent.getStringExtra(MediaTitle)
+                    , mediaUri = intent.getParcelableExtra(MediaUri)
                     , subtitleUri = intent.getParcelableExtra(SubtitleUri)
                     , subtitleDestinationUri = intent.getParcelableExtra(SubtitleDestinationUri)
                     , openSubtitlesUserAgent = intent.getStringExtra(OpenSubtitlesUserAgent)

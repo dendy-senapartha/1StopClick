@@ -4,7 +4,9 @@ package com.a1stopclick.homeactivity.movielist;
 import android.content.Intent;
 import android.net.Uri;
 
+import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseFragment;
@@ -31,7 +33,9 @@ import butterknife.BindView;
  * Fragment for Movie List
  */
 
-public class FragmentMovieList extends BaseFragment implements MovieListContract.View{
+public class FragmentMovieList extends BaseFragment implements MovieListContract.View {
+
+    private final String TAG = FragmentMovieList.class.getSimpleName();
 
     private MovieListComponent component;
 
@@ -72,14 +76,15 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
                 .withSubtitleEncoding("KOI8-R").build()));
     }
 
-    private final void startMediaPlayerActivity(Uri videoUri, Uri subtitleUri) {
+    private final void startMediaPlayerActivity(String videoTitle, Uri videoUri, Uri subtitleUri) {
         Intent intent = new Intent(getBaseActivity(), MediaPlayerActivity.class);
 
+        intent.putExtra(MediaPlayerActivity.Companion.getMediaTitle(), videoTitle);
         intent.putExtra(MediaPlayerActivity.Companion.getMediaUri(), videoUri);
         intent.putExtra(MediaPlayerActivity.Companion.getSubtitleUri(), subtitleUri);
         intent.putExtra(MediaPlayerActivity.Companion.getSubtitleDestinationUri(), Uri.fromFile(getBaseActivity().getCacheDir()));
         intent.putExtra(MediaPlayerActivity.Companion.getOpenSubtitlesUserAgent(), "TemporaryUserAgent");
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleLanguageCode(), "rus");
+        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleLanguageCode(), "eng");
         this.startActivity(intent);
     }
 
@@ -93,12 +98,7 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
                 recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //Intent intent = new Intent(getContext(), ViewMovieActivity.class);
-                //startActivity(intent);
-                //String vidAddress = "https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
-                //String vidAddress = "https://ia802605.us.archive.org/7/items/CC_1916_10_02_ThePawnshop/CC_1916_10_02_ThePawnshop_512kb.mp4";
-
-                startMediaPlayerActivity(Uri.parse(movieListResults.get(position).urldownload), null);
+                startMediaPlayerActivity(movieListResults.get(position).productName, Uri.parse(movieListResults.get(position).urldownload), null);
             }
 
             @Override

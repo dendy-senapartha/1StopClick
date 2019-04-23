@@ -17,6 +17,7 @@ fun Uri?.getName(context: Context): String {
     return when {
         URLUtil.isContentUrl(toString()) -> DocumentFile.fromSingleUri(context, this!!)?.name!!
         URLUtil.isFileUrl(toString()) -> this!!.lastPathSegment
+        URLUtil.isNetworkUrl(toString()) -> this!!.lastPathSegment
         else -> throw IllegalArgumentException("Uri must have File or Content schema.")
     }
 }
