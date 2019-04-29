@@ -2,6 +2,7 @@ package com.data.movie.mapper;
 
 import com.data.movie.MovieEntity;
 import com.data.movie.repository.source.network.response.MovieListResponse;
+import com.domain.base.ProductResult;
 import com.domain.movie.MovieListResult;
 
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class MovieListRespondMapper {
 
     }
 
-    public List<MovieListResult> transform(MovieListResponse response) {
-        List<MovieListResult> result = new ArrayList<>();
+    public List<ProductResult> transform(MovieListResponse response) {
+        List<ProductResult> result = new ArrayList<>();
         if (response != null && !response.movieList.isEmpty()) {
             for(MovieEntity movieEntity : response.movieList)
             {
@@ -38,6 +39,7 @@ public class MovieListRespondMapper {
                 movieListResult.urldownload = movieEntity.urldownload;
                 movieListResult.status = movieEntity.status;
                 movieListResult.created = movieEntity.created;
+                movieListResult.productArt= movieEntity.productArt;
                 //movieListResult.category = movieEntity.category;
                 //movieListResult.subcategory = movieEntity.subcategory;
                 result.add(movieListResult);

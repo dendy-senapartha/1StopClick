@@ -3,6 +3,7 @@ package com.domain.movie.interactor;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.UseCase;
+import com.domain.base.ProductResult;
 import com.domain.movie.MovieListResult;
 import com.domain.movie.repository.MovieRepository;
 
@@ -17,7 +18,7 @@ import io.reactivex.Observable;
  * get all movie use case
  */
 
-public class GetAllMovie extends UseCase<List<MovieListResult>, GetAllMovie.Params> {
+public class GetAllMovie extends UseCase<List<ProductResult>, GetAllMovie.Params> {
 
     private final MovieRepository movieRepository;
 
@@ -28,7 +29,7 @@ public class GetAllMovie extends UseCase<List<MovieListResult>, GetAllMovie.Para
     }
 
     @Override
-    protected Observable<List<MovieListResult>> buildUseCaseObservable(Params params) {
+    protected Observable<List<ProductResult>> buildUseCaseObservable(Params params) {
         return movieRepository.getAllMovie(params);
 
     }

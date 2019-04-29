@@ -16,6 +16,7 @@ import com.a1stopclick.login.LoginActivity;
 import com.a1stopclick.util.AndroidUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.vlcplayer.VlcOptionsProvider;
 
 
 import javax.inject.Inject;
@@ -63,6 +64,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     public void init() {
         initComponent();
         setupBottomNavigationView();
+        configureVlcPlayer();
 
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -79,6 +81,12 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         component.inject(this);
 
         registerPresenter(presenter);
+    }
+
+    private void configureVlcPlayer() {
+        VlcOptionsProvider.getInstance().setOptions((new VlcOptionsProvider.Builder(this)
+                .setVerbose(true)
+                .withSubtitleEncoding("KOI8-R").build()));
     }
 
     private void setupBottomNavigationView() {

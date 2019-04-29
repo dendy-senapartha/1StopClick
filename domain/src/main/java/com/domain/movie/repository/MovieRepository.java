@@ -1,5 +1,6 @@
 package com.domain.movie.repository;
 
+import com.domain.base.ProductResult;
 import com.domain.movie.MovieListResult;
 import com.domain.movie.interactor.GetAllMovie;
 
@@ -14,5 +15,5 @@ import io.reactivex.Observable;
 
 public interface MovieRepository {
 
-    Observable<List<MovieListResult>> getAllMovie(GetAllMovie.Params params);
+    Observable<List<ProductResult>> getAllMovie(GetAllMovie.Params params);
 }

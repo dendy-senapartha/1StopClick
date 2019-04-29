@@ -1,7 +1,6 @@
 package com.vlcplayer.activities
 
 import android.content.*
-import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.media.session.MediaControllerCompat
@@ -13,6 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.vlcplayer.R
 
 import com.vlcplayer.dagger.injectors.InjectableAppCompatActivity
+import com.vlcplayer.fragments.AudioPlayerFragment
 import com.vlcplayer.fragments.CastPlayerFragment
 import com.vlcplayer.fragments.LocalPlayerFragment
 import com.vlcplayer.services.MediaPlayerService
@@ -34,12 +34,15 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
         val SubtitleLanguageCode = "extra.subtitlelanguagecode"
         @JvmStatic
         val OpenSubtitlesUserAgent = "extra.useragent"
+        @JvmStatic
+        val MediaImageUri = "extra.mediaimageuri"
     }
 
     private var mediaController: MediaControllerCompat? = null
     private var mediaPlayerServiceBinder: MediaPlayerServiceBinder? = null
     private var localPlayerFragment: LocalPlayerFragment? = null
     private var castPlayerFragment: CastPlayerFragment? = null
+    private var audioPlayerFragment: AudioPlayerFragment? = null
 
     private val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -57,9 +60,18 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
             mediaPlayerServiceBinder = iBinder as MediaPlayerServiceBinder
 
             registerMediaController(iBinder)
+            val subtitleUserAgent = intent.getStringExtra(OpenSubtitlesUserAgent)
 
             if (mediaPlayerServiceBinder?.selectedRendererItem == null) {
-                showLocalPlayerFragment()
+                if(subtitleUserAgent != null)
+                {
+                    showLocalPlayerFragment()
+                }
+                else
+                {
+                    showAudioPlayerFragment()
+                }
+
             } else {
                 showCastPlayerFragment()
             }
@@ -91,6 +103,7 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
             localPlayerFragment?.configure(state)
             castPlayerFragment?.configure(state)
+            audioPlayerFragment?.configure(state)
         }
     }
 
@@ -115,6 +128,14 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
                     , subtitleLanguageCode = intent.getStringExtra(SubtitleLanguageCode)
             )
 
+    private fun getAudioPlayerFragment(): AudioPlayerFragment =  supportFragmentManager
+            .findFragmentByTag(AudioPlayerFragment.Tag) as? AudioPlayerFragment
+            ?: AudioPlayerFragment.createInstance(
+                    mediaTitle = intent.getStringExtra(MediaTitle)
+                    , mediaUri = intent.getParcelableExtra(MediaUri)
+                    , mediaImageUri = intent.getParcelableExtra(MediaImageUri)
+            )
+
     private fun showFragment(
             fragment: Fragment
             , tag: String
@@ -126,6 +147,7 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
     private fun showLocalPlayerFragment() {
         castPlayerFragment = null
         localPlayerFragment = getLocalPlayerFragment()
+        audioPlayerFragment = null
 
         showFragment(localPlayerFragment!!, LocalPlayerFragment.Tag)
     }
@@ -133,8 +155,17 @@ class MediaPlayerActivity : InjectableAppCompatActivity() {
     private fun showCastPlayerFragment() {
         localPlayerFragment = null
         castPlayerFragment = getCastPlayerFragment()
+        audioPlayerFragment = null
 
         showFragment(castPlayerFragment!!, CastPlayerFragment.Tag)
+    }
+
+    private fun showAudioPlayerFragment() {
+        castPlayerFragment = null
+        localPlayerFragment = null
+        audioPlayerFragment = getAudioPlayerFragment()
+
+        showFragment(audioPlayerFragment!!, AudioPlayerFragment.Tag)
     }
 
     private fun registerRendererBroadcastReceiver() = LocalBroadcastManager

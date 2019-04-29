@@ -6,21 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.a1stopclick.R;
-import com.domain.movie.MovieListResult;
+import com.domain.base.ProductResult;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Created by anupamchugh on 05/10/16.
+ * Created by dendy.prtha
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder> {
+public class HomeActivityRecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder> {
 
-    List<MovieListResult> items;
+    List<ProductResult> items;
 
-    public RecyclerViewAdapter(List<MovieListResult> items) {
+    public HomeActivityRecyclerViewAdapter(List<ProductResult> items) {
         this.items = items;
     }
 

@@ -6,30 +6,28 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/tasksContainer"
+        android:id="@+id/listContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:orientation="vertical">
-
         <LinearLayout
-            android:id="@+id/movieListContainer"
+            android:id="@+id/musicListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
-            <include layout="@layout/content_contextual_menu" />
+            <include layout="@layout/content_contextual_menu"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/noMovieContainer"
+            android:id="@+id/noItemContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -37,12 +35,12 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/noMovieText"
+                android:id="@+id/noItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                android:text="No Movie!" />
+                android:text="No Music!"
+                android:layout_marginBottom="8dp" />
 
         </LinearLayout>
     </RelativeLayout>

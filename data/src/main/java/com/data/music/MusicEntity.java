@@ -1,14 +1,17 @@
-package com.data.movie;
+package com.data.music;
+
+import com.data.movie.MovieEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 /*
- * Created by dendy-prtha on 16/04/2019.
- * Movie List Entity
+ * Created by dendy-prtha on 26/04/2019.
+ * Music entity
  */
 
-public class MovieEntity {
+
+public class MusicEntity {
 
     public int id;
 

@@ -16,6 +16,9 @@ abstract class FragmentModule {
     internal abstract fun contributesRendererPlayerFragment(): CastPlayerFragment
 
     @ContributesAndroidInjector
+    internal abstract fun contributesAudioPlayerFragment(): AudioPlayerFragment
+
+    @ContributesAndroidInjector
     abstract fun contributesSubtitlesDialogFragment(): SubtitlesDialogFragment
 
     @ContributesAndroidInjector

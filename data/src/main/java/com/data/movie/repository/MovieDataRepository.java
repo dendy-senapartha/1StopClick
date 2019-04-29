@@ -5,6 +5,7 @@ import com.data.movie.mapper.MovieListRespondMapper;
 import com.data.movie.repository.source.MovieEntityData;
 import com.data.movie.repository.source.MovieEntityDataFactory;
 import com.data.movie.repository.source.network.request.MovieListRequest;
+import com.domain.base.ProductResult;
 import com.domain.movie.MovieListResult;
 import com.domain.movie.interactor.GetAllMovie;
 import com.domain.movie.repository.MovieRepository;
@@ -44,7 +45,7 @@ public class MovieDataRepository implements MovieRepository {
     }
 
     @Override
-    public Observable<List<MovieListResult>> getAllMovie(GetAllMovie.Params params) {
+    public Observable<List<ProductResult>> getAllMovie(GetAllMovie.Params params) {
         return initializedRequest(createData()
                 .getMovieList(new MovieListRequest(params.authorization))
                 .map(movieListRespondMapper::transform)

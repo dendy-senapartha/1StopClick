@@ -13,4 +13,8 @@
     <string name="dialog_subtitle_error_querying">An error occurred while querying for subtitles.</string>
     <string name="dialog_subtitle_error_retry">RETRY</string>
     <string name="dialog_subtitle_error_downloading">An error occurred while downloading subtitles.</string>
+
+    <string name="description_blurred_image"/>
+    <string name="description_track_image">Image of the track</string>
+
 </resources>

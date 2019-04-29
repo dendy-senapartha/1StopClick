@@ -3,7 +3,6 @@ package com.vlcplayer.components;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Handler;
-
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -17,9 +16,12 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
+/*
+ * Created by dendy-prtha on 25/04/2019.
+ * TODO: Add a class header comment!
+ */
 
-public class PlayerControlComponent
-        extends RelativeLayout
+public class AudioPlayerControlComponent extends RelativeLayout
         implements SeekBar.OnSeekBarChangeListener {
 
     private final Handler handler = new Handler();
@@ -33,33 +35,32 @@ public class PlayerControlComponent
     private boolean toolbarsAreVisible = true;
     private boolean isTrackingTouch;
     private Callback callback;
-    private boolean hasSelectedRenderer;
-    private boolean showSubtitleMenuItem;
 
-    public PlayerControlComponent(Context context) {
+    public AudioPlayerControlComponent(Context context) {
         super(context);
         inflate(context);
     }
 
-    public PlayerControlComponent(Context context, AttributeSet attrs) {
+    public AudioPlayerControlComponent(Context context, AttributeSet attrs) {
         super(context, attrs);
         readStyleAttributes(context, attrs);
         inflate(context);
     }
 
-    public PlayerControlComponent(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AudioPlayerControlComponent(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         readStyleAttributes(context, attrs);
         inflate(context);
     }
 
-    public PlayerControlComponent(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AudioPlayerControlComponent(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         readStyleAttributes(context, attrs);
         inflate(context);
     }
 
+    /*this one may need to change*/
     private void inflate(Context context) {
         inflate(context, R.layout.component_player_control, this);
     }
@@ -67,107 +68,9 @@ public class PlayerControlComponent
     public interface Callback {
         void onPlayPauseButtonClicked();
 
-        void onCastButtonClicked();
-
         void onProgressChanged(int progress);
 
         void onProgressChangeStarted();
-
-        void onSubtitlesButtonClicked();
-    }
-
-    public void registerCallback(Callback callback) {
-        this.callback = callback;
-    }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-
-        bindViewComponents();
-        subscribeToViewComponents();
-        startToolbarHideTimer();
-
-        if (!showSubtitleMenuItem) {
-            toolbarHeader.inflateMenu(R.menu.media_player_no_subtitle_item);
-            return;
-        }
-
-        if (hasSelectedRenderer) {
-            toolbarHeader.inflateMenu(R.menu.media_player_renderer);
-        } else {
-            toolbarHeader.inflateMenu(R.menu.media_player);
-        }
-    }
-
-    private void readStyleAttributes(Context context, AttributeSet attrs) {
-        if (attrs == null) {
-            return;
-        }
-
-        TypedArray styledAttributes = context.obtainStyledAttributes(
-                attrs,
-                R.styleable.PlayerControlComponent,
-                0,
-                0
-        );
-
-        hasSelectedRenderer = styledAttributes.getBoolean(
-                R.styleable.PlayerControlComponent_showSubtitleMenuItem,
-                false
-        );
-
-        showSubtitleMenuItem = styledAttributes.getBoolean(
-                R.styleable.PlayerControlComponent_showSubtitleMenuItem,
-                true
-        );
-
-        styledAttributes.recycle();
-    }
-
-
-    private void bindViewComponents() {
-        toolbarHeader = findViewById(R.id.toolbar_header);
-        toolbarFooter = findViewById(R.id.toolbar_footer);
-
-        seekBarPosition = toolbarFooter.findViewById(R.id.seekbar_position);
-        textViewPosition = toolbarFooter.findViewById(R.id.textview_position);
-        textViewLength = toolbarFooter.findViewById(R.id.textview_length);
-        imageButtonPlayPause = toolbarFooter.findViewById(R.id.imagebutton_play_pause);
-    }
-
-    private void subscribeToViewComponents() {
-        seekBarPosition.setOnSeekBarChangeListener(this);
-
-        imageButtonPlayPause.setOnClickListener(view -> callback.onPlayPauseButtonClicked());
-
-        toolbarHeader.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-
-            if (itemId == R.id.menu_item_cast) {
-                callback.onCastButtonClicked();
-            } else if (itemId == R.id.menu_item_subtitles) {
-                callback.onSubtitlesButtonClicked();
-            }
-
-            return true;
-        });
-
-        setOnClickListener((view) -> {
-            handler.removeCallbacksAndMessages(null);
-
-            toggleToolbarVisibility();
-        });
-    }
-
-    /**
-     * Start the timer that hides the toolbars after a predefined amount of time.
-     */
-    private void startToolbarHideTimer() {
-        int timerDelay = getResources()
-                .getInteger(R.integer.player_toolbar_hide_timeout);
-
-        handler.postDelayed(this::hideToolbars, timerDelay);
     }
 
     /**
@@ -221,6 +124,38 @@ public class PlayerControlComponent
         });
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        isTrackingTouch = true;
+
+        callback.onProgressChangeStarted();
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        isTrackingTouch = false;
+
+        callback.onProgressChanged(seekBar.getProgress());
+    }
+
+    public void registerCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        bindViewComponents();
+        subscribeToViewComponents();
+        startToolbarHideTimer();
+
+    }
 
     public void configure(
             boolean isPlaying,
@@ -255,23 +190,67 @@ public class PlayerControlComponent
                 : R.drawable.ic_play_arrow_white_36dp;
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        // Nothing to do..
+
+    private void readStyleAttributes(Context context, AttributeSet attrs) {
+        if (attrs == null) {
+            return;
+        }
+
+        TypedArray styledAttributes = context.obtainStyledAttributes(
+                attrs,
+                R.styleable.PlayerControlComponent,
+                0,
+                0
+        );
+
+        /*
+        hasSelectedRenderer = styledAttributes.getBoolean(
+                R.styleable.PlayerControlComponent_showSubtitleMenuItem,
+                false
+        );
+
+        showSubtitleMenuItem = styledAttributes.getBoolean(
+                R.styleable.PlayerControlComponent_showSubtitleMenuItem,
+                true
+        );*/
+
+        styledAttributes.recycle();
     }
 
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        isTrackingTouch = true;
+    private void bindViewComponents() {
+        toolbarHeader = findViewById(R.id.toolbar_header);
+        toolbarFooter = findViewById(R.id.toolbar_footer);
 
-        callback.onProgressChangeStarted();
+        seekBarPosition = toolbarFooter.findViewById(R.id.seekbar_position);
+        textViewPosition = toolbarFooter.findViewById(R.id.textview_position);
+        textViewLength = toolbarFooter.findViewById(R.id.textview_length);
+        imageButtonPlayPause = toolbarFooter.findViewById(R.id.imagebutton_play_pause);
     }
 
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        isTrackingTouch = false;
+    private void subscribeToViewComponents() {
+        seekBarPosition.setOnSeekBarChangeListener(this);
 
-        callback.onProgressChanged(seekBar.getProgress());
+        imageButtonPlayPause.setOnClickListener(view -> callback.onPlayPauseButtonClicked());
+
+        toolbarHeader.setOnMenuItemClickListener(item -> {
+
+            return true;
+        });
+
+        setOnClickListener((view) -> {
+            handler.removeCallbacksAndMessages(null);
+
+            toggleToolbarVisibility();
+        });
     }
 
+    /**
+     * Start the timer that hides the toolbars after a predefined amount of time.
+     */
+    private void startToolbarHideTimer() {
+        int timerDelay = getResources()
+                .getInteger(R.integer.player_toolbar_hide_timeout);
+
+        handler.postDelayed(this::hideToolbars, timerDelay);
+    }
 }

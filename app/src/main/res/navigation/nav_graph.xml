@@ -16,6 +16,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/music_list_dest"
+        android:name="com.a1stopclick.homeactivity.musiclist.FragmentMusicList"
+        android:label="Music"
+        tools:layout="@layout/fragment_music_list">
+    </fragment>
+
+    <fragment
         android:id="@+id/ebook_list_dest"
         android:name="com.a1stopclick.homeactivity.FragmentEbookList"
         android:label="Movie"

@@ -1,22 +1,20 @@
-package com.a1stopclick.homeactivity.movielist;
-
+package com.a1stopclick.homeactivity.musiclist;
 
 import android.content.Intent;
 import android.net.Uri;
-
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseFragment;
 import com.a1stopclick.base.ScrollChildSwipe;
-import com.a1stopclick.dependencyinjection.components.DaggerMovieListComponent;
-import com.a1stopclick.dependencyinjection.components.MovieListComponent;
-import com.a1stopclick.dependencyinjection.modules.MovieListModule;
+import com.a1stopclick.dependencyinjection.components.DaggerMusicListComponent;
+import com.a1stopclick.dependencyinjection.components.MusicListComponent;
+import com.a1stopclick.dependencyinjection.modules.MusicListModule;
 import com.a1stopclick.homeactivity.RecyclerItemClickListener;
 import com.a1stopclick.homeactivity.HomeActivityRecyclerViewAdapter;
 import com.domain.base.ProductResult;
-import com.domain.movie.MovieListResult;
+import com.domain.music.MusicListResult;
 import com.vlcplayer.activities.MediaPlayerActivity;
 
 import java.util.List;
@@ -31,18 +29,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 /*
- * Created by dendy-prtha on 02/04/2019.
- * Fragment for Movie List
+ * Created by dendy-prtha on 26/04/2019.
+ * UI fragment for music list
  */
 
-public class FragmentMovieList extends BaseFragment implements MovieListContract.View {
 
-    private final String TAG = FragmentMovieList.class.getSimpleName();
+public class FragmentMusicList extends BaseFragment implements MusicListContract.View {
 
-    private MovieListComponent component;
+    private final String TAG = FragmentMusicList.class.getSimpleName();
+
+    private MusicListComponent component;
 
     @Inject
-    MovieListContract.Presenter presenter;
+    MusicListContract.Presenter presenter;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -50,15 +49,16 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
     @BindView(R.id.refresh_layout)
     ScrollChildSwipe swipeRefreshLayout;
 
-    @BindView(R.id.movieListContainer)
-    LinearLayout movieListContainer;
+    @BindView(R.id.musicListContainer)
+    LinearLayout musicListContainer;
 
-    @BindView(R.id.noMovieContainer)
-    LinearLayout noMovieContainer;
+    @BindView(R.id.noItemContainer)
+    LinearLayout noItemContainer;
+
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_movies_list;
+        return R.layout.fragment_music_list;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getMovieList();
+                presenter.getMusicList();
             }
         });
         recyclerView.setAdapter(null);
@@ -89,9 +89,9 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
 
     private void initComponent() {
         if (component == null) {
-            component = DaggerMovieListComponent.builder()
+            component = DaggerMusicListComponent.builder()
                     .applicationComponent(getApplicationComponent())
-                    .movieListModule(new MovieListModule(this))
+                    .musicListModule(new MusicListModule(this))
                     .build();
         }
         component.inject(this);
@@ -100,35 +100,33 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
         registerPresenter(presenter);
     }
 
-    private final void startMediaPlayerActivity(String videoTitle, Uri videoUri, Uri subtitleUri) {
+    private final void startAudioPlayerActivity(String videoTitle, Uri videoUri, Uri mediaImageUri) {
         Intent intent = new Intent(getBaseActivity(), MediaPlayerActivity.class);
 
         intent.putExtra(MediaPlayerActivity.Companion.getMediaTitle(), videoTitle);
         intent.putExtra(MediaPlayerActivity.Companion.getMediaUri(), videoUri);
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleUri(), subtitleUri);
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleDestinationUri(), Uri.fromFile(getBaseActivity().getCacheDir()));
-        intent.putExtra(MediaPlayerActivity.Companion.getOpenSubtitlesUserAgent(), "TemporaryUserAgent");
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleLanguageCode(), "eng");
+        intent.putExtra(MediaPlayerActivity.Companion.getMediaImageUri(), mediaImageUri);
         this.startActivity(intent);
     }
 
     @Override
-    public void onMovieListSuccess(List<ProductResult> movieListResults) {
-        if (movieListResults.size() == 0) {
-            noMovieContainer.setVisibility(View.VISIBLE);
-            movieListContainer.setVisibility(View.GONE);
-        } else {
+    public void onMusicListSuccess(List<ProductResult> musicListResults) {
+        if (musicListResults.size() == 0) {
+            musicListContainer.setVisibility(View.GONE);
+            noItemContainer.setVisibility(View.VISIBLE);
+        }
+        else
+        {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(movieListResults));
+            recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(musicListResults));
             recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
                     recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    startMediaPlayerActivity(movieListResults.get(position).productName, Uri.parse(movieListResults.get(position).urldownload), null);
-                    //startAudioPlayerActivity(movieListResults.get(position).productName, Uri.parse(movieListResults.get(position).urldownload),
-                    //sample image art
-                    //     Uri.parse("http://192.168.137.1/nobitol.jpg"));
+                    startAudioPlayerActivity(musicListResults.get(position).productName,
+                            Uri.parse(musicListResults.get(position).urldownload),
+                            Uri.parse(musicListResults.get(position).productArt));
                 }
 
                 @Override
@@ -136,8 +134,9 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
 
                 }
             }));
-            noMovieContainer.setVisibility(View.GONE);
-            movieListContainer.setVisibility(View.VISIBLE);
+
+            musicListContainer.setVisibility(View.VISIBLE);
+            noItemContainer.setVisibility(View.GONE);
         }
     }
 

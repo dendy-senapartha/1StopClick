@@ -1,4 +1,4 @@
-package com.a1stopclick.homeactivity.movielist;
+package com.a1stopclick.homeactivity.musiclist;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,44 +7,46 @@ import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
 import com.domain.account.interactor.GetAccount;
 import com.domain.base.ProductResult;
-import com.domain.movie.MovieListResult;
-import com.domain.movie.interactor.GetAllMovie;
+import com.domain.music.interactor.GetAllMusic;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 /*
- * Created by dendy-prtha on 16/04/2019.
- * Presenter for Movie list
+ * Created by dendy-prtha on 26/04/2019.
+ * Music List Presenter
  */
 
-public class MovieListPresenter implements MovieListContract.Presenter {
+public class MusicListPresenter implements MusicListContract.Presenter {
 
-    private final String TAG = MovieListPresenter.class.getSimpleName();
+    private final String TAG = MusicListPresenter.class.getSimpleName();
 
+    private final MusicListContract.View view;
     private final Context context;
-
-    private final MovieListContract.View view;
-    private final GetAllMovie getAllMovie;
+    private final GetAllMusic getAllMusic;
     private final GetAccount getAccount;
     private AccountResult userSession = null;
 
     @Inject
-    public MovieListPresenter(Context context, MovieListContract.View view, GetAllMovie getAllMovie, GetAccount getAccount) {
-        this.context = context;
+    public MusicListPresenter(MusicListContract.View view, Context context, GetAllMusic getAllMusic, GetAccount getAccount) {
         this.view = view;
-        this.getAllMovie = getAllMovie;
+        this.context = context;
+        this.getAllMusic = getAllMusic;
         this.getAccount = getAccount;
     }
 
+    @Override
+    public void initPresenter() {
+        retrieveSession();
+    }
 
     private void retrieveSession() {
         getAccount.execute(new DefaultObserver<AccountResult>() {
             @Override
             public void onNext(AccountResult result) {
                 userSession = result;
-                getMovieList();
+                getMusicList();
             }
 
             @Override
@@ -57,23 +59,18 @@ public class MovieListPresenter implements MovieListContract.Presenter {
     }
 
     @Override
-    public void initPresenter() {
-        retrieveSession();
-    }
-
-    @Override
     public AccountResult getSession() {
-        return userSession;
+        return null;
     }
 
     @Override
-    public void getMovieList() {
+    public void getMusicList() {
         view.setLoadingIndicator(true);
-        getAllMovie.execute(new DefaultObserver<List<ProductResult>>() {
+        getAllMusic.execute(new DefaultObserver<List<ProductResult>>() {
                                 @Override
                                 public void onNext(List<ProductResult> result) {
                                     view.setLoadingIndicator(false);
-                                    view.onMovieListSuccess(result);
+                                    view.onMusicListSuccess(result);
                                 }
 
                                 @Override
@@ -82,7 +79,7 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                                     view.setLoadingIndicator(false);
                                 }
                             },
-                GetAllMovie.Params.forGetMovieList(userSession.getAuthorization())
+                GetAllMusic.Params.forGetMusicList(userSession.getAuthorization())
         );
     }
 

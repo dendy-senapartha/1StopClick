@@ -1,14 +1,14 @@
-package com.data.movie;
+package com.domain.base;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 /*
  * Created by dendy-prtha on 16/04/2019.
- * Movie List Entity
+ * Movie List Result
  */
 
-public class MovieEntity {
+public class ProductResult {
 
     public int id;
 
@@ -51,10 +51,10 @@ public class MovieEntity {
 
         public String target;
 
-        public  boolean isActive;
+        public boolean isActive;
 
-        public  Date created;
+        public Date created;
 
-        //public  Category category;
+        public  Category category;
     }
 }

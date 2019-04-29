@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_movie_black_24dp"
         android:title="Movie"/>
     <item
+        android:id="@+id/music_list_dest"
+        android:icon="@drawable/ic_library_music_black_24dp"
+        android:title="Music"/>
+    <item
         android:id="@+id/ebook_list_dest"
         android:icon="@drawable/ic_library_books_black_24dp"
         android:title="E-Book"/>
