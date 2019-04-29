@@ -25,9 +25,9 @@ import com.vlcplayer.components.AudioPlayerControlComponent
 
 import com.vlcplayer.contracts.MediaPlayer
 import kotlinx.android.synthetic.main.fragment_audio_player.*
-import kotlinx.android.synthetic.main.fragment_player_local.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.IVLCVout
 
 /*
@@ -263,7 +263,7 @@ internal class AudioPlayerFragment : MediaPlayerServiceFragment()
 
     override fun onBuffering(buffering: Float) {
         if (buffering == 100f) {
-            launch(UI, parent = rootJob) { progressBar.visibility = View.GONE }
+            GlobalScope.launch(Dispatchers.Main) { progressBar.visibility = View.GONE }
             return
         }
 
@@ -271,7 +271,7 @@ internal class AudioPlayerFragment : MediaPlayerServiceFragment()
             return
         }
 
-        launch(UI, parent = rootJob) { progressBar.visibility = View.VISIBLE }
+        GlobalScope.launch(Dispatchers.Main)  { progressBar.visibility = View.VISIBLE }
     }
 
     override fun onPlayerPositionChanged(positionChanged: Float) {

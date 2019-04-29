@@ -21,10 +21,6 @@ import com.vlcplayer.models.SelectionItem
 import com.vlcplayer.viewmodels.SubtitlesDialogFragmentViewModel
 import kotlinx.android.synthetic.main.dialog_subtitles.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.JobCancellationException
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 
 import javax.inject.Inject
 
@@ -165,7 +161,7 @@ class SubtitlesDialogFragment : MediaPlayerServiceDialogFragment() {
             mediaName: String
             , openSubtitlesUserAgent: String?
             , subtitleLanguageCode: String?
-    ): Job = launch(UI, parent = rootJob) {
+    ): Job = GlobalScope.launch(Dispatchers.Main) {
         setLoadingViewState()
 
         try {
@@ -180,8 +176,6 @@ class SubtitlesDialogFragment : MediaPlayerServiceDialogFragment() {
             )
 
             setLoadedViewState()
-        } catch (ignored: JobCancellationException) {
-            // Nothing to do..
         } catch (ex: Exception) {
             setErrorViewState(R.string.dialog_subtitle_error_querying, View.OnClickListener {
                 hideRetryButton()
@@ -259,7 +253,7 @@ class SubtitlesDialogFragment : MediaPlayerServiceDialogFragment() {
         ))
     }
 
-    private fun onSubtitleSelected(position: Int) = launch(UI, parent = rootJob) {
+    private fun onSubtitleSelected(position: Int) = GlobalScope.launch(Dispatchers.Main) {
         val selectedItem = adapterSubtitles.getItem(position)
         val context = context!!
         val openSubtitleItem = selectedItem?.value
@@ -288,8 +282,6 @@ class SubtitlesDialogFragment : MediaPlayerServiceDialogFragment() {
 
             serviceBinder?.setSubtitle(subtitleUri)
 
-        } catch (ignored: JobCancellationException) {
-            // Nothing to do..
         } catch (ex: Exception) {
             setErrorViewState(R.string.dialog_subtitle_error_downloading, View.OnClickListener {
                 hideRetryButton()

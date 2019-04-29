@@ -18,9 +18,9 @@ import com.vlcplayer.components.PlayerControlComponent
 import com.vlcplayer.contracts.MediaPlayer
 import com.vlcplayer.services.binders.MediaPlayerServiceBinder
 import kotlinx.android.synthetic.main.fragment_player_cast.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 internal class CastPlayerFragment : MediaPlayerServiceFragment()
         , PlayerControlComponent.Callback
@@ -171,7 +171,7 @@ internal class CastPlayerFragment : MediaPlayerServiceFragment()
 
     override fun onBuffering(buffering: Float) {
         if (buffering == 100f) {
-            launch(UI, parent = rootJob) { progressBar.visibility = View.GONE }
+            GlobalScope.launch(Dispatchers.Main) { progressBar.visibility = View.GONE }
             return
         }
 
@@ -179,7 +179,7 @@ internal class CastPlayerFragment : MediaPlayerServiceFragment()
             return
         }
 
-        launch(UI, parent = rootJob) { progressBar.visibility = View.VISIBLE }
+        GlobalScope.launch(Dispatchers.Main) { progressBar.visibility = View.VISIBLE }
     }
 
     override fun onPlayerPositionChanged(positionChanged: Float) {

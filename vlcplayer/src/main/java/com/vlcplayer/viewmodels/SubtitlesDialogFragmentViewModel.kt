@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.masterwok.opensubtitlesandroid.OpenSubtitlesUrlBuilder
 import com.masterwok.opensubtitlesandroid.models.OpenSubtitleItem
 import com.masterwok.opensubtitlesandroid.services.contracts.OpenSubtitlesService
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 import java.io.File
 import javax.inject.Inject
 
@@ -19,7 +20,7 @@ class SubtitlesDialogFragmentViewModel @Inject constructor(
             mediaName: String
             , openSubtitlesUserAgent: String?
             , subtitleLanguageCode: String?
-    ): List<OpenSubtitleItem> = withContext(CommonPool) {
+    ): List<OpenSubtitleItem> = withContext(Dispatchers.Default) {
         val url = OpenSubtitlesUrlBuilder()
                 .query(mediaName)
                 .subLanguageId(subtitleLanguageCode ?: "eng")
@@ -37,7 +38,7 @@ class SubtitlesDialogFragmentViewModel @Inject constructor(
             context: Context
             , openSubtitleItem: OpenSubtitleItem
             , destinationUri: Uri?
-    ): Uri = withContext(CommonPool) {
+    ): Uri = withContext(Dispatchers.Default) {
         val downloadedSubtitleFileUri = getSubtitleItemDownloadUri(
                 context
                 , openSubtitleItem

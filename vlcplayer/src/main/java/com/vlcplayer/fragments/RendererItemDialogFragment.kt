@@ -13,8 +13,10 @@ import com.vlcplayer.adapters.SelectionListAdapter
 import com.vlcplayer.common.AndroidJob
 import com.vlcplayer.models.SelectionItem
 import kotlinx.android.synthetic.main.dialog_renderer_item.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 import org.videolan.libvlc.RendererItem
 import java.util.*
 
@@ -57,7 +59,7 @@ class RendererItemDialogFragment : MediaPlayerServiceDialogFragment() {
                 , null
         ))
 
-        launch(UI, parent = rootJob) { rendererItemAdapter.configure(selectionItems) }
+        GlobalScope.launch(Dispatchers.Main)  { rendererItemAdapter.configure(selectionItems) }
     }
 
     override fun onServiceConnected() {

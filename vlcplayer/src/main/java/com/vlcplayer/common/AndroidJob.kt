@@ -4,7 +4,7 @@ package com.vlcplayer.common
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.Job
 
 
 /**
