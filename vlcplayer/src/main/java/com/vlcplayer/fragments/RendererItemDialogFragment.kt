@@ -144,7 +144,7 @@ class RendererItemDialogFragment : MediaPlayerServiceDialogFragment() {
         super.onStop()
     }
 
-    override fun show(manager: FragmentManager?, tag: String?) {
+    override fun show(manager: FragmentManager, tag: String?) {
         val transaction = manager?.beginTransaction()
         transaction?.add(this, tag)
         transaction?.commitAllowingStateLoss()

@@ -118,10 +118,13 @@ internal class CastPlayerFragment : MediaPlayerServiceFragment()
         serviceBinder?.togglePlayback()
     }
 
-    override fun onCastButtonClicked() = RendererItemDialogFragment().show(
-            fragmentManager,
-            RendererItemDialogFragment.Tag
-    )
+    override fun onCastButtonClicked() {
+        val fragmentManager = fragmentManager ?: return
+        RendererItemDialogFragment().show(
+                fragmentManager,
+                RendererItemDialogFragment.Tag
+        )
+    }
 
     override fun onProgressChanged(progress: Int) {
         serviceBinder?.setProgress(progress)

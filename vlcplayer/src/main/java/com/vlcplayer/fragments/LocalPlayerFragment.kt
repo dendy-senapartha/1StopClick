@@ -189,7 +189,7 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
         super.onPause()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         updateVideoSurfaces()
     }
@@ -300,10 +300,12 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
         serviceBinder?.togglePlayback()
     }
 
-    override fun onCastButtonClicked() = RendererItemDialogFragment().show(
-            fragmentManager,
-            RendererItemDialogFragment.Tag
-    )
+    override fun onCastButtonClicked() {
+        val fragmentManager = fragmentManager ?: return
+        RendererItemDialogFragment().show(
+                fragmentManager,
+                RendererItemDialogFragment.Tag)
+    }
 
     override fun onProgressChanged(progress: Int) {
         serviceBinder?.setProgress(progress)
@@ -372,7 +374,7 @@ internal class LocalPlayerFragment : MediaPlayerServiceFragment()
             return
         }
 
-        GlobalScope.launch(Dispatchers.Main)  { progressBar.visibility = View.VISIBLE }
+        GlobalScope.launch(Dispatchers.Main) { progressBar.visibility = View.VISIBLE }
     }
 
     override fun onPlayerPositionChanged(positionChanged: Float) {
