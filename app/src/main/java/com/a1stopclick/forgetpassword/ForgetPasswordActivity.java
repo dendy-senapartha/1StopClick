@@ -1,6 +1,12 @@
 package com.a1stopclick.forgetpassword;
 
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,11 +17,14 @@ import com.a1stopclick.dependencyinjection.components.DaggerForgetPasswordCompon
 import com.a1stopclick.dependencyinjection.components.ForgetPasswordComponent;
 import com.a1stopclick.dependencyinjection.modules.ForgetPasswordModule;
 import com.a1stopclick.util.AndroidUtils;
+import com.google.android.material.textfield.TextInputLayout;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.a1stopclick.util.AndroidUtils.isEmailValid;
 
 /*
  * Created by dendy-prtha on 01/04/2019.
@@ -37,6 +46,9 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswo
     @BindView(R.id.progress_overlay)
     View progressOverlay;
 
+    @BindView(R.id.email_text_input)
+    TextInputLayout emailTextInputLayout;
+
     ForgetPasswordComponent component;
 
     @Inject
@@ -50,6 +62,57 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswo
     @Override
     public void init() {
         initComponent();
+        configureInputForm();
+    }
+
+    private void configureInputForm() {
+
+        mEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!isEmailValid( mEmail.getText().toString().trim())) {
+                    emailTextInputLayout.setErrorEnabled(true);
+                    emailTextInputLayout.setError("invalid email address");
+                    requestFocus(mEmail);
+                } else {
+                    emailTextInputLayout.setErrorEnabled(false);
+                }
+            }
+        });
+    }
+
+    private void closeKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private boolean validateForm() {
+        boolean result = true;
+        if (TextUtils.isEmpty(mEmail.getText().toString())) {
+            mEmail.setError("Email is Required");
+            result = false;
+        } else {
+            mEmail.setError(null);
+        }
+
+        return result;
     }
 
     private void initComponent() {
@@ -95,6 +158,12 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswo
 
     @OnClick(R.id.buttonSubmit)
     public void onClickForgetPassword(View view) {
+        if(!validateForm())
+        {
+            return;
+        }
+
+        closeKeyboard();
         presenter.forgetPassword(mEmail.getText().toString());
     }
 

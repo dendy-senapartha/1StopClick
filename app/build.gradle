@@ -16,7 +16,7 @@ android {
             resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
             debuggable true
             ndk {
-                abiFilters "armeabi-v7a"
+                abiFilters "armeabi-v7a","x86"
             }
         }
         release {

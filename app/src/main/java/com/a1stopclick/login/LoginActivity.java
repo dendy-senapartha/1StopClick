@@ -1,11 +1,17 @@
 package com.a1stopclick.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.a1stopclick.R;
@@ -21,11 +27,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.a1stopclick.util.AndroidUtils.isEmailValid;
 
 /*
  * Created by dendy-prtha on 08/03/2019.
@@ -37,6 +47,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 2;
 
+    @BindView(R.id.parentLayout)
+    RelativeLayout parentLayout;
+
     @BindView(R.id.fieldEmail)
     EditText mEmailField;
     @BindView(R.id.fieldPassword)
@@ -47,6 +60,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     SignInButton mGoogleSignIn;
     @BindView(R.id.progress_overlay)
     View progressOverlay;
+
+    @BindView(R.id.email_text_input)
+    TextInputLayout emailTextInputLayout;
 
     @BindView(R.id.txtSignUp)
     TextView mTxtSignUp;
@@ -68,6 +84,32 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void init() {
         initComponent();
         presenter.checkLastUsedAccount();
+        configureInputForm();
+    }
+
+    private void configureInputForm() {
+        mEmailField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!isEmailValid( mEmailField.getText().toString().trim())) {
+                    emailTextInputLayout.setErrorEnabled(true);
+                    emailTextInputLayout.setError("invalid email address");
+                    requestFocus(mEmailField);
+                } else {
+                    emailTextInputLayout.setErrorEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -104,7 +146,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void OnLoginFailed(String message) {
-
+        Snackbar snackbar = Snackbar
+                .make(parentLayout, "Username or Password is wrong", Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     @OnClick(R.id.buttonGoogleSignin)
@@ -116,6 +160,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @OnClick(R.id.buttonSignIn)
     public void onClickSignIn(View view) {
         signIn();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
     @OnClick(R.id.txtForgetPassword)
@@ -139,19 +189,26 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
         presenter.localSignIn(email, password);
+        closeKeyboard();
+    }
+
+    private void closeKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
     }
 
     private boolean validateForm() {
         boolean result = true;
         if (TextUtils.isEmpty(mEmailField.getText().toString())) {
-            mEmailField.setError("Required");
+            mEmailField.setError("Email is Required");
             result = false;
         } else {
             mEmailField.setError(null);
         }
 
         if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
-            mPasswordField.setError("Required");
+            mPasswordField.setError("Password is Required");
             result = false;
         } else {
             mPasswordField.setError(null);

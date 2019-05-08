@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/parentLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/icon"
@@ -26,6 +28,7 @@
             style="@style/BasicInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignTop="@+id/layoutRegistration"
             android:hint="@string/hint_email"
             android:theme="@style/BasicInputLayoutStyle">
 
@@ -35,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@color/colorDarkGrey"/>
+                android:textColor="@color/colorDarkGrey" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -43,6 +46,7 @@
             style="@style/BasicInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:hint="@string/hint_password"
             android:theme="@style/BasicInputLayoutStyle">
 
@@ -61,6 +65,7 @@
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:layout_below="@+id/layoutRegistration"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
@@ -68,8 +73,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSignIn"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_login" />
@@ -79,8 +82,8 @@
         android:id="@+id/layoutSeparator1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_below="@id/layoutButtons"
         android:gravity="center_horizontal">
 

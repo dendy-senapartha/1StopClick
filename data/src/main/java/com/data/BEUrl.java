@@ -7,7 +7,7 @@ package com.data;
  */
 
 public interface BEUrl {
-    public static final String PREFIX_URL = "http://192.168.137.1:8080/";
+    public static final String PREFIX_URL = "http://13.59.254.174:8080/";
     public static final String GET_ALL_USER = PREFIX_URL + "user/get-all-user";
     public static final String LOGIN = PREFIX_URL + "auth?action=user-login";
     public static final String REGISTER_USER = PREFIX_URL + "signup?action=register-user";
