@@ -39,8 +39,22 @@ public class MusicListRespondMapper {
                 musicListResult.status = musicEntity.status;
                 musicListResult.created = musicEntity.created;
                 musicListResult.productArt= musicEntity.productArt;
-                //movieListResult.category = movieEntity.category;
-                //movieListResult.subcategory = movieEntity.subcategory;
+
+                musicListResult.category = new ProductResult.Category();
+                musicListResult.category.id = musicEntity.category.id;
+                musicListResult.category.name = musicEntity.category.name;
+                musicListResult.category.isActive = musicEntity.category.isActive;
+                musicListResult.category.created = musicEntity.category.created;
+                musicListResult.category.target = musicEntity.category.target;
+                musicListResult.category.priority = musicEntity.category.priority;
+
+                musicListResult.subcategory = new ProductResult.Subcategory();
+                musicListResult.subcategory.id = musicEntity.subcategory.id;
+                musicListResult.subcategory.name = musicEntity.subcategory.name;
+                musicListResult.subcategory.created = musicEntity.subcategory.created;
+                musicListResult.subcategory.isActive = musicEntity.subcategory.isActive;
+                musicListResult.subcategory.target = musicEntity.subcategory.target;
+                musicListResult.subcategory.priority = musicEntity.subcategory.priority;
                 result.add(musicListResult);
             }
             //result = response.movieList;

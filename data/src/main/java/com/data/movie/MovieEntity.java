@@ -39,6 +39,8 @@ public class MovieEntity {
 
         public String name;
 
+        public int priority;
+
         public String target;
 
         public boolean isActive;
@@ -49,7 +51,11 @@ public class MovieEntity {
     public class Subcategory {
         public int id;
 
+        public String name;
+
         public String target;
+
+        public int priority;
 
         public  boolean isActive;
 

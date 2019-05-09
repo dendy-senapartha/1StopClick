@@ -40,8 +40,23 @@ public class MovieListRespondMapper {
                 movieListResult.status = movieEntity.status;
                 movieListResult.created = movieEntity.created;
                 movieListResult.productArt= movieEntity.productArt;
-                //movieListResult.category = movieEntity.category;
-                //movieListResult.subcategory = movieEntity.subcategory;
+
+                movieListResult.category = new ProductResult.Category();
+                movieListResult.category.id = movieEntity.category.id;
+                movieListResult.category.name = movieEntity.category.name;
+                movieListResult.category.isActive = movieEntity.category.isActive;
+                movieListResult.category.created = movieEntity.category.created;
+                movieListResult.category.target = movieEntity.category.target;
+                movieListResult.category.priority = movieEntity.category.priority;
+
+                movieListResult.subcategory = new ProductResult.Subcategory();
+                movieListResult.subcategory.id = movieEntity.subcategory.id;
+                movieListResult.subcategory.name = movieEntity.subcategory.name;
+                movieListResult.subcategory.created = movieEntity.subcategory.created;
+                movieListResult.subcategory.isActive = movieEntity.subcategory.isActive;
+                movieListResult.subcategory.target = movieEntity.subcategory.target;
+                movieListResult.subcategory.priority = movieEntity.subcategory.priority;
+
                 result.add(movieListResult);
             }
             //result = response.movieList;

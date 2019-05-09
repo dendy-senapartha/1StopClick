@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import com.bumptech.glide.Glide
 import com.vlcplayer.R
 import com.vlcplayer.common.AndroidJob
 import com.vlcplayer.common.extensions.setColor
@@ -157,9 +158,7 @@ internal class AudioPlayerFragment : MediaPlayerServiceFragment()
                 progressBar
                 , params
         )
-
-        DownloadImageTask(trackImage).execute(audioImageUri.toString())
-        //trackImage.setImaRe
+        Glide.with(this).load(audioImageUri.toString()).fitCenter().placeholder(R.drawable.defaut).into(trackImage)
     }
 
     private fun startPlayback() {

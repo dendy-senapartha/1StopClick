@@ -42,6 +42,8 @@ public class MusicEntity {
 
         public String name;
 
+        public int priority;
+
         public String target;
 
         public boolean isActive;
@@ -52,7 +54,11 @@ public class MusicEntity {
     public class Subcategory {
         public int id;
 
+        public String name;
+
         public String target;
+
+        public int priority;
 
         public  boolean isActive;
 

@@ -10,6 +10,7 @@ import com.domain.base.ProductResult;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -19,6 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HomeActivityRecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder> {
 
     List<ProductResult> items;
+    Fragment parentFragment;
+
+    public HomeActivityRecyclerViewAdapter(List<ProductResult> items, Fragment fragment) {
+        this.items = items;
+        this.parentFragment = fragment;
+    }
 
     public HomeActivityRecyclerViewAdapter(List<ProductResult> items) {
         this.items = items;
@@ -32,7 +39,14 @@ public class HomeActivityRecyclerViewAdapter extends RecyclerView.Adapter<TextIt
 
     @Override
     public void onBindViewHolder(TextItemViewHolder holder, int position) {
-        holder.bind(items.get(position).productName);
+        holder.setItemMovieTitle(items.get(position).productName);
+        holder.setItemMovieGenre(items.get(position).subcategory.name);
+        //holder.setItemMovieReleaseDate(items.get(position).subcategory.name);
+        //holder.setItemMovieRating(items.get(position).subcategory.name);
+        if(parentFragment!= null)
+        {
+            holder.setItemMoviePoster(items.get(position).productArt, parentFragment);
+        }
     }
 
     @Override

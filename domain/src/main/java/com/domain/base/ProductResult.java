@@ -34,22 +34,28 @@ public class ProductResult {
 
     public String productArt;
 
-    public class Category {
+    public static class Category {
         public int id;
 
         public String name;
 
         public String target;
 
+        public int priority;
+
         public boolean isActive;
 
         public Date created;
     }
 
-    public class Subcategory {
+    public static class Subcategory {
         public int id;
 
+        public String name;
+
         public String target;
+
+        public int priority;
 
         public boolean isActive;
 

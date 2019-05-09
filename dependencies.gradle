@@ -31,6 +31,7 @@ ext {
     fastjsonVersion = '1.1.70.android'
 	libVLcVersion = '3.0.13'
 	openSubtitleVersion = '0.0.8'
+    glideVersion = '4.9.0'
 
     //Testing
     jUnitVersion = '4.12'
@@ -69,7 +70,9 @@ ext {
             googlePlayAuth      : [group: 'com.google.android.gms', name: 'play-services-auth', version: googlePlayAuth],
             securePreference    : [group: 'com.scottyab', name: 'secure-preferences-lib', version: securePreferencesVersion],
 			libVlc			    : [group: 'com.github.masterwok', name: 'libvlc-android-sdk', version: libVLcVersion],
-			openSubtitle		: [group: 'com.github.masterwok', name: 'open-subtitles-android', version: openSubtitleVersion]
+			openSubtitle		: [group: 'com.github.masterwok', name: 'open-subtitles-android', version: openSubtitleVersion],
+            glideLib    		: [group: 'com.github.bumptech.glide', name: 'glide', version: glideVersion],
+            glideLibCompiler    : [group: 'com.github.bumptech.glide', name: 'compiler', version: glideVersion]
     ]
 
     def vlcLibs = [
@@ -98,9 +101,11 @@ ext {
             [configuration: "implementation", dependency: libs.dagger],
             [configuration: "implementation", dependency: libs.volley],
             [configuration: "implementation", dependency: libs.googlePlayAuth],
+            [configuration: "implementation", dependency: libs.glideLib],
             [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler],
             [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
-            [configuration: "annotationProcessor", dependency: libs.daggerAndroidProcessor]
+            [configuration: "annotationProcessor", dependency: libs.daggerAndroidProcessor],
+            [configuration: "annotationProcessor", dependency: libs.glideLibCompiler]
     ]
 
     vlcplayerDependencies = [
@@ -116,6 +121,8 @@ ext {
             [configuration: "implementation", dependency: vlcLibs.dagger],
             [configuration: "implementation", dependency: vlcLibs.daggerAndroidSupport],
             [configuration: "implementation", dependency: vlcLibs.daggerAndroid],
+            [configuration: "implementation", dependency: libs.glideLib],
+            [configuration: "annotationProcessor", dependency: libs.glideLibCompiler],
             [configuration: "testImplementation", dependency: testLibs.junit],
 
     ]

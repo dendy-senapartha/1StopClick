@@ -120,15 +120,12 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(movieListResults));
+            recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(movieListResults, this));
             recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
                     recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     startMediaPlayerActivity(movieListResults.get(position).productName, Uri.parse(movieListResults.get(position).urldownload), null);
-                    //startAudioPlayerActivity(movieListResults.get(position).productName, Uri.parse(movieListResults.get(position).urldownload),
-                    //sample image art
-                    //     Uri.parse("http://192.168.137.1/nobitol.jpg"));
                 }
 
                 @Override
