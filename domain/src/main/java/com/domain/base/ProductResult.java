@@ -34,6 +34,10 @@ public class ProductResult {
 
     public String productArt;
 
+    public String productBackdrop;
+
+    public String youtubeTrailerId;
+
     public static class Category {
         public int id;
 

@@ -10,6 +10,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class AndroidUtils {
 
     /**
@@ -41,5 +47,28 @@ public class AndroidUtils {
             return false;
         }
         return true;
+    }
+
+    private static String formatDate(String date, String format) {
+        String result = "";
+
+        DateFormat old = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        try {
+            Date oldDate = old.parse(date);
+            DateFormat newFormat = new SimpleDateFormat(format);
+            result = newFormat.format(oldDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static String getShortDate(String date) {
+        return formatDate(date, "dd MMMM yyyy");
+    }
+
+    public static String getLongDate(String date) {
+        return formatDate(date, "EEEE, MMM d, yyyy");
     }
 }

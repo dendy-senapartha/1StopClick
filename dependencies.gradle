@@ -1,6 +1,6 @@
 ext {
     //Android
-    androidMinSdkVersion = 16
+    androidMinSdkVersion = 17
     androidTargetSdkVersion = 28
     androidCompileSdkVersion = 28
 	androidLifecycleVersion = '1.1.1'
@@ -32,6 +32,7 @@ ext {
 	libVLcVersion = '3.0.13'
 	openSubtitleVersion = '0.0.8'
     glideVersion = '4.9.0'
+    youtubePlayerVersion = '10.0.3'
 
     //Testing
     jUnitVersion = '4.12'
@@ -72,7 +73,8 @@ ext {
 			libVlc			    : [group: 'com.github.masterwok', name: 'libvlc-android-sdk', version: libVLcVersion],
 			openSubtitle		: [group: 'com.github.masterwok', name: 'open-subtitles-android', version: openSubtitleVersion],
             glideLib    		: [group: 'com.github.bumptech.glide', name: 'glide', version: glideVersion],
-            glideLibCompiler    : [group: 'com.github.bumptech.glide', name: 'compiler', version: glideVersion]
+            glideLibCompiler    : [group: 'com.github.bumptech.glide', name: 'compiler', version: glideVersion],
+            youtubePlayer       : [group: 'com.pierfrancescosoffritti.androidyoutubeplayer', name: 'core', version: youtubePlayerVersion],
     ]
 
     def vlcLibs = [
@@ -102,6 +104,8 @@ ext {
             [configuration: "implementation", dependency: libs.volley],
             [configuration: "implementation", dependency: libs.googlePlayAuth],
             [configuration: "implementation", dependency: libs.glideLib],
+            [configuration: "implementation", dependency: libs.fastjson],
+            [configuration: "implementation", dependency: libs.youtubePlayer],
             [configuration: "annotationProcessor", dependency: libs.butterknifeCompiler],
             [configuration: "annotationProcessor", dependency: libs.daggerCompiler],
             [configuration: "annotationProcessor", dependency: libs.daggerAndroidProcessor],

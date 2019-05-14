@@ -1,9 +1,11 @@
 package com.a1stopclick.homeactivity.movielist;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
+import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -15,6 +17,8 @@ import com.a1stopclick.dependencyinjection.components.MovieListComponent;
 import com.a1stopclick.dependencyinjection.modules.MovieListModule;
 import com.a1stopclick.homeactivity.RecyclerItemClickListener;
 import com.a1stopclick.homeactivity.HomeActivityRecyclerViewAdapter;
+import com.a1stopclick.homeactivity.moviedetails.MovieDetailActivity;
+import com.a1stopclick.homeactivity.moviedetails.MovieDetailContract;
 import com.domain.base.ProductResult;
 import com.domain.movie.MovieListResult;
 import com.vlcplayer.activities.MediaPlayerActivity;
@@ -23,6 +27,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -121,18 +126,7 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(movieListResults, this));
-            recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
-                    recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    startMediaPlayerActivity(movieListResults.get(position).productName, Uri.parse(movieListResults.get(position).urldownload), null);
-                }
 
-                @Override
-                public void onItemLongClick(View view, int position) {
-
-                }
-            }));
             noMovieContainer.setVisibility(View.GONE);
             movieListContainer.setVisibility(View.VISIBLE);
         }

@@ -19,9 +19,16 @@
     <string name="navigation_view_header_title">1StopClick</string>
 
     <string name="text_password_recovery_success">Password recovery successful. Please check your email</string>
-    <string-array name="movie_list">
-        <item>Item 1A</item>
-        <item>Item 1B</item>
-    </string-array>
 
+    <string name="label_release_date">Release Date</string>
+    <string name="label_vote">Vote Average:</string>
+    <string name="label_genres">Movie Genres</string>
+    <string name="label_overview">Overview</string>
+    <string name="label_trailer">Trailer</string>
+    <string name="label_production_details">Production Details</string>
+    <string name="label_belongs">Belongs To Collection</string>
+    <string name="label_budget">Budget</string>
+    <string name="label_revenue">Revenue</string>
+    <string name="label_companies">Companies</string>
+    <string name="label_countries">Countries</string>
 </resources>

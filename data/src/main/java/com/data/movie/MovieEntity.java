@@ -34,6 +34,10 @@ public class MovieEntity {
 
     public String productArt;
 
+    public String productBackdrop;
+
+    public String youtubeTrailerId;
+
     public class Category {
         public int id;
 

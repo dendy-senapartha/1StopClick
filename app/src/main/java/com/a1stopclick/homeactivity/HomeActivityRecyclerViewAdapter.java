@@ -39,10 +39,7 @@ public class HomeActivityRecyclerViewAdapter extends RecyclerView.Adapter<TextIt
 
     @Override
     public void onBindViewHolder(TextItemViewHolder holder, int position) {
-        holder.setItemMovieTitle(items.get(position).productName);
-        holder.setItemMovieGenre(items.get(position).subcategory.name);
-        //holder.setItemMovieReleaseDate(items.get(position).subcategory.name);
-        //holder.setItemMovieRating(items.get(position).subcategory.name);
+        holder.bind(items.get(position));
         if(parentFragment!= null)
         {
             holder.setItemMoviePoster(items.get(position).productArt, parentFragment);

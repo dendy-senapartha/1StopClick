@@ -40,6 +40,8 @@ public class MovieListRespondMapper {
                 movieListResult.status = movieEntity.status;
                 movieListResult.created = movieEntity.created;
                 movieListResult.productArt= movieEntity.productArt;
+                movieListResult.productBackdrop= movieEntity.productBackdrop;
+                movieListResult.youtubeTrailerId= movieEntity.youtubeTrailerId;
 
                 movieListResult.category = new ProductResult.Category();
                 movieListResult.category.id = movieEntity.category.id;
