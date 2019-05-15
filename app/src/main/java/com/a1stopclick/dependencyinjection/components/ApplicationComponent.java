@@ -9,8 +9,7 @@ import com.a1stopclick.dependencyinjection.modules.ApplicationModule;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.account.repository.AccountRepository;
-import com.domain.movie.repository.MovieRepository;
-import com.domain.music.repository.MusicRepository;
+import com.domain.product.repository.ProductRepository;
 import com.domain.user.repository.UserRepository;
 
 import javax.inject.Singleton;
@@ -42,7 +41,5 @@ public interface ApplicationComponent {
 
     AccountRepository provideAccountRepository();
 
-    MovieRepository provideMovieRepository();
-
-    MusicRepository provideMusicRepository();
+    ProductRepository provideProductRepository();
 }

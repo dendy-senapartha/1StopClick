@@ -6,9 +6,8 @@ import android.util.Log;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
 import com.domain.account.interactor.GetAccount;
-import com.domain.base.ProductResult;
-import com.domain.movie.MovieListResult;
-import com.domain.movie.interactor.GetAllMovie;
+import com.domain.base.result.ProductResult;
+import com.domain.product.interactor.GetAllMovie;
 
 import java.util.List;
 

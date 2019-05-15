@@ -18,7 +18,7 @@ import com.a1stopclick.dependencyinjection.modules.MovieDetailsModule;
 import com.a1stopclick.util.AndroidUtils;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.domain.base.ProductResult;
+import com.domain.base.result.ProductResult;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -111,21 +111,26 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     private void loadData(String movie_item) {
         movieDetails = JSON.parseObject(movie_item, ProductResult.class);
 
-        getSupportActionBar().setTitle(movieDetails.productName);
-        tv_title.setText(movieDetails.productName);
+        getSupportActionBar().setTitle(movieDetails.product.productName);
+        tv_title.setText(movieDetails.product.productName);
+        for (int i = 0; i < movieDetails.product.productImageList.size(); i++) {
+            String imageType = movieDetails.product.productImageList.get(i).productImageType.code;
+            if (imageType.equalsIgnoreCase("MovieArt")) {
+                Glide.with(MovieDetailActivity.this)
+                        .load(movieDetails.product.productImageList.get(i).imageUrl)
+                        .into(img_backdrop);
+            }
+            if (imageType.equalsIgnoreCase("MovieBackdrop")) {
+                Glide.with(MovieDetailActivity.this)
+                        .load(movieDetails.product.productImageList.get(i).imageUrl)
+                        .into(img_poster);
+            }
+        }
 
-        Glide.with(MovieDetailActivity.this)
-                .load(movieDetails.productBackdrop)
-                .into(img_backdrop);
-
-        Glide.with(MovieDetailActivity.this)
-                .load(movieDetails.productArt)
-                .into(img_poster);
-
-        tv_release_date.setText(AndroidUtils.getLongDate(movieDetails.created.toString()));
+        tv_release_date.setText(AndroidUtils.getLongDate(movieDetails.product.created.toString()));
         //tv_vote.setText(String.valueOf(movieDetails.getVoteAverage()));
-        tv_genres.setText(movieDetails.subcategory.name);
-        tv_overview.setText(movieDetails.description);
+        tv_genres.setText(movieDetails.product.subcategory.name);
+        tv_overview.setText(movieDetails.product.description);
 
         //double userRating = movieDetails.getVoteAverage() / 2;
         //int integerPart = (int) userRating;
@@ -139,7 +144,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         //if (Math.round(userRating) > integerPart) {
        //     img_vote.get(integerPart).setImageResource(R.drawable.ic_star_half_black_24dp);
         //}
-        if(movieDetails.youtubeTrailerId != null)
+        if(movieDetails.product.youtubeTrailerId != null)
         {
             tvTrailerUnavailable.setVisibility(View.GONE);
             youTubePlayerView.setVisibility(View.VISIBLE);
@@ -148,12 +153,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                 @Override
                 public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                    if(movieDetails.youtubeTrailerId != null)
+                    if(movieDetails.product.youtubeTrailerId != null)
                     {
                         YouTubePlayerUtils.loadOrCueVideo(
                                 youTubePlayer,
                                 getLifecycle(),
-                                movieDetails.youtubeTrailerId,//movieDetails.youtubeTrailerId
+                                movieDetails.product.youtubeTrailerId,//movieDetails.youtubeTrailerId
                                 0f
                         );
                     }
@@ -179,7 +184,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @OnClick(R.id.watchMovie)
     public void onClickWatchMovie(View view)
     {
-        startMediaPlayerActivity(movieDetails.productName, Uri.parse(movieDetails.urldownload), null);
+        startMediaPlayerActivity(movieDetails.product.productName, Uri.parse(movieDetails.product.urldownload), null);
     }
 
     private final void startMediaPlayerActivity(String videoTitle, Uri videoUri, Uri subtitleUri) {

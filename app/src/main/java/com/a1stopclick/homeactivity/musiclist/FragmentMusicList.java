@@ -13,8 +13,7 @@ import com.a1stopclick.dependencyinjection.components.MusicListComponent;
 import com.a1stopclick.dependencyinjection.modules.MusicListModule;
 import com.a1stopclick.homeactivity.RecyclerItemClickListener;
 import com.a1stopclick.homeactivity.HomeActivityRecyclerViewAdapter;
-import com.domain.base.ProductResult;
-import com.domain.music.MusicListResult;
+import com.domain.base.result.ProductResult;
 import com.vlcplayer.activities.MediaPlayerActivity;
 
 import java.util.List;
@@ -124,9 +123,16 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
                     recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    startAudioPlayerActivity(musicListResults.get(position).productName,
-                            Uri.parse(musicListResults.get(position).urldownload),
-                            Uri.parse(musicListResults.get(position).productArt));
+                    String musicArt = null;
+                    for (int i = 0; i < musicListResults.get(position).product.productImageList.size(); i++) {
+                        String imageType = musicListResults.get(position).product.productImageList.get(i).productImageType.code;
+                        if (imageType.equalsIgnoreCase("MovieArt")) {
+                            musicArt = musicListResults.get(position).product.productImageList.get(i).imageUrl;
+                        }
+                    }
+                    startAudioPlayerActivity(musicListResults.get(position).product.productName,
+                            Uri.parse(musicListResults.get(position).product.urldownload),
+                            Uri.parse(musicArt));
                 }
 
                 @Override

@@ -2,8 +2,7 @@ package com.a1stopclick.homeactivity.musiclist;
 
 import com.a1stopclick.base.BaseContract;
 import com.domain.account.AccountResult;
-import com.domain.base.ProductResult;
-import com.domain.music.MusicListResult;
+import com.domain.base.result.ProductResult;
 
 import java.util.List;
 

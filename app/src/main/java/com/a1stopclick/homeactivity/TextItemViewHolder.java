@@ -12,13 +12,11 @@ import com.a1stopclick.R;
 import com.a1stopclick.homeactivity.moviedetails.MovieDetailActivity;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.domain.base.ProductResult;
+import com.domain.base.result.ProductResult;
 
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
-import butterknife.BindView;
 
 public class TextItemViewHolder extends RecyclerView.ViewHolder {
     private TextView itemMovieTitle;
@@ -57,8 +55,8 @@ public class TextItemViewHolder extends RecyclerView.ViewHolder {
     }
     public void bind(ProductResult item)
     {
-        setItemMovieTitle(item.productName);
-        setItemMovieGenre(item.subcategory.name);
+        setItemMovieTitle(item.product.productName);
+        setItemMovieGenre(item.product.subcategory.name);
         //holder.setItemMovieReleaseDate(items.get(position).subcategory.name);
         //holder.setItemMovieRating(items.get(position).subcategory.name);
 

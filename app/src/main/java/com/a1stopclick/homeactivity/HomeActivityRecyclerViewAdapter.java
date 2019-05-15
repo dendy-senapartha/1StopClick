@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.a1stopclick.R;
-import com.domain.base.ProductResult;
+import com.domain.base.result.ProductResult;
 
 import java.util.List;
 
@@ -40,9 +40,13 @@ public class HomeActivityRecyclerViewAdapter extends RecyclerView.Adapter<TextIt
     @Override
     public void onBindViewHolder(TextItemViewHolder holder, int position) {
         holder.bind(items.get(position));
-        if(parentFragment!= null)
-        {
-            holder.setItemMoviePoster(items.get(position).productArt, parentFragment);
+        if (parentFragment != null) {
+            for (int i = 0; i < items.get(position).product.productImageList.size(); i++) {
+                String imageType = items.get(position).product.productImageList.get(i).productImageType.code;
+                if (imageType.equalsIgnoreCase("MovieArt")) {
+                    holder.setItemMoviePoster(items.get(position).product.productImageList.get(i).imageUrl, parentFragment);
+                }
+            }
         }
     }
 

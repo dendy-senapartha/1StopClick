@@ -1,11 +1,9 @@
 package com.a1stopclick.homeactivity.movielist;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -15,19 +13,14 @@ import com.a1stopclick.base.ScrollChildSwipe;
 import com.a1stopclick.dependencyinjection.components.DaggerMovieListComponent;
 import com.a1stopclick.dependencyinjection.components.MovieListComponent;
 import com.a1stopclick.dependencyinjection.modules.MovieListModule;
-import com.a1stopclick.homeactivity.RecyclerItemClickListener;
 import com.a1stopclick.homeactivity.HomeActivityRecyclerViewAdapter;
-import com.a1stopclick.homeactivity.moviedetails.MovieDetailActivity;
-import com.a1stopclick.homeactivity.moviedetails.MovieDetailContract;
-import com.domain.base.ProductResult;
-import com.domain.movie.MovieListResult;
+import com.domain.base.result.ProductResult;
 import com.vlcplayer.activities.MediaPlayerActivity;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -103,18 +96,6 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
 
         presenter.initPresenter();
         registerPresenter(presenter);
-    }
-
-    private final void startMediaPlayerActivity(String videoTitle, Uri videoUri, Uri subtitleUri) {
-        Intent intent = new Intent(getBaseActivity(), MediaPlayerActivity.class);
-
-        intent.putExtra(MediaPlayerActivity.Companion.getMediaTitle(), videoTitle);
-        intent.putExtra(MediaPlayerActivity.Companion.getMediaUri(), videoUri);
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleUri(), subtitleUri);
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleDestinationUri(), Uri.fromFile(getBaseActivity().getCacheDir()));
-        intent.putExtra(MediaPlayerActivity.Companion.getOpenSubtitlesUserAgent(), "TemporaryUserAgent");
-        intent.putExtra(MediaPlayerActivity.Companion.getSubtitleLanguageCode(), "eng");
-        this.startActivity(intent);
     }
 
     @Override
