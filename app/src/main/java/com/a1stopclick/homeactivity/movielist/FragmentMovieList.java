@@ -23,6 +23,7 @@ import javax.inject.Inject;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -104,7 +105,8 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
             noMovieContainer.setVisibility(View.VISIBLE);
             movieListContainer.setVisibility(View.GONE);
         } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+            //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(movieListResults, this));
 

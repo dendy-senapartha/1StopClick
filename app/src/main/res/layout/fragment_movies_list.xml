@@ -3,47 +3,41 @@
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/colorLightGrey"
+    android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/tasksContainer"
+    <LinearLayout
+        android:id="@+id/movieListContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/movieListContainer"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+        <!--<include layout="@layout/content_contextual_menu" />-->
+    </LinearLayout>
 
-            </androidx.recyclerview.widget.RecyclerView>
-            <include layout="@layout/content_contextual_menu" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/noMovieContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/noMovieContainer"
+        <TextView
+            android:id="@+id/noMovieText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:text="No Movie!" />
 
-            <TextView
-                android:id="@+id/noMovieText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                android:text="No Movie!" />
+    </LinearLayout>
 
-        </LinearLayout>
-    </RelativeLayout>
 </com.a1stopclick.base.ScrollChildSwipe>

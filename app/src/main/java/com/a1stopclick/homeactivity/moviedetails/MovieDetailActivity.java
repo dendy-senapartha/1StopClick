@@ -118,12 +118,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             if (imageType.equalsIgnoreCase("MovieArt")) {
                 Glide.with(MovieDetailActivity.this)
                         .load(movieDetails.product.productImageList.get(i).imageUrl)
-                        .into(img_backdrop);
+                        .centerCrop()
+                        .placeholder(R.drawable.placeholder_detail_product)
+                        .into(img_poster);
             }
             if (imageType.equalsIgnoreCase("MovieBackdrop")) {
                 Glide.with(MovieDetailActivity.this)
                         .load(movieDetails.product.productImageList.get(i).imageUrl)
-                        .into(img_poster);
+                        .into(img_backdrop);
             }
         }
 
