@@ -130,9 +130,10 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
                             musicArt = musicListResults.get(position).product.productImageList.get(i).imageUrl;
                         }
                     }
+                    /*
                     startAudioPlayerActivity(musicListResults.get(position).product.productName,
                             Uri.parse(musicListResults.get(position).product.urldownload),
-                            Uri.parse(musicArt));
+                            Uri.parse(musicArt));*/
                 }
 
                 @Override

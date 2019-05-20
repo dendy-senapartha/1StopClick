@@ -3,6 +3,7 @@ package com.data.product;
 import com.data.category.CategoryEntity;
 import com.data.productimage.ProductImageEntity;
 import com.data.subcategory.SubcategoryEntity;
+import com.data.video.VideoEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -27,8 +28,6 @@ public class ProductEntity {
 
     public String compatibility;
 
-    public String urldownload;
-
     public String status;
 
     public Date created;
@@ -37,7 +36,7 @@ public class ProductEntity {
 
     public SubcategoryEntity subcategory;
 
-    public String youtubeTrailerId;
-
     public List<ProductImageEntity> productImageList;
+
+    public List<VideoEntity> videoList;
 }

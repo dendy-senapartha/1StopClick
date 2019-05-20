@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * movie detail activity
  */
 
-public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View{
+public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View {
 
     public static final String MOVIE_ITEM = "movie_item";
 
@@ -144,33 +144,33 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
         // Fill half star
         //if (Math.round(userRating) > integerPart) {
-       //     img_vote.get(integerPart).setImageResource(R.drawable.ic_star_half_black_24dp);
+        //     img_vote.get(integerPart).setImageResource(R.drawable.ic_star_half_black_24dp);
         //}
-        if(movieDetails.product.youtubeTrailerId != null)
-        {
-            tvTrailerUnavailable.setVisibility(View.GONE);
-            youTubePlayerView.setVisibility(View.VISIBLE);
-            getLifecycle().addObserver(youTubePlayerView);
+        for (int i = 0; i < movieDetails.product.videoList.size(); i++) {
+            String imageType = movieDetails.product.videoList.get(i).videoType.code;
+            if (imageType.equalsIgnoreCase("trailer")) {
+                String movieUrl = movieDetails.product.videoList.get(i).streamUrl;
+                tvTrailerUnavailable.setVisibility(View.GONE);
+                youTubePlayerView.setVisibility(View.VISIBLE);
+                getLifecycle().addObserver(youTubePlayerView);
 
-            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-                @Override
-                public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                    if(movieDetails.product.youtubeTrailerId != null)
-                    {
-                        YouTubePlayerUtils.loadOrCueVideo(
-                                youTubePlayer,
-                                getLifecycle(),
-                                movieDetails.product.youtubeTrailerId,//movieDetails.youtubeTrailerId
-                                0f
-                        );
+                youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                    @Override
+                    public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                        if (movieUrl != null) {
+                            YouTubePlayerUtils.loadOrCueVideo(
+                                    youTubePlayer,
+                                    getLifecycle(),
+                                    movieUrl,
+                                    0f
+                            );
+                        }
                     }
-                }
-            });
-        }
-        else
-        {
-            tvTrailerUnavailable.setVisibility(View.VISIBLE);
-            youTubePlayerView.setVisibility(View.GONE);
+                });
+            } else {
+                tvTrailerUnavailable.setVisibility(View.VISIBLE);
+                youTubePlayerView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -184,9 +184,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @OnClick(R.id.watchMovie)
-    public void onClickWatchMovie(View view)
-    {
-        startMediaPlayerActivity(movieDetails.product.productName, Uri.parse(movieDetails.product.urldownload), null);
+    public void onClickWatchMovie(View view) {
+        for (int i = 0; i < movieDetails.product.videoList.size(); i++) {
+            String imageType = movieDetails.product.videoList.get(i).videoType.code;
+            if (imageType.equalsIgnoreCase("movie")) {
+                String movieUrl = movieDetails.product.videoList.get(i).streamUrl;
+                startMediaPlayerActivity(movieDetails.product.productName, Uri.parse(movieUrl), null);
+            }
+        }
     }
 
     private final void startMediaPlayerActivity(String videoTitle, Uri videoUri, Uri subtitleUri) {

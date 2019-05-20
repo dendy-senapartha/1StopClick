@@ -23,8 +23,6 @@ public class Product {
 
     public String compatibility;
 
-    public String urldownload;
-
     public String status;
 
     public Date created;
@@ -33,7 +31,7 @@ public class Product {
 
     public Subcategory subcategory;
 
-    public String youtubeTrailerId;
-
     public List<ProductImage> productImageList;
+
+    public List<Video> videoList;
 }
