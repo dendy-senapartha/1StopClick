@@ -14,4 +14,5 @@ public interface BEUrl {
     public static final String FORGET_PASSWORD= PREFIX_URL + "auth?action=user-forgot-password";
     public static final String GET_MOVIE_LIST= PREFIX_URL + "movies/get-all";
     public static final String GET_MUSIC_LIST= PREFIX_URL + "musics/get-all";
+    public static final String GET_ALBUM_LIST= PREFIX_URL + "musics/get-all-album";
 }

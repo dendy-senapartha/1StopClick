@@ -1,4 +1,4 @@
-package com.a1stopclick.homeactivity.moviedetails;
+package com.a1stopclick.homeactivity.musiclist.albumdetails;
 
 import android.content.Context;
 
@@ -9,15 +9,15 @@ import javax.inject.Inject;
  * Movie Detail Presenter
  */
 
-public class MovieDetailPresenter implements MovieDetailContract.Presenter {
+public class AlbumDetailPresenter implements AlbumDetailContract.Presenter {
 
-    private final String TAG = MovieDetailPresenter.class.getSimpleName();
+    private final String TAG = AlbumDetailPresenter.class.getSimpleName();
 
     private final Context context;
-    private final MovieDetailContract.View view;
+    private final AlbumDetailContract.View view;
 
     @Inject
-    public MovieDetailPresenter(Context context, MovieDetailContract.View view) {
+    public AlbumDetailPresenter(Context context, AlbumDetailContract.View view) {
         this.context = context;
         this.view = view;
     }

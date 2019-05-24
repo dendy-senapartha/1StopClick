@@ -77,7 +77,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public int getLayout() {
-        return R.layout.login_layout;
+        return R.layout.activity_login_layout;
     }
 
     @Override

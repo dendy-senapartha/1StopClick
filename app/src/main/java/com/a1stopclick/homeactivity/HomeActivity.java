@@ -3,8 +3,6 @@ package com.a1stopclick.homeactivity;
 import android.content.Intent;
 
 
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.a1stopclick.R;
@@ -21,9 +19,7 @@ import com.vlcplayer.VlcOptionsProvider;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import butterknife.BindView;
 import androidx.navigation.ui.*;
@@ -57,7 +53,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public int getLayout() {
-        return R.layout.home_activity_layout;
+        return R.layout.activity_home_layout;
     }
 
     @Override

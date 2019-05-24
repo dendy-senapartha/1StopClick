@@ -11,8 +11,7 @@ import com.a1stopclick.base.ScrollChildSwipe;
 import com.a1stopclick.dependencyinjection.components.DaggerMusicListComponent;
 import com.a1stopclick.dependencyinjection.components.MusicListComponent;
 import com.a1stopclick.dependencyinjection.modules.MusicListModule;
-import com.a1stopclick.homeactivity.RecyclerItemClickListener;
-import com.a1stopclick.homeactivity.HomeActivityRecyclerViewAdapter;
+import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
 import com.vlcplayer.activities.MediaPlayerActivity;
 
@@ -22,6 +21,7 @@ import javax.inject.Inject;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -31,7 +31,6 @@ import butterknife.BindView;
  * Created by dendy-prtha on 26/04/2019.
  * UI fragment for music list
  */
-
 
 public class FragmentMusicList extends BaseFragment implements MusicListContract.View {
 
@@ -99,49 +98,17 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
         registerPresenter(presenter);
     }
 
-    private final void startAudioPlayerActivity(String videoTitle, Uri videoUri, Uri mediaImageUri) {
-        Intent intent = new Intent(getBaseActivity(), MediaPlayerActivity.class);
-
-        intent.putExtra(MediaPlayerActivity.Companion.getMediaTitle(), videoTitle);
-        intent.putExtra(MediaPlayerActivity.Companion.getMediaUri(), videoUri);
-        intent.putExtra(MediaPlayerActivity.Companion.getMediaImageUri(), mediaImageUri);
-        this.startActivity(intent);
-    }
-
     @Override
-    public void onMusicListSuccess(List<ProductResult> musicListResults) {
-        if (musicListResults.size() == 0) {
+    public void onMusicListSuccess(List<AlbumResult> albumResultList) {
+        if (albumResultList.size() == 0) {
             musicListContainer.setVisibility(View.GONE);
             noItemContainer.setVisibility(View.VISIBLE);
         }
         else
         {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(musicListResults));
-            recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
-                    recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    String musicArt = null;
-                    for (int i = 0; i < musicListResults.get(position).product.productImageList.size(); i++) {
-                        String imageType = musicListResults.get(position).product.productImageList.get(i).productImageType.code;
-                        if (imageType.equalsIgnoreCase("MovieArt")) {
-                            musicArt = musicListResults.get(position).product.productImageList.get(i).imageUrl;
-                        }
-                    }
-                    /*
-                    startAudioPlayerActivity(musicListResults.get(position).product.productName,
-                            Uri.parse(musicListResults.get(position).product.urldownload),
-                            Uri.parse(musicArt));*/
-                }
-
-                @Override
-                public void onItemLongClick(View view, int position) {
-
-                }
-            }));
-
+            recyclerView.setAdapter(new AlbumListRecyclerViewAdapter(albumResultList, this));
             musicListContainer.setVisibility(View.VISIBLE);
             noItemContainer.setVisibility(View.GONE);
         }

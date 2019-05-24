@@ -1,11 +1,14 @@
 package com.data.product.repository;
 
 import com.data.Source;
+import com.data.product.mapper.AlbumListRespondMapper;
 import com.data.product.mapper.ProductListRespondMapper;
 import com.data.product.repository.source.ProductEntityData;
 import com.data.product.repository.source.ProductEntityDataFactory;
 import com.data.product.repository.source.network.request.ProductListRequest;
+import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
+import com.domain.product.interactor.GetAllAlbum;
 import com.domain.product.interactor.GetAllMovie;
 import com.domain.product.interactor.GetAllMusic;
 import com.domain.product.repository.ProductRepository;
@@ -29,10 +32,13 @@ public class ProductDataRepository implements ProductRepository {
 
     private final ProductListRespondMapper movieListRespondMapper;
 
+    private final AlbumListRespondMapper albumListRespondMapper;
+
     @Inject
-    public ProductDataRepository(ProductEntityDataFactory movieEntityDataFactory, ProductListRespondMapper movieListRespondMapper) {
+    public ProductDataRepository(ProductEntityDataFactory movieEntityDataFactory, ProductListRespondMapper movieListRespondMapper, AlbumListRespondMapper albumListRespondMapper) {
         this.movieEntityDataFactory = movieEntityDataFactory;
         this.movieListRespondMapper = movieListRespondMapper;
+        this.albumListRespondMapper = albumListRespondMapper;
     }
 
     protected <T> Observable<T> initializedRequest(Observable<T> observable) {
@@ -57,6 +63,14 @@ public class ProductDataRepository implements ProductRepository {
         return initializedRequest(createData()
                 .getMusicList(new ProductListRequest(params.authorization))
                 .map(movieListRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<List<AlbumResult>> getAllAlbum(GetAllAlbum.Params params) {
+        return initializedRequest(createData()
+                .getAlbumList(new ProductListRequest(params.authorization))
+                .map(albumListRespondMapper::transform)
         );
     }
 }

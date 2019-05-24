@@ -1,7 +1,6 @@
 package com.a1stopclick.userregistration;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
@@ -21,7 +20,6 @@ import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerUserRegistrationComponent;
 import com.a1stopclick.dependencyinjection.components.UserRegistrationComponent;
 import com.a1stopclick.dependencyinjection.modules.UserRegistrationModule;
-import com.a1stopclick.homeactivity.HomeActivity;
 import com.a1stopclick.login.AccountOption;
 import com.a1stopclick.login.LoginActivity;
 import com.a1stopclick.util.AndroidUtils;
@@ -84,7 +82,7 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
 
     @Override
     public int getLayout() {
-        return R.layout.user_registration_layout;
+        return R.layout.activity_user_registration_layout;
     }
 
     @Override

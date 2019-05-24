@@ -1,6 +1,8 @@
 package com.domain.product.repository;
 
+import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
+import com.domain.product.interactor.GetAllAlbum;
 import com.domain.product.interactor.GetAllMovie;
 import com.domain.product.interactor.GetAllMusic;
 
@@ -18,4 +20,6 @@ public interface ProductRepository {
     Observable<List<ProductResult>> getAllMovie(GetAllMovie.Params params);
 
     Observable<List<ProductResult>> getAllMusic(GetAllMusic.Params params);
+
+    Observable<List<AlbumResult>> getAllAlbum(GetAllAlbum.Params params);
 }

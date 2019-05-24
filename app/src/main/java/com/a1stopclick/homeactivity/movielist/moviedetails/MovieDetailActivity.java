@@ -1,4 +1,4 @@
-package com.a1stopclick.homeactivity.moviedetails;
+package com.a1stopclick.homeactivity.movielist.moviedetails;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -94,7 +94,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public int getLayout() {
-        return R.layout.activity_detail;
+        return R.layout.activity_movie_detail;
     }
 
     @Override

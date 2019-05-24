@@ -6,7 +6,9 @@ import android.util.Log;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
 import com.domain.account.interactor.GetAccount;
+import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
+import com.domain.product.interactor.GetAllAlbum;
 import com.domain.product.interactor.GetAllMusic;
 
 import java.util.List;
@@ -24,16 +26,21 @@ public class MusicListPresenter implements MusicListContract.Presenter {
 
     private final MusicListContract.View view;
     private final Context context;
-    private final GetAllMusic getAllMusic;
+    //private final GetAllMusic getAllMusic;
     private final GetAccount getAccount;
+
+    private final GetAllAlbum getAllAlbum;
     private AccountResult userSession = null;
 
     @Inject
-    public MusicListPresenter(MusicListContract.View view, Context context, GetAllMusic getAllMusic, GetAccount getAccount) {
+    public MusicListPresenter(MusicListContract.View view, Context context,
+                              //GetAllMusic getAllMusic,
+                              GetAccount getAccount, GetAllAlbum getAllAlbum) {
         this.view = view;
         this.context = context;
-        this.getAllMusic = getAllMusic;
+        //this.getAllMusic = getAllMusic;
         this.getAccount = getAccount;
+        this.getAllAlbum = getAllAlbum;
     }
 
     @Override
@@ -66,6 +73,7 @@ public class MusicListPresenter implements MusicListContract.Presenter {
     @Override
     public void getMusicList() {
         view.setLoadingIndicator(true);
+        /*
         getAllMusic.execute(new DefaultObserver<List<ProductResult>>() {
                                 @Override
                                 public void onNext(List<ProductResult> result) {
@@ -80,6 +88,22 @@ public class MusicListPresenter implements MusicListContract.Presenter {
                                 }
                             },
                 GetAllMusic.Params.forGetMusicList(userSession.getAuthorization())
+        );
+*/
+        getAllAlbum.execute(new DefaultObserver<List<AlbumResult>>() {
+                                @Override
+                                public void onNext(List<AlbumResult> result) {
+                                    view.setLoadingIndicator(false);
+                                    view.onMusicListSuccess(result);
+                                }
+
+                                @Override
+                                public void onError(Throwable er) {
+                                    //TODO : need show error message based on error code from BE
+                                    view.setLoadingIndicator(false);
+                                }
+                            },
+                GetAllAlbum.Params.forGetAlbumList(userSession.getAuthorization())
         );
     }
 

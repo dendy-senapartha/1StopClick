@@ -34,4 +34,6 @@ public class Product {
     public List<ProductImage> productImageList;
 
     public List<Video> videoList;
+
+    public List<Track> trackList;
 }

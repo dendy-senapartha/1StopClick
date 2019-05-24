@@ -71,4 +71,8 @@ public class AndroidUtils {
     public static String getLongDate(String date) {
         return formatDate(date, "EEEE, MMM d, yyyy");
     }
+
+    public static String getYear(String date) {
+        return formatDate(date, "yyyy");
+    }
 }

@@ -1,4 +1,4 @@
-package com.a1stopclick.homeactivity;
+package com.a1stopclick.homeactivity.movielist;
 
 
 import android.view.LayoutInflater;
@@ -17,28 +17,28 @@ import androidx.recyclerview.widget.RecyclerView;
  * Created by dendy.prtha
  */
 
-public class HomeActivityRecyclerViewAdapter extends RecyclerView.Adapter<TextItemViewHolder> {
+public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieItemViewHolder> {
 
     List<ProductResult> items;
     Fragment parentFragment;
 
-    public HomeActivityRecyclerViewAdapter(List<ProductResult> items, Fragment fragment) {
+    public MovieRecyclerViewAdapter(List<ProductResult> items, Fragment fragment) {
         this.items = items;
         this.parentFragment = fragment;
     }
 
-    public HomeActivityRecyclerViewAdapter(List<ProductResult> items) {
+    public MovieRecyclerViewAdapter(List<ProductResult> items) {
         this.items = items;
     }
 
     @Override
-    public TextItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_list_item, parent, false);
-        return new TextItemViewHolder(view);
+    public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_movie_item, parent, false);
+        return new MovieItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TextItemViewHolder holder, int position) {
+    public void onBindViewHolder(MovieItemViewHolder holder, int position) {
         holder.bind(items.get(position));
         if (parentFragment != null) {
             for (int i = 0; i < items.get(position).product.productImageList.size(); i++) {

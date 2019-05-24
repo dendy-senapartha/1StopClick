@@ -2,6 +2,7 @@ package com.data.product.repository.source.network;
 
 import com.data.product.repository.source.ProductEntityData;
 import com.data.product.repository.source.network.request.ProductListRequest;
+import com.data.product.repository.source.network.response.AlbumListResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
 
 import java.util.concurrent.Callable;
@@ -36,6 +37,13 @@ public class NetworkProductEntityData implements ProductEntityData {
     public Observable<ProductListResponse> getMusicList(ProductListRequest request) {
         return initObservable(()->{
             return productNetwork.getMusicList(request);
+        });
+    }
+
+    @Override
+    public Observable<AlbumListResponse> getAlbumList(ProductListRequest request) {
+        return initObservable(()->{
+            return productNetwork.getAlbumList(request);
         });
     }
 }

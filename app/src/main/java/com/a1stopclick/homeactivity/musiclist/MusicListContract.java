@@ -2,6 +2,7 @@ package com.a1stopclick.homeactivity.musiclist;
 
 import com.a1stopclick.base.BaseContract;
 import com.domain.account.AccountResult;
+import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface MusicListContract {
     interface View
     {
-        void onMusicListSuccess(List<ProductResult> musicListResults);
+        void onMusicListSuccess(List<AlbumResult> albumResultList);
         void setLoadingIndicator(boolean active);
     }
 

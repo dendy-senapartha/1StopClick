@@ -8,7 +8,7 @@ import java.util.List;
 
 /*
  * Created by dendy-prtha on 16/04/2019.
- * movieList contract
+ * productEntityList contract
  */
 
 public interface MovieListContract {

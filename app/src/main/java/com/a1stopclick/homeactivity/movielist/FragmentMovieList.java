@@ -1,9 +1,6 @@
 package com.a1stopclick.homeactivity.movielist;
 
 
-import android.content.Intent;
-import android.net.Uri;
-
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -13,9 +10,7 @@ import com.a1stopclick.base.ScrollChildSwipe;
 import com.a1stopclick.dependencyinjection.components.DaggerMovieListComponent;
 import com.a1stopclick.dependencyinjection.components.MovieListComponent;
 import com.a1stopclick.dependencyinjection.modules.MovieListModule;
-import com.a1stopclick.homeactivity.HomeActivityRecyclerViewAdapter;
 import com.domain.base.result.ProductResult;
-import com.vlcplayer.activities.MediaPlayerActivity;
 
 import java.util.List;
 
@@ -24,7 +19,6 @@ import javax.inject.Inject;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
@@ -108,7 +102,7 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
             //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new HomeActivityRecyclerViewAdapter(movieListResults, this));
+            recyclerView.setAdapter(new MovieRecyclerViewAdapter(movieListResults, this));
 
             noMovieContainer.setVisibility(View.GONE);
             movieListContainer.setVisibility(View.VISIBLE);

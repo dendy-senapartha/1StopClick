@@ -1,4 +1,4 @@
-package com.a1stopclick.homeactivity;
+package com.a1stopclick.homeactivity.movielist;
 
 import android.content.Context;
 import android.view.GestureDetector;

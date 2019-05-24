@@ -9,9 +9,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".homeactivity.moviedetails.MovieDetailActivity">
+    tools:context=".homeactivity.movielist.moviedetails.MovieDetailActivity">
 
-    <include layout="@layout/detail_appbar" />
+    <include layout="@layout/album_detail_appbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,14 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <include layout="@layout/detail_info" />
-
-            <include layout="@layout/detail_overview" />
-
-            <include layout="@layout/detail_trailer" />
-
-
+            <include layout="@layout/album_detail_info" />
+            <include layout="@layout/album_tracks" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

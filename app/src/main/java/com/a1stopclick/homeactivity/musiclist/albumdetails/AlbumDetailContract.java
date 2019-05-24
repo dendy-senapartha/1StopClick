@@ -1,4 +1,4 @@
-package com.a1stopclick.homeactivity.moviedetails;
+package com.a1stopclick.homeactivity.musiclist.albumdetails;
 import com.a1stopclick.base.BaseContract;
 
 /*
@@ -6,7 +6,7 @@ import com.a1stopclick.base.BaseContract;
  * movie Detail Contract
  */
 
-public interface MovieDetailContract {
+public interface AlbumDetailContract {
     interface View extends BaseContract.BaseViewContract {
 
     }

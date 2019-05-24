@@ -1,6 +1,7 @@
 package com.data.product.repository.source.network.response;
 
 import com.data.account.HTTPResponseHeader;
+import com.data.album.AlbumEntity;
 import com.data.product.ProductEntity;
 
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.List;
  * Movie list response container
  */
 
-public class ProductListResponse {
+public class AlbumListResponse {
 
-    public List<ProductEntity> productEntityList;
+    public List<AlbumEntity> albumEntityList;
     public HTTPResponseHeader httpResponseHeader;
     public String exception;
 
-    public ProductListResponse() {
+    public AlbumListResponse() {
         // Default constructor
     }
 }

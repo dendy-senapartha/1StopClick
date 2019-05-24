@@ -3,6 +3,7 @@ package com.data.product;
 import com.data.category.CategoryEntity;
 import com.data.productimage.ProductImageEntity;
 import com.data.subcategory.SubcategoryEntity;
+import com.data.track.TrackEntity;
 import com.data.video.VideoEntity;
 
 import java.math.BigDecimal;
@@ -39,4 +40,7 @@ public class ProductEntity {
     public List<ProductImageEntity> productImageList;
 
     public List<VideoEntity> videoList;
+
+    public List<TrackEntity> trackList;
+
 }
