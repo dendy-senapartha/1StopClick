@@ -8,8 +8,8 @@ import com.domain.account.AccountResult;
 import com.domain.account.interactor.GetAccount;
 import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
+import com.domain.product.interactor.FindTrackByTitle;
 import com.domain.product.interactor.GetAllAlbum;
-import com.domain.product.interactor.GetAllMusic;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class MusicListPresenter implements MusicListContract.Presenter {
 
     private final MusicListContract.View view;
     private final Context context;
-    //private final GetAllMusic getAllMusic;
+    private final FindTrackByTitle findTrackByTitle;
     private final GetAccount getAccount;
 
     private final GetAllAlbum getAllAlbum;
@@ -34,11 +34,10 @@ public class MusicListPresenter implements MusicListContract.Presenter {
 
     @Inject
     public MusicListPresenter(MusicListContract.View view, Context context,
-                              //GetAllMusic getAllMusic,
-                              GetAccount getAccount, GetAllAlbum getAllAlbum) {
+                              FindTrackByTitle findTrackByTitle, GetAccount getAccount, GetAllAlbum getAllAlbum) {
         this.view = view;
         this.context = context;
-        //this.getAllMusic = getAllMusic;
+        this.findTrackByTitle = findTrackByTitle;
         this.getAccount = getAccount;
         this.getAllAlbum = getAllAlbum;
     }
@@ -73,28 +72,11 @@ public class MusicListPresenter implements MusicListContract.Presenter {
     @Override
     public void getMusicList() {
         view.setLoadingIndicator(true);
-        /*
-        getAllMusic.execute(new DefaultObserver<List<ProductResult>>() {
-                                @Override
-                                public void onNext(List<ProductResult> result) {
-                                    view.setLoadingIndicator(false);
-                                    view.onMusicListSuccess(result);
-                                }
-
-                                @Override
-                                public void onError(Throwable er) {
-                                    //TODO : need show error message based on error code from BE
-                                    view.setLoadingIndicator(false);
-                                }
-                            },
-                GetAllMusic.Params.forGetMusicList(userSession.getAuthorization())
-        );
-*/
         getAllAlbum.execute(new DefaultObserver<List<AlbumResult>>() {
                                 @Override
                                 public void onNext(List<AlbumResult> result) {
                                     view.setLoadingIndicator(false);
-                                    view.onMusicListSuccess(result);
+                                    view.onAlbumListSuccess(result);
                                 }
 
                                 @Override
@@ -104,6 +86,26 @@ public class MusicListPresenter implements MusicListContract.Presenter {
                                 }
                             },
                 GetAllAlbum.Params.forGetAlbumList(userSession.getAuthorization())
+        );
+    }
+
+    @Override
+    public void findTrackByTitle(String searchTrackQuery) {
+        view.setLoadingIndicator(true);
+        findTrackByTitle.execute(new DefaultObserver<List<ProductResult>>() {
+                                @Override
+                                public void onNext(List<ProductResult> result) {
+                                    view.setLoadingIndicator(false);
+                                    view.onFindTrackSuccess(result);
+                                }
+
+                                @Override
+                                public void onError(Throwable er) {
+                                    //TODO : need show error message based on error code from BE
+                                    view.setLoadingIndicator(false);
+                                }
+                            },
+                FindTrackByTitle.Params.forFindTrackByTitle(userSession.getAuthorization(), searchTrackQuery)
         );
     }
 

@@ -1,46 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.a1stopclick.base.ScrollChildSwipe xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorLightGrey"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/listContainer"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layoutDirection="rtl"
+        app:queryHint="Type a music title" />
+
+    <com.a1stopclick.base.ScrollChildSwipe
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
+        android:layout_below="@+id/search_music"
+        android:background="@color/colorLightGrey"
         android:orientation="vertical">
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/musicListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/noItemContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:visibility="gone">
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/noItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="No Music!"
-                android:layout_marginBottom="8dp" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</com.a1stopclick.base.ScrollChildSwipe>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No Music!" />
+        </RelativeLayout>
+    </com.a1stopclick.base.ScrollChildSwipe>
+</RelativeLayout>

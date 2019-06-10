@@ -31,5 +31,9 @@
 
         <activity android:name=".homeactivity.musiclist.albumdetails.AlbumDetailActivity" />
         <activity android:name=".homeactivity.movielist.moviedetails.MovieDetailActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5d2211b2fca4d57db4d52328a8a91ebaaec8141c" />
     </application>
 </manifest>

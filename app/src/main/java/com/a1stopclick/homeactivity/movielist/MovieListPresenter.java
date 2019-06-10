@@ -7,6 +7,7 @@ import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
 import com.domain.account.interactor.GetAccount;
 import com.domain.base.result.ProductResult;
+import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.GetAllMovie;
 
 import java.util.List;
@@ -27,14 +28,16 @@ public class MovieListPresenter implements MovieListContract.Presenter {
     private final MovieListContract.View view;
     private final GetAllMovie getAllMovie;
     private final GetAccount getAccount;
+    private final FindMovieByTitle findMovieByTitle;
     private AccountResult userSession = null;
 
     @Inject
-    public MovieListPresenter(Context context, MovieListContract.View view, GetAllMovie getAllMovie, GetAccount getAccount) {
+    public MovieListPresenter(Context context, MovieListContract.View view, GetAllMovie getAllMovie, GetAccount getAccount, FindMovieByTitle findMovieByTitle) {
         this.context = context;
         this.view = view;
         this.getAllMovie = getAllMovie;
         this.getAccount = getAccount;
+        this.findMovieByTitle = findMovieByTitle;
     }
 
 
@@ -82,6 +85,26 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                                 }
                             },
                 GetAllMovie.Params.forGetMovieList(userSession.getAuthorization())
+        );
+    }
+
+    @Override
+    public void findMovieByTitle(String title) {
+        view.setLoadingIndicator(true);
+        findMovieByTitle.execute(new DefaultObserver<List<ProductResult>>() {
+                                @Override
+                                public void onNext(List<ProductResult> result) {
+                                    view.setLoadingIndicator(false);
+                                    view.onMovieListSuccess(result);
+                                }
+
+                                @Override
+                                public void onError(Throwable er) {
+                                    //TODO : need show error message based on error code from BE
+                                    view.setLoadingIndicator(false);
+                                }
+                            },
+                FindMovieByTitle.Params.forFindMovieByTitle(userSession.getAuthorization(), title)
         );
     }
 

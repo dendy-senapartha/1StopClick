@@ -15,7 +15,8 @@ import java.util.List;
 public interface MusicListContract {
     interface View
     {
-        void onMusicListSuccess(List<AlbumResult> albumResultList);
+        void onAlbumListSuccess(List<AlbumResult> albumResultList);
+        void onFindTrackSuccess(List<ProductResult> productResults);
         void setLoadingIndicator(boolean active);
     }
 
@@ -24,5 +25,6 @@ public interface MusicListContract {
         void initPresenter();
         AccountResult getSession();
         void getMusicList();
+        void findTrackByTitle(String searchTrackQuery);
     }
 }

@@ -50,6 +50,12 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieItemView
         }
     }
 
+    public void setItems( List<ProductResult> items)
+    {
+        this.items.clear();
+        this.items = items;
+    }
+
     @Override
     public long getItemId(int position) {
         return position;

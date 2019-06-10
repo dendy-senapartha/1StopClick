@@ -7,10 +7,10 @@ ext {
 
 
     //androidx lib
-    appcompatXVersion = '1.1.0-alpha02'
-    recyclerXVersion = "1.1.0-alpha02"
-    materialXVersion = "1.1.0-alpha04"
-    constraintLayoutXVersion = "2.0.0-alpha3"
+    appcompatXVersion = '1.0.2'
+    recyclerXVersion = "1.0.0"
+    materialXVersion = "1.0.0"
+    constraintLayoutXVersion = "1.1.3"
     navFragmentVersion = '2.0.0'
     mediaXVersion = '1.0.0'
 
@@ -33,6 +33,7 @@ ext {
 	openSubtitleVersion = '0.0.8'
     glideVersion = '4.9.0'
     youtubePlayerVersion = '10.0.3'
+    fabricVersion = '2.10.1@aar'
 
     //Testing
     jUnitVersion = '4.12'
@@ -75,6 +76,7 @@ ext {
             glideLib    		: [group: 'com.github.bumptech.glide', name: 'glide', version: glideVersion],
             glideLibCompiler    : [group: 'com.github.bumptech.glide', name: 'compiler', version: glideVersion],
             youtubePlayer       : [group: 'com.pierfrancescosoffritti.androidyoutubeplayer', name: 'core', version: youtubePlayerVersion],
+            fabric              : [group: 'com.crashlytics.sdk.android', name: 'crashlytics', version: youtubePlayerVersion]
     ]
 
     def vlcLibs = [

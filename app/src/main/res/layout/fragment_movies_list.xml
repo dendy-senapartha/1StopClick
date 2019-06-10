@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.a1stopclick.base.ScrollChildSwipe xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightGrey"
-    android:orientation="horizontal">
+    android:background="@color/colorLightGrey">
 
-    <LinearLayout
-        android:id="@+id/movieListContainer"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_movie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layoutDirection="rtl"
+        app:queryHint="Type a movie title" />
+
+    <com.a1stopclick.base.ScrollChildSwipe
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_below="@+id/search_movie"
+        android:background="@color/colorLightGrey"
+        android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <RelativeLayout
+            android:id="@+id/movieListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
-        android:id="@+id/noMovieContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:visibility="gone">
+            <TextView
+                android:id="@+id/noMovieText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No Movie!" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/noMovieText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:text="No Movie!" />
 
-    </LinearLayout>
+    </com.a1stopclick.base.ScrollChildSwipe>
 
-</com.a1stopclick.base.ScrollChildSwipe>
+
+</RelativeLayout>

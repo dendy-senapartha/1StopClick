@@ -7,8 +7,11 @@ import com.a1stopclick.application.ActivityLifecycleBehavior;
 import com.a1stopclick.dependencyinjection.components.ApplicationComponent;
 import com.a1stopclick.dependencyinjection.components.DaggerApplicationComponent;
 import com.a1stopclick.dependencyinjection.modules.ApplicationModule;
+import com.crashlytics.android.Crashlytics;
 
 import androidx.multidex.MultiDexApplication;
+
+import io.fabric.sdk.android.Fabric;
 
 /*
  * Created by dendy-prtha on 08/03/2019.
@@ -26,6 +29,7 @@ public class OneStopClickApplication extends MultiDexApplication {
         initializeContext();
         initInjector();
         registerActivityLifecycleCallbacks(new ActivityLifecycleBehavior());
+        Fabric.with(this, new Crashlytics());
     }
 
     private void initInjector()

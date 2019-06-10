@@ -47,6 +47,11 @@ public class AlbumListRecyclerViewAdapter extends RecyclerView.Adapter<AlbumItem
         }
     }
 
+    public void setItems(List<AlbumResult> albumResults) {
+        this.items.clear();
+        this.items = albumResults;
+    }
+
     @Override
     public long getItemId(int position) {
         return position;

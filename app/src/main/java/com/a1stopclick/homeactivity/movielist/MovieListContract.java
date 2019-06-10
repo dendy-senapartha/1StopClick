@@ -23,5 +23,6 @@ public interface MovieListContract {
         void initPresenter();
         AccountResult getSession();
         void getMovieList();
+        void findMovieByTitle(String title);
     }
 }

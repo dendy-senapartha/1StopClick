@@ -1,6 +1,7 @@
 package com.data.product.repository.source.network;
 
 import com.data.product.repository.source.ProductEntityData;
+import com.data.product.repository.source.network.request.FindProductByTitleRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
 import com.data.product.repository.source.network.response.AlbumListResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
@@ -11,7 +12,7 @@ import io.reactivex.Observable;
 
 /*
  * Created by dendy-prtha on 16/04/2019.
- * Movie Entity Data implementation
+ * network product entity data
  */
 
 public class NetworkProductEntityData implements ProductEntityData {
@@ -44,6 +45,20 @@ public class NetworkProductEntityData implements ProductEntityData {
     public Observable<AlbumListResponse> getAlbumList(ProductListRequest request) {
         return initObservable(()->{
             return productNetwork.getAlbumList(request);
+        });
+    }
+
+    @Override
+    public Observable<ProductListResponse> findMovieByTitle(FindProductByTitleRequest request) {
+        return initObservable(()->{
+            return productNetwork.findMovieByTitle(request);
+        });
+    }
+
+    @Override
+    public Observable<ProductListResponse> findTrackByTitle(FindProductByTitleRequest request) {
+        return initObservable(()->{
+            return productNetwork.findTrackByTitle(request);
         });
     }
 }

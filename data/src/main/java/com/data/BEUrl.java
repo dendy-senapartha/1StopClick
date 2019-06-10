@@ -15,4 +15,6 @@ public interface BEUrl {
     public static final String GET_MOVIE_LIST= PREFIX_URL + "movies/get-all";
     public static final String GET_MUSIC_LIST= PREFIX_URL + "musics/get-all";
     public static final String GET_ALBUM_LIST= PREFIX_URL + "musics/get-all-album";
+    public static final String FIND_MOVIE_BY_TITLE= PREFIX_URL + "movies/find-by-title";
+    public static final String FIND_TRACK_BY_TITLE= PREFIX_URL + "musics/find-by-title";
 }

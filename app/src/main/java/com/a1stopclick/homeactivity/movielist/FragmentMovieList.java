@@ -1,8 +1,12 @@
 package com.a1stopclick.homeactivity.movielist;
 
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseFragment;
@@ -12,15 +16,19 @@ import com.a1stopclick.dependencyinjection.components.MovieListComponent;
 import com.a1stopclick.dependencyinjection.modules.MovieListModule;
 import com.domain.base.result.ProductResult;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 
 /*
@@ -43,11 +51,17 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
     @BindView(R.id.refresh_layout)
     ScrollChildSwipe swipeRefreshLayout;
 
-    @BindView(R.id.movieListContainer)
-    LinearLayout movieListContainer;
+    @BindView(R.id.noMovieText)
+    TextView noMovieText;
 
-    @BindView(R.id.noMovieContainer)
-    LinearLayout noMovieContainer;
+    @BindView(R.id.search_movie)
+    SearchView searchMovie;
+
+    public static final int QUERY_SUBMITTED = 1;
+
+    private String searchMoviedQuery;
+
+    private MovieRecyclerViewAdapter movieRecyclerViewAdapter;
 
     @Override
     protected int getLayout() {
@@ -58,6 +72,49 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
     protected void init() {
         initComponent();
         prepareRefreshLayout();
+        configureSearchTextField();
+    }
+
+    private Handler searchMovieQueryHandler = new SearchMovieQueryHandler(this);
+
+    static class SearchMovieQueryHandler extends Handler {
+        private final WeakReference<FragmentMovieList> mFragment;
+        SearchMovieQueryHandler(FragmentMovieList mFragment) {
+            this.mFragment = new WeakReference<>(mFragment);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            FragmentMovieList fragment = mFragment.get();
+            if (fragment != null) {
+                if (msg.what == QUERY_SUBMITTED) {
+                    fragment.presenter.findMovieByTitle(fragment.searchMoviedQuery);
+                }
+            }
+        }
+    }
+
+    private void configureSearchTextField() {
+        //searchMovie.setIconifiedByDefault(false);
+        searchMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!query.equals(searchMoviedQuery)) { // avoid a consecutive api request
+                    presenter.findMovieByTitle(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchMoviedQuery = newText; // store the query
+
+                searchMovieQueryHandler.removeMessages(QUERY_SUBMITTED);
+                searchMovieQueryHandler.sendEmptyMessageDelayed(QUERY_SUBMITTED, 1000);
+                return false;
+            }
+        });
     }
 
     private void prepareRefreshLayout() {
@@ -77,7 +134,12 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
                 presenter.getMovieList();
             }
         });
-        recyclerView.setAdapter(null);
+        movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(new ArrayList<>(), this);
+        recyclerView.setAdapter(movieRecyclerViewAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        movieRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void initComponent() {
@@ -96,16 +158,13 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
     @Override
     public void onMovieListSuccess(List<ProductResult> movieListResults) {
         if (movieListResults.size() == 0) {
-            noMovieContainer.setVisibility(View.VISIBLE);
-            movieListContainer.setVisibility(View.GONE);
+            noMovieText.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-            //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new MovieRecyclerViewAdapter(movieListResults, this));
-
-            noMovieContainer.setVisibility(View.GONE);
-            movieListContainer.setVisibility(View.VISIBLE);
+            movieRecyclerViewAdapter.setItems(movieListResults);
+            movieRecyclerViewAdapter.notifyDataSetChanged();
+            noMovieText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -114,7 +173,6 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
         if (getView() == null) {
             return;
         }
-
         // Make sure setRefreshing() is called after the layout is done with everything else.
         swipeRefreshLayout.post(new Runnable() {
             @Override

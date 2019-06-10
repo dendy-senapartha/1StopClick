@@ -1,9 +1,10 @@
 package com.a1stopclick.homeactivity.musiclist;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseFragment;
@@ -11,20 +12,23 @@ import com.a1stopclick.base.ScrollChildSwipe;
 import com.a1stopclick.dependencyinjection.components.DaggerMusicListComponent;
 import com.a1stopclick.dependencyinjection.components.MusicListComponent;
 import com.a1stopclick.dependencyinjection.modules.MusicListModule;
+import com.domain.base.entity.Album;
 import com.domain.base.result.AlbumResult;
 import com.domain.base.result.ProductResult;
-import com.vlcplayer.activities.MediaPlayerActivity;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 
 /*
@@ -47,12 +51,20 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
     @BindView(R.id.refresh_layout)
     ScrollChildSwipe swipeRefreshLayout;
 
-    @BindView(R.id.musicListContainer)
-    LinearLayout musicListContainer;
 
-    @BindView(R.id.noItemContainer)
-    LinearLayout noItemContainer;
 
+    @BindView(R.id.noItem)
+    TextView noItem;
+
+    @BindView(R.id.search_music)
+    SearchView searchMusic;
+
+    public static final int QUERY_SUBMITTED = 1;
+
+    private String searchTrackQuery;
+
+    private Handler searchTrackQueryHandler = new SearchTrackQueryHandler(this);
+    AlbumListRecyclerViewAdapter recyclerViewAdapter;
 
     @Override
     protected int getLayout() {
@@ -63,6 +75,29 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
     protected void init() {
         initComponent();
         prepareRefreshLayout();
+        configureSearchTextField();
+    }
+
+    private void configureSearchTextField() {
+        searchMusic.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!query.equals(searchTrackQuery)) { // avoid a consecutive api request
+                    presenter.findTrackByTitle(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchTrackQuery = newText; // store the query
+
+                searchTrackQueryHandler.removeMessages(QUERY_SUBMITTED);
+                searchTrackQueryHandler.sendEmptyMessageDelayed(QUERY_SUBMITTED, 1000);
+                return false;
+            }
+        });
     }
 
     private void prepareRefreshLayout() {
@@ -82,7 +117,32 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
                 presenter.getMusicList();
             }
         });
-        recyclerView.setAdapter(null);
+
+
+        recyclerViewAdapter = new AlbumListRecyclerViewAdapter(new ArrayList<>(), this);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    static class SearchTrackQueryHandler extends Handler {
+        private final WeakReference<FragmentMusicList> mFragment;
+
+        SearchTrackQueryHandler(FragmentMusicList mFragment) {
+            this.mFragment = new WeakReference<>(mFragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            FragmentMusicList fragment = mFragment.get();
+            if (fragment != null) {
+                if (msg.what == QUERY_SUBMITTED) {
+                    fragment.presenter.findTrackByTitle(fragment.searchTrackQuery);
+                }
+            }
+        }
     }
 
     private void initComponent() {
@@ -99,19 +159,65 @@ public class FragmentMusicList extends BaseFragment implements MusicListContract
     }
 
     @Override
-    public void onMusicListSuccess(List<AlbumResult> albumResultList) {
+    public void onAlbumListSuccess(List<AlbumResult> albumResultList) {
         if (albumResultList.size() == 0) {
-            musicListContainer.setVisibility(View.GONE);
-            noItemContainer.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            noItem.setVisibility(View.VISIBLE);
+        } else {
+            recyclerViewAdapter.setItems(albumResultList);
+            recyclerViewAdapter.notifyDataSetChanged();
+            recyclerView.setVisibility(View.VISIBLE);
+            noItem.setVisibility(View.GONE);
         }
-        else
-        {
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(new AlbumListRecyclerViewAdapter(albumResultList, this));
-            musicListContainer.setVisibility(View.VISIBLE);
-            noItemContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFindTrackSuccess(List<ProductResult> productResults) {
+        if (productResults.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            noItem.setVisibility(View.VISIBLE);
+            recyclerViewAdapter.setItems(new ArrayList<>());
+            recyclerViewAdapter.notifyDataSetChanged();
+        } else {
+            List<AlbumResult> albumResultList = new ArrayList<>();
+
+            //todo : need to simplify this one
+            for (int productCount = 0; productCount < productResults.size(); productCount++) {
+                for (int trackCount = 0; trackCount < productResults.get(productCount).product.trackList.size(); trackCount++) {
+                    productResults.get(productCount).product.trackList.get(trackCount).product = productResults.get(productCount).product;
+                    for (int albumCount = 0; albumCount < productResults.get(productCount).product.trackList.get(trackCount).albums.size();
+                         albumCount++) {
+                        Album album = productResults.get(productCount).product.trackList.get(trackCount).albums.get(albumCount);
+                        album.tracks = productResults.get(productCount).product.trackList;
+                        AlbumResult albumResult = new AlbumResult();
+                        albumResult.album = album;
+                        if (albumResultList.size() == 0) {
+                            albumResultList.add(albumResult);
+                        } else {
+                            if(!isAlbumInList(albumResultList, albumResult.album))
+                            {
+                                albumResultList.add(albumResult);
+                            }
+                        }
+                    }
+                }
+            }
+
+            recyclerViewAdapter.setItems(albumResultList);
+            recyclerViewAdapter.notifyDataSetChanged();
+            recyclerView.setVisibility(View.VISIBLE);
+            noItem.setVisibility(View.GONE);
         }
+    }
+
+    private boolean isAlbumInList(List<AlbumResult> albumResultList , Album album)
+    {
+        for (int albumResultCount = 0; albumResultCount < albumResultList.size(); albumResultCount++) {
+            if (albumResultList.get(albumResultCount).album.name.equalsIgnoreCase(album.name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

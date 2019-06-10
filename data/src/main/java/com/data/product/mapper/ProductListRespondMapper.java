@@ -145,6 +145,7 @@ public class ProductListRespondMapper {
                         album.id = productEntity.trackList.get(trackCount).albums.get(albumsCount).id;
                         album.name = productEntity.trackList.get(trackCount).albums.get(albumsCount).name;
                         album.releaseDate = productEntity.trackList.get(trackCount).albums.get(albumsCount).releaseDate;
+                        album.albumImageUrl = productEntity.trackList.get(trackCount).albums.get(albumsCount).albumImageUrl;
                         track.albums.add(album);
                     }
                     track.product = new Product();
