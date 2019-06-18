@@ -57,7 +57,7 @@ public class AccountPreference {
         }
     }
 
-    public AccountResponse saveAccount(String email, String name, String provider_id, String provider, String avatarUrl,
+    public AccountResponse saveAccount(String uid, String email, String name, String provider_id, String provider, String avatarUrl,
                                        String authorization)
             throws UnInitializedSecuredPreferencesException {
         initChecking();
@@ -72,6 +72,7 @@ public class AccountPreference {
             TypeReference<AccountEntity> typeRef = new TypeReference<AccountEntity>() {
             };
             accountEntity = JSON.parseObject(account.toString(), typeRef);
+            accountEntity.setUid(uid);
             accountEntity.setEmail(email);
             accountEntity.setName(name);
             accountEntity.setProvider_id(provider_id);
@@ -82,11 +83,11 @@ public class AccountPreference {
 
         //if not, then add it
         if (!accountIsAvailable) {
-            accountEntity = new AccountEntity(email, name, provider_id, provider, avatarUrl, authorization);
+            accountEntity = new AccountEntity(uid, email, name, provider_id, provider, avatarUrl, authorization);
         }
         //save again
         secureableSharedPreferences.saveData(Key.ACCOUNT, accountEntity);
-        return new AccountResponse(accountEntity.getEmail(), accountEntity.getName(), accountEntity.getProvider_id(),
+        return new AccountResponse(accountEntity.getUid(), accountEntity.getEmail(), accountEntity.getName(), accountEntity.getProvider_id(),
                 accountEntity.getProvider(), accountEntity.getAvatarUrl(), accountEntity.getAuthorization());
     }
 
@@ -99,7 +100,7 @@ public class AccountPreference {
             TypeReference<AccountEntity> typeRef = new TypeReference<AccountEntity>() {
             };
             accountEntity = JSON.parseObject(account.toString(), typeRef);
-            return new AccountResponse(accountEntity.getEmail(), accountEntity.getName(), accountEntity.getProvider_id(),
+            return new AccountResponse(accountEntity.getUid(), accountEntity.getEmail(), accountEntity.getName(), accountEntity.getProvider_id(),
                     accountEntity.getProvider(), accountEntity.getAvatarUrl(), accountEntity.getAuthorization());
         }
         return new AccountResponse();
@@ -111,8 +112,6 @@ public class AccountPreference {
 
         JSONObject account = secureableSharedPreferences.getObject(Key.ACCOUNT, JSONObject.class);
         if (account != null) {
-            TypeReference<AccountEntity> typeRef = new TypeReference<AccountEntity>() {
-            };
             secureableSharedPreferences.clearAllData();
             return true;
         }

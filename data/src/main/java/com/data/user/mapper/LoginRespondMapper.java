@@ -1,7 +1,15 @@
 package com.data.user.mapper;
 
+import com.data.balance.BalanceEntity;
+import com.data.invoice.InvoiceEntity;
 import com.data.user.repository.source.network.response.LoginResponse;
+import com.domain.base.entity.Balance;
+import com.domain.base.entity.BalanceType;
+import com.domain.base.entity.Invoice;
+import com.domain.base.entity.Receipt;
 import com.domain.user.LoginResult;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -20,7 +28,7 @@ public class LoginRespondMapper {
     }
 
     public LoginResult transform(LoginResponse response) {
-        LoginResult result = null;
+        LoginResult result = new LoginResult();
         if (response != null) {
             //TODO : need to rework on error handling
             if (response.userEntity.id != null) {
@@ -36,8 +44,7 @@ public class LoginRespondMapper {
                 result.provider = response.userEntity.provider;
                 result.providerId = response.userEntity.providerId;
                 result.authToken = response.httpResponseHeader.authorization;
-            } else {
-                result = new LoginResult();
+
             }
         }
         return result;

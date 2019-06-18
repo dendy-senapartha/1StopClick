@@ -2,7 +2,7 @@ package com.a1stopclick.dependencyinjection.components;
 
 import com.a1stopclick.dependencyinjection.PerActivity;
 import com.a1stopclick.dependencyinjection.modules.MusicListModule;
-import com.a1stopclick.homeactivity.musiclist.FragmentMusicList;
+import com.a1stopclick.home.musiclist.FragmentMusicList;
 
 import dagger.Component;
 

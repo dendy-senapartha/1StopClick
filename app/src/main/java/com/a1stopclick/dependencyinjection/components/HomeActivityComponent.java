@@ -2,7 +2,7 @@ package com.a1stopclick.dependencyinjection.components;
 
 import com.a1stopclick.dependencyinjection.PerActivity;
 import com.a1stopclick.dependencyinjection.modules.HomeActivityModule;
-import com.a1stopclick.homeactivity.HomeActivity;
+import com.a1stopclick.mainactivity.HomeActivity;
 
 import dagger.Component;
 

@@ -1,8 +1,8 @@
 package com.a1stopclick.dependencyinjection.modules;
 
 import com.a1stopclick.dependencyinjection.PerActivity;
-import com.a1stopclick.homeactivity.HomeContract;
-import com.a1stopclick.homeactivity.HomePresenter;
+import com.a1stopclick.mainactivity.HomeContract;
+import com.a1stopclick.mainactivity.HomePresenter;
 
 import dagger.Module;
 import dagger.Provides;

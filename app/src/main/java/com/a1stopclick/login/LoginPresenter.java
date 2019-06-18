@@ -4,6 +4,7 @@ import android.content.Context;
 
 import android.util.Log;
 
+import com.a1stopclick.OneStopClickApplication;
 import com.a1stopclick.R;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
@@ -67,8 +68,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             @Override
             public void onNext(LoginResult result) {
-                view.OnLoginSuccess();
-                saveAccount(result.email, result.userProfile.name, result.providerId, result.provider,
+                saveAccount(result.uid , result.email, result.userProfile.name, result.providerId, result.provider,
                         result.userProfile.imageUrl, result.authToken);
             }
 
@@ -87,12 +87,13 @@ public class LoginPresenter implements LoginContract.Presenter {
         }, Login.Params.forLogin(email, password, null, AccountOption.LOCAL));
     }
 
-    public void saveAccount(String email, String name, String provider_id, String provider
+    public void saveAccount(String uid, String email, String name, String provider_id, String provider
             , String avatarUrl, String authorization) {
         saveAccount.execute(new DefaultObserver<AccountResult>() {
             @Override
             public void onNext(AccountResult result) {
                 Log.d("saveAccount", "account save " + result.toString());
+                view.OnLoginSuccess(result);
             }
 
             @Override
@@ -101,7 +102,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 Log.d("saveAccount", "onError: " + er.toString());
 
             }
-        }, SaveAccount.Params.forSaveAccount(email, name, provider_id, provider, avatarUrl, authorization));
+        }, SaveAccount.Params.forSaveAccount(uid , email, name, provider_id, provider, avatarUrl, authorization));
     }
 
     @Override
@@ -111,7 +112,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             @Override
             public void onNext(AccountResult result) {
                 String provider = result.getProvider();
-                Log.d("checkLastUsedAccount", "get provider " + provider);
+                Log.d("checkLastUsedAccount", "get userId " + provider);
 
                 if (provider != null) {
                     switch (provider) {
@@ -120,7 +121,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                             break;
                         case AccountOption.LOCAL:
                             if (result.getAuthorization() != null) {
-                                localAccountLoginChecker(result.getAuthorization());
+                                view.OnLoginSuccess(result);
+                                //localAccountLoginChecker(result.getAuthorization());
                             }
                             break;
                         case AccountOption.FACEBOOK:
@@ -171,7 +173,6 @@ public class LoginPresenter implements LoginContract.Presenter {
     /*Do local login checking by check if authorization value is not null*/
     private void localAccountLoginChecker(String authorization) {
         if (!authorization.isEmpty()) {
-            view.OnLoginSuccess();
             //saveAccount(result.getEmail(),result.getName(),result.getProvider_id(),result.getProvider(),result.getAvatarUrl(),result.getAuthorization());
         } else {
 
@@ -195,8 +196,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                 @Override
                 public void onNext(LoginResult result) {
-                    view.OnLoginSuccess();
-                    saveAccount(result.email, result.userProfile.name, result.providerId, result.provider,
+                    saveAccount(result.uid, result.email, result.userProfile.name, result.providerId, result.provider,
                             result.userProfile.imageUrl, result.authToken);
                 }
 

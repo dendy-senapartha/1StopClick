@@ -32,9 +32,9 @@ public class PreferenceAccountEntityData implements AccountEntityData {
     }
 
     @Override
-    public Observable<AccountResponse> saveAccount(String email, String name, String provider_id, String provider, String avatarUrl, String authorization) {
+    public Observable<AccountResponse> saveAccount(String uid, String email, String name, String provider_id, String provider, String avatarUrl, String authorization) {
         return initObservable(() -> {
-            return accountPreference.saveAccount(email, name, provider_id, provider, avatarUrl, authorization);
+            return accountPreference.saveAccount(uid, email, name, provider_id, provider, avatarUrl, authorization);
         });
     }
 

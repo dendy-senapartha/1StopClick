@@ -10,7 +10,9 @@ import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.account.repository.AccountRepository;
 import com.domain.product.repository.ProductRepository;
+import com.domain.track.repository.TrackRepository;
 import com.domain.user.repository.UserRepository;
+import com.domain.video.repository.VideoRepository;
 
 import javax.inject.Singleton;
 
@@ -42,4 +44,8 @@ public interface ApplicationComponent {
     AccountRepository provideAccountRepository();
 
     ProductRepository provideProductRepository();
+
+    VideoRepository provideVideoRepository();
+
+    TrackRepository provideTrackRepository();
 }

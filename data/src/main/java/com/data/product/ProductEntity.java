@@ -39,8 +39,4 @@ public class ProductEntity {
 
     public List<ProductImageEntity> productImageList;
 
-    public List<VideoEntity> videoList;
-
-    public List<TrackEntity> trackList;
-
 }

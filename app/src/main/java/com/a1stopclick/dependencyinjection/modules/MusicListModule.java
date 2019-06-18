@@ -1,8 +1,8 @@
 package com.a1stopclick.dependencyinjection.modules;
 
 import com.a1stopclick.dependencyinjection.PerActivity;
-import com.a1stopclick.homeactivity.musiclist.MusicListContract;
-import com.a1stopclick.homeactivity.musiclist.MusicListPresenter;
+import com.a1stopclick.home.musiclist.MusicListContract;
+import com.a1stopclick.home.musiclist.MusicListPresenter;
 
 import dagger.Module;
 import dagger.Provides;

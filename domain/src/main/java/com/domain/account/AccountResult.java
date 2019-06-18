@@ -7,6 +7,7 @@ package com.domain.account;
  */
 
 public class AccountResult {
+    private String uid;
     private String email;
     private String name;
     private String provider_id;
@@ -60,5 +61,13 @@ public class AccountResult {
 
     public void setAuthorization(String authorization) {
         this.authorization = authorization;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

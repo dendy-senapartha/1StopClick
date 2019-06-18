@@ -11,7 +11,7 @@ import io.reactivex.Observable;
 public interface AccountEntityData {
     Observable<Boolean> init(String key);
 
-    Observable<AccountResponse> saveAccount(String email, String name, String provider_id, String provider, String avatarUrl, String authorization);
+    Observable<AccountResponse> saveAccount(String uid, String email, String name, String provider_id, String provider, String avatarUrl, String authorization);
 
     Observable<AccountResponse> getAccount();
 

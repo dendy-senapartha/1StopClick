@@ -6,14 +6,20 @@ import com.data.product.mapper.ProductListRespondMapper;
 import com.data.product.repository.source.ProductEntityData;
 import com.data.product.repository.source.ProductEntityDataFactory;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
+import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
 import com.domain.base.result.AlbumResult;
-import com.domain.base.result.ProductResult;
+import com.domain.product.ProductResult;
 import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.FindTrackByTitle;
+import com.domain.product.interactor.FindUserBuyedMoviesByProductTitle;
 import com.domain.product.interactor.GetAllAlbum;
 import com.domain.product.interactor.GetAllMovie;
 import com.domain.product.interactor.GetAllMusic;
+import com.domain.product.interactor.GetUserBuyedMovies;
+import com.domain.product.interactor.FindUserBuyedMoviesByProductId;
 import com.domain.product.repository.ProductRepository;
 
 import java.util.List;
@@ -89,6 +95,32 @@ public class ProductDataRepository implements ProductRepository {
     public Observable<List<ProductResult>> findTrackByTitle(FindTrackByTitle.Params params) {
         return initializedRequest(createData()
                 .findTrackByTitle(new FindProductByTitleRequest(params.authorization, params.title))
+                .map(productListRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<List<ProductResult>> getUserBuyedMovie(GetUserBuyedMovies.Params params) {
+        return initializedRequest(createData()
+                .getUserBuyedMovies(new GetUserBuyedMoviesRequest(params.authorization, params.userId))
+                .map(productListRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<List<ProductResult>> findUserBuyedMovieByProductID(FindUserBuyedMoviesByProductId.Params params) {
+        return initializedRequest(createData()
+                .findUserBuyedMovieByProductID(new FindUserBuyedMoviesByIdRequest(params.authorization, params.userId, params.productId))
+                .map(productListRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<List<ProductResult>> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitle.Params params) {
+        return initializedRequest(createData()
+                .findUserBuyedMovieByProductTitle(new FindUserBuyedMoviesByProductTitleRequest(params.authorization,
+                        params.userId,
+                        params.productTitle))
                 .map(productListRespondMapper::transform)
         );
     }

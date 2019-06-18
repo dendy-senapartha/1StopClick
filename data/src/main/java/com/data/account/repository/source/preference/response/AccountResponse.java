@@ -7,6 +7,7 @@ package com.data.account.repository.source.preference.response;
  */
 
 public class AccountResponse {
+    public String uid;
     public String email;
     public String name;
     public String provider_id;
@@ -18,8 +19,9 @@ public class AccountResponse {
 
     }
 
-    public AccountResponse(String email, String name, String provider_id,
+    public AccountResponse(String uid, String email, String name, String provider_id,
                            String provider, String avatarUrl, String authorization) {
+        this.uid = uid;
         this.email = email;
         this.name = name;
         this.provider_id = provider_id;

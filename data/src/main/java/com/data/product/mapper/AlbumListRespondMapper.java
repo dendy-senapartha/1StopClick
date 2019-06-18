@@ -1,22 +1,16 @@
 package com.data.product.mapper;
 
 import com.data.album.AlbumEntity;
-import com.data.product.ProductEntity;
 import com.data.product.repository.source.network.response.AlbumListResponse;
-import com.data.product.repository.source.network.response.ProductListResponse;
-import com.domain.base.entity.Actor;
 import com.domain.base.entity.Album;
 import com.domain.base.entity.Artist;
 import com.domain.base.entity.Category;
-import com.domain.base.entity.Director;
 import com.domain.base.entity.Product;
 import com.domain.base.entity.ProductImage;
 import com.domain.base.entity.ProductImageType;
 import com.domain.base.entity.Subcategory;
 import com.domain.base.entity.Track;
-import com.domain.base.entity.Video;
 import com.domain.base.result.AlbumResult;
-import com.domain.base.result.ProductResult;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,6 +2,9 @@ package com.data.product.repository.source.network;
 
 import com.data.product.repository.source.ProductEntityData;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
+import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
 import com.data.product.repository.source.network.response.AlbumListResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
@@ -59,6 +62,27 @@ public class NetworkProductEntityData implements ProductEntityData {
     public Observable<ProductListResponse> findTrackByTitle(FindProductByTitleRequest request) {
         return initObservable(()->{
             return productNetwork.findTrackByTitle(request);
+        });
+    }
+
+    @Override
+    public Observable<ProductListResponse> getUserBuyedMovies(GetUserBuyedMoviesRequest request) {
+        return initObservable(()->{
+            return productNetwork.getUserBuyedMovies(request);
+        });
+    }
+
+    @Override
+    public Observable<ProductListResponse> findUserBuyedMovieByProductID(FindUserBuyedMoviesByIdRequest request) {
+        return initObservable(()->{
+            return productNetwork.findUserBuyedMoviesByProductId(request);
+        });
+    }
+
+    @Override
+    public Observable<ProductListResponse> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitleRequest request) {
+        return initObservable(()->{
+            return productNetwork.findUserBuyedMoviesByProductName(request);
         });
     }
 }

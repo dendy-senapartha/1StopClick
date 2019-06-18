@@ -14,15 +14,17 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.a1stopclick.OneStopClickApplication;
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerLoginActivityComponent;
 import com.a1stopclick.dependencyinjection.components.LoginActivityComponent;
 import com.a1stopclick.dependencyinjection.modules.LoginActivityModule;
 import com.a1stopclick.forgetpassword.ForgetPasswordActivity;
-import com.a1stopclick.homeactivity.HomeActivity;
+import com.a1stopclick.mainactivity.HomeActivity;
 import com.a1stopclick.userregistration.UserRegistrationActivity;
 import com.a1stopclick.util.AndroidUtils;
+import com.domain.account.AccountResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.SignInButton;
@@ -138,7 +140,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     @Override
-    public void OnLoginSuccess() {
+    public void OnLoginSuccess(AccountResult result) {
+        ((OneStopClickApplication)getApplication()).setSession(result);
         finish();
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);

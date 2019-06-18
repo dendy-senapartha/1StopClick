@@ -24,6 +24,7 @@ public class AccountRespondMapper {
         if(response !=null)
         {
             result = new AccountResult();
+            result.setUid(response.uid);
             result.setEmail(response.email);
             result.setName(response.name);
             result.setProvider_id(response.provider_id);

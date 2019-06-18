@@ -1,7 +1,7 @@
 package com.a1stopclick.dependencyinjection.components;
 import com.a1stopclick.dependencyinjection.PerActivity;
 import com.a1stopclick.dependencyinjection.modules.MovieListModule;
-import com.a1stopclick.homeactivity.movielist.FragmentMovieList;
+import com.a1stopclick.home.movielist.FragmentMovieList;
 
 import dagger.Component;
 

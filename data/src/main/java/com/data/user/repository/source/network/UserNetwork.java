@@ -90,7 +90,7 @@ public class UserNetwork {
             user.put("email", request.email);
             user.put("email_verified", request.emailVerified);
             user.put("password", request.password);
-            user.put("provider", request.provider);
+            user.put("userId", request.provider);
             user.put("provider_id", request.providerId);
             user.put("user_profile", userProfile);
             JSONObject object = volleyHandler.postRouteDataObject(BEUrl.REGISTER_USER, new JSONObject(user));

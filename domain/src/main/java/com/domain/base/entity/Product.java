@@ -32,8 +32,4 @@ public class Product {
     public Subcategory subcategory;
 
     public List<ProductImage> productImageList;
-
-    public List<Video> videoList;
-
-    public List<Track> trackList;
 }

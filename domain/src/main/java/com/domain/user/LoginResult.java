@@ -1,5 +1,11 @@
 package com.domain.user;
 
+import com.domain.base.entity.Balance;
+import com.domain.base.entity.Invoice;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /*
  * Created by dendy-prtha on 11/03/2019.
@@ -15,20 +21,17 @@ public class LoginResult {
     public UserProfile userProfile;
     public String authToken;
 
-    public LoginResult()
-    {
+    public LoginResult() {
 
     }
 
-    public LoginResult(String uid, String username, UserProfile userProfile)
-    {
+    public LoginResult(String uid, String username, UserProfile userProfile) {
         this.uid = uid;
         this.email = username;
         this.userProfile = userProfile;
     }
 
-    public static class UserProfile
-    {
+    public static class UserProfile {
         public String id;
         public String name;
         public String dob;

@@ -1,6 +1,9 @@
 package com.data.product.repository.source;
 
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
+import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
 import com.data.product.repository.source.network.response.AlbumListResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
@@ -23,4 +26,10 @@ public interface ProductEntityData {
     Observable<ProductListResponse> findMovieByTitle(FindProductByTitleRequest request);
 
     Observable<ProductListResponse> findTrackByTitle(FindProductByTitleRequest request);
+
+    Observable<ProductListResponse> getUserBuyedMovies(GetUserBuyedMoviesRequest request);
+
+    Observable<ProductListResponse> findUserBuyedMovieByProductID(FindUserBuyedMoviesByIdRequest request);
+
+    Observable<ProductListResponse> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitleRequest request);
 }

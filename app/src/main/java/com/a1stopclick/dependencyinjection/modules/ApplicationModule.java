@@ -7,12 +7,16 @@ import com.data.JobExecutor;
 import com.a1stopclick.base.UIThread;
 import com.data.account.repository.AccountDataRepository;
 import com.data.product.repository.ProductDataRepository;
+import com.data.track.repository.TrackDataRepository;
 import com.data.user.repository.UserDataRepository;
+import com.data.video.repository.VideoDataRepository;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.account.repository.AccountRepository;
 import com.domain.product.repository.ProductRepository;
+import com.domain.track.repository.TrackRepository;
 import com.domain.user.repository.UserRepository;
+import com.domain.video.repository.VideoRepository;
 
 import javax.inject.Singleton;
 
@@ -73,5 +77,17 @@ public class ApplicationModule {
     @Singleton
     ProductRepository provideProductRepository(ProductDataRepository productDataRepository) {
         return productDataRepository;
+    }
+
+    @Provides
+    @Singleton
+    VideoRepository provideVideoRepository(VideoDataRepository videoDataRepository) {
+        return videoDataRepository;
+    }
+
+    @Provides
+    @Singleton
+    TrackRepository provideTrackRepository(TrackDataRepository trackDataRepository) {
+        return trackDataRepository;
     }
 }

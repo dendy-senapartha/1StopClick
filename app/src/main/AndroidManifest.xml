@@ -24,13 +24,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".userregistration.UserRegistrationActivity" />
-        <activity android:name=".homeactivity.HomeActivity">
+        <activity android:name=".mainactivity.HomeActivity">
 
         </activity>
         <activity android:name=".forgetpassword.ForgetPasswordActivity" />
 
-        <activity android:name=".homeactivity.musiclist.albumdetails.AlbumDetailActivity" />
-        <activity android:name=".homeactivity.movielist.moviedetails.MovieDetailActivity" />
+        <activity android:name=".home.musiclist.albumdetails.AlbumDetailActivity" />
+        <activity android:name=".moviedetails.MovieDetailActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

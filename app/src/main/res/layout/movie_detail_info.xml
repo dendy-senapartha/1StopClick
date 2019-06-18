@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by omrobbie.
   ~ Copyright (c) 2018. All rights reserved.
   ~ Last modified 9/29/17 12:30 PM.
@@ -82,13 +81,28 @@
             <TextView
                 android:id="@+id/tv_genres"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/watchMovie"
+                android:layout_height="wrap_content" />
+            <!--
+                        -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Watch Movie"/>
+                android:gravity="center_horizontal">
+
+                <ProgressBar
+                    android:id="@+id/movieStatusLoadingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnWatchMovie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Watch Movie"
+                    android:visibility="gone"
+                    />
+
+            </RelativeLayout>
         </LinearLayout>
 
     </LinearLayout>

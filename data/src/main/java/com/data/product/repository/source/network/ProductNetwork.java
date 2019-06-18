@@ -12,6 +12,9 @@ import com.data.account.HTTPResponseHeader;
 import com.data.album.AlbumEntity;
 import com.data.product.ProductEntity;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
+import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
+import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
 import com.data.product.repository.source.network.response.AlbumListResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
@@ -137,7 +140,7 @@ public class ProductNetwork {
         try {
             Map<String, String> params = new HashMap<String, String>();
             //hardocoded
-            params.put("title", request.title);
+            params.put("productTitle", request.title);
 
             Map<String, String> paramHeader = new HashMap<String, String>();
             //hardcoded
@@ -167,13 +170,117 @@ public class ProductNetwork {
         try {
             Map<String, String> params = new HashMap<String, String>();
             //hardocoded
-            params.put("title", request.title);
+            params.put("productTitle", request.title);
 
             Map<String, String> paramHeader = new HashMap<String, String>();
             //hardcoded
             paramHeader.put("authorization", request.authorization);
 
             JSONObject object = volleyHandler.postRouteDataObject(BEUrl.FIND_TRACK_BY_TITLE, new JSONObject(params), paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            List<ProductEntity> listResponse = new ArrayList<>();
+            if (object.get("result") != null) {
+                JSONArray objectResult = object.getJSONArray("result");
+                TypeReference<List<ProductEntity>> typeRef = new TypeReference<List<ProductEntity>>() {
+                };
+                listResponse = JSON.parseObject(objectResult.toString(), typeRef);
+            }
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            response.productEntityList = listResponse;
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
+            //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public ProductListResponse getUserBuyedMovies(GetUserBuyedMoviesRequest request) {
+        ProductListResponse response = new ProductListResponse();
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            //hardocoded
+            params.put("userid", request.userId);
+
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.GET_USER_BUYED_MOVIES,
+                    new JSONObject(params), paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            List<ProductEntity> listResponse = new ArrayList<>();
+            if (object.get("result") != null) {
+                JSONArray objectResult = object.getJSONArray("result");
+                TypeReference<List<ProductEntity>> typeRef = new TypeReference<List<ProductEntity>>() {
+                };
+                listResponse = JSON.parseObject(objectResult.toString(), typeRef);
+            }
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            response.productEntityList = listResponse;
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
+            //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public ProductListResponse findUserBuyedMoviesByProductId(FindUserBuyedMoviesByIdRequest request) {
+        ProductListResponse response = new ProductListResponse();
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            //hardocoded
+            params.put("userid", request.userId);
+            params.put("productId", request.productId);
+
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.GET_USER_BUYED_MOVIES_BY_PRODUCT_ID,
+                    new JSONObject(params), paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            List<ProductEntity> listResponse = new ArrayList<>();
+            if (object.get("result") != null) {
+                JSONArray objectResult = object.getJSONArray("result");
+                TypeReference<List<ProductEntity>> typeRef = new TypeReference<List<ProductEntity>>() {
+                };
+                listResponse = JSON.parseObject(objectResult.toString(), typeRef);
+            }
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            response.productEntityList = listResponse;
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
+            //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public ProductListResponse findUserBuyedMoviesByProductName(FindUserBuyedMoviesByProductTitleRequest request) {
+        ProductListResponse response = new ProductListResponse();
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            //hardocoded
+            params.put("userid", request.userId);
+            params.put("productName", request.productTitle);
+
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.GET_USER_BUYED_MOVIES_BY_PRODUCT_NAME,
+                    new JSONObject(params), paramHeader);
             JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
             List<ProductEntity> listResponse = new ArrayList<>();
             if (object.get("result") != null) {

@@ -1,8 +1,8 @@
 package com.a1stopclick.dependencyinjection.modules;
 
 import com.a1stopclick.dependencyinjection.PerActivity;
-import com.a1stopclick.homeactivity.movielist.MovieListContract;
-import com.a1stopclick.homeactivity.movielist.MovieListPresenter;
+import com.a1stopclick.home.movielist.MovieListContract;
+import com.a1stopclick.home.movielist.MovieListPresenter;
 
 import dagger.Module;
 import dagger.Provides;

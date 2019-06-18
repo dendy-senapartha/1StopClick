@@ -5,28 +5,25 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homeactivity.HomeActivity"
+    tools:context=".mainactivity.HomeActivity"
     tools:openDrawer="end">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <fragment
-            android:id="@+id/nav_host_fragment"
+            android:id="@+id/nav_host_main_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_view"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            app:menu="@menu/home_menu" />
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_drawer" />
 
     </LinearLayout>
 
@@ -37,7 +34,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
+        app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_menu" />
 
     <!-- Progress bar overlay; shown while getMovieList is in progress-->

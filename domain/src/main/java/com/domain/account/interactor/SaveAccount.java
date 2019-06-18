@@ -31,6 +31,7 @@ public class SaveAccount extends UseCase<AccountResult, SaveAccount.Params> {
     }
 
     public static class Params {
+        public String uid;
         public String email;
         public String name;
         public String provider_id;
@@ -38,8 +39,9 @@ public class SaveAccount extends UseCase<AccountResult, SaveAccount.Params> {
         public String avatarUrl;
         public String authorization;
 
-        private Params(String email, String name, String provider_id, String provider
+        private Params(String uid, String email, String name, String provider_id, String provider
                 , String avatarUrl, String authorization) {
+            this.uid = uid;
             this.email = email;
             this.name = name;
             this.provider_id = provider_id;
@@ -48,9 +50,9 @@ public class SaveAccount extends UseCase<AccountResult, SaveAccount.Params> {
             this.authorization = authorization;
         }
 
-        public static Params forSaveAccount(String email, String name, String provider_id, String provider
+        public static Params forSaveAccount(String uid, String email, String name, String provider_id, String provider
                 , String avatarUrl, String authorization) {
-            return new Params(email, name, provider_id, provider, avatarUrl, authorization);
+            return new Params(uid, email, name, provider_id, provider, avatarUrl, authorization);
         }
     }
 }

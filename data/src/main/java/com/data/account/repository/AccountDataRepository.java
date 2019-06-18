@@ -38,7 +38,7 @@ public class AccountDataRepository implements AccountRepository {
     @Override
     public Observable<AccountResult> saveAccount(SaveAccount.Params params) {
         return initializedRequest(accountEntityDataFactory.createData(Source.LOCAL)
-                .saveAccount(params.email, params.name, params.provider_id, params.provider, params.avatarUrl, params.authorization)
+                .saveAccount(params.uid, params.email, params.name, params.provider_id, params.provider, params.avatarUrl, params.authorization)
                 .map(mapper::transform));
     }
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/movie_list_dest">
+
+    <fragment
+        android:id="@+id/movie_list_dest"
+        android:name="com.a1stopclick.home.movielist.FragmentMovieList"
+        android:label="Movie"
+        tools:layout="@layout/fragment_movies_list">
+        <action
+            android:id="@+id/action_movie_list_dest_to_ebook_list_dest"
+            app:destination="@id/ebook_list_dest"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/music_list_dest"
+        android:name="com.a1stopclick.home.musiclist.FragmentMusicList"
+        android:label="Music"
+        tools:layout="@layout/fragment_music_list">
+    </fragment>
+
+    <fragment
+        android:id="@+id/ebook_list_dest"
+        android:name="com.a1stopclick.home.FragmentEbookList"
+        android:label="Movie"
+        tools:layout="@layout/fragment_movies_list">
+    </fragment>
+
+</navigation>

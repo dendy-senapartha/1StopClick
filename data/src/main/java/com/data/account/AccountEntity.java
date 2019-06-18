@@ -7,6 +7,7 @@ package com.data.account;
  */
 
 public class AccountEntity {
+    private String uid;
     private String email;
     private String name;
     private String provider_id;
@@ -17,7 +18,8 @@ public class AccountEntity {
     public AccountEntity() {
     }
 
-    public AccountEntity(String email, String name, String provider_id, String provider, String avatarUrl, String authorization) {
+    public AccountEntity(String uid, String email, String name, String provider_id, String provider, String avatarUrl, String authorization) {
+        this.uid = uid;
         this.email = email;
         this.name = name;
         this.provider_id = provider_id;
@@ -72,5 +74,13 @@ public class AccountEntity {
 
     public void setAuthorization(String authorization) {
         this.authorization = authorization;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

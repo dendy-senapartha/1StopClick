@@ -7,6 +7,7 @@ package com.a1stopclick.login;
  */
 
 import com.a1stopclick.base.BaseContract;
+import com.domain.account.AccountResult;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.Task;
@@ -14,7 +15,7 @@ import com.google.android.gms.tasks.Task;
 public interface LoginContract {
 
     interface View extends BaseContract.BaseViewContract{
-        void OnLoginSuccess();
+        void OnLoginSuccess(AccountResult result);
         void OnLoginFailed(String message);
     }
 

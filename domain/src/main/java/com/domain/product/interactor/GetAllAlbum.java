@@ -4,7 +4,6 @@ import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.UseCase;
 import com.domain.base.result.AlbumResult;
-import com.domain.base.result.ProductResult;
 import com.domain.product.repository.ProductRepository;
 
 import java.util.List;

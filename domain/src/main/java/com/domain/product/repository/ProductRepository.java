@@ -1,12 +1,15 @@
 package com.domain.product.repository;
 
 import com.domain.base.result.AlbumResult;
-import com.domain.base.result.ProductResult;
+import com.domain.product.ProductResult;
 import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.FindTrackByTitle;
+import com.domain.product.interactor.FindUserBuyedMoviesByProductTitle;
 import com.domain.product.interactor.GetAllAlbum;
 import com.domain.product.interactor.GetAllMovie;
 import com.domain.product.interactor.GetAllMusic;
+import com.domain.product.interactor.GetUserBuyedMovies;
+import com.domain.product.interactor.FindUserBuyedMoviesByProductId;
 
 import java.util.List;
 
@@ -28,4 +31,10 @@ public interface ProductRepository {
     Observable<List<ProductResult>> findMovieByTitle(FindMovieByTitle.Params params);
 
     Observable<List<ProductResult>> findTrackByTitle(FindTrackByTitle.Params params);
+
+    Observable<List<ProductResult>> getUserBuyedMovie(GetUserBuyedMovies.Params params);
+
+    Observable<List<ProductResult>> findUserBuyedMovieByProductID(FindUserBuyedMoviesByProductId.Params params);
+
+    Observable<List<ProductResult>> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitle.Params params);
 }
