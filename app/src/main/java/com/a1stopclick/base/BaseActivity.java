@@ -4,6 +4,7 @@ import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 
 import com.a1stopclick.OneStopClickApplication;
+import com.a1stopclick.base.fragmentback.BackFragmentAppCompatActivity;
 import com.a1stopclick.dependencyinjection.components.ApplicationComponent;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.internal.Preconditions;
@@ -22,7 +25,7 @@ import io.reactivex.disposables.Disposable;
  * as base Activity. all activity must extend this class!
  */
 
-public abstract class BaseActivity extends AppCompatActivity
+public abstract class BaseActivity extends BackFragmentAppCompatActivity
         implements PresenterHandler, DisposableHandler {
 
     private Unbinder unbinder;
@@ -110,6 +113,20 @@ public abstract class BaseActivity extends AppCompatActivity
             for (BaseContract.BasePresenterContract presenterContract : presenterContractList) {
                 presenterContract.onDestroy();
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // check if on showing fragments will handle back button
+        if (!onBackPressedWithResult()) {
+            // if fragments no longer care about back, handle it here
+
+            // fall back to default back behaviour
+            super.onBackPressed();
+
+        } else {
+            // back was handled by some fragment
         }
     }
 }

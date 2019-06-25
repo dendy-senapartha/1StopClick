@@ -5,6 +5,7 @@ import com.data.productimage.ProductImageEntity;
 import com.data.subcategory.SubcategoryEntity;
 import com.data.track.TrackEntity;
 import com.data.video.VideoEntity;
+import com.domain.base.entity.Track;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -39,4 +40,5 @@ public class ProductEntity {
 
     public List<ProductImageEntity> productImageList;
 
+    public List<TrackEntity> trackList;
 }

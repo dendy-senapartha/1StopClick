@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseFragment;
 import com.a1stopclick.base.ScrollChildSwipe;
+import com.a1stopclick.base.fragmentback.BackFragment;
 import com.a1stopclick.dependencyinjection.components.DaggerMovieLibraryComponent;
 import com.a1stopclick.dependencyinjection.components.MovieLibraryComponent;
 import com.a1stopclick.dependencyinjection.modules.MovieLibraryModule;
@@ -33,7 +35,7 @@ import butterknife.BindView;
  * Movie Library activity
  */
 
-public class FragmentMovieLibrary extends BaseFragment implements MovieLibraryContract.View {
+public class FragmentMovieLibrary extends BaseFragment implements BackFragment, MovieLibraryContract.View {
 
     private MovieLibraryComponent component;
 
@@ -58,6 +60,8 @@ public class FragmentMovieLibrary extends BaseFragment implements MovieLibraryCo
     public static final int QUERY_SUBMITTED = 1;
 
     private String searchMoviedQuery;
+
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public int getLayout() {
@@ -95,6 +99,32 @@ public class FragmentMovieLibrary extends BaseFragment implements MovieLibraryCo
         }
         // Make sure setRefreshing() is called after the layout is done with everything else.
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(active));
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        // return true if you want to consume back-pressed event
+        if (doubleBackToExitPressedOnce) {
+            requireActivity().finishAffinity();
+            System.exit(0);
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(requireActivity(), "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+        return true;
+    }
+
+    public int getBackPriority() {
+        // use apropriate priority here
+        return NORMAL_BACK_PRIORITY;
     }
 
     static class SearchMovieQueryHandler extends Handler {

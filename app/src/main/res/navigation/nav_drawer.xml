@@ -19,4 +19,11 @@
         tools:layout="@layout/fragment_movies_list">
     </fragment>
 
+    <fragment
+        android:id="@+id/my_music_library"
+        android:name="com.a1stopclick.mylibrary.music.FragmentMusicLibrary"
+        android:label="My Music"
+        tools:layout="@layout/fragment_music_list">
+    </fragment>
+
 </navigation>

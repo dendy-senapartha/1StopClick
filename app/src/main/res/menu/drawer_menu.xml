@@ -10,6 +10,12 @@
         android:id="@+id/my_movie_library"
         android:title="My Movies"
         />
+
+    <item
+        android:id="@+id/my_music_library"
+        android:title="My Music"
+        />
+
     <item
         android:id="@+id/logout"
         android:title="Log out"

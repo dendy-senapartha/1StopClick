@@ -1,8 +1,8 @@
 package com.a1stopclick.dependencyinjection.modules;
 
 import com.a1stopclick.dependencyinjection.PerActivity;
-import com.a1stopclick.home.musiclist.albumdetails.AlbumDetailContract;
-import com.a1stopclick.home.musiclist.albumdetails.AlbumDetailPresenter;
+import com.a1stopclick.albumdetails.AlbumDetailContract;
+import com.a1stopclick.albumdetails.AlbumDetailPresenter;
 
 import dagger.Module;
 import dagger.Provides;

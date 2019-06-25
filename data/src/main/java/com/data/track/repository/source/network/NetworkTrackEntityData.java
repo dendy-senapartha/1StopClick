@@ -2,6 +2,10 @@ package com.data.track.repository.source.network;
 
 import com.data.track.repository.source.TrackEntityData;
 import com.data.track.repository.source.network.request.FindTrackByProductIdRequest;
+import com.data.track.repository.source.network.request.FindUserBuyedSongsByAlbumIdRequest;
+import com.data.track.repository.source.network.request.GetAlbumSongRequest;
+import com.data.track.repository.source.network.response.FindUserBuyedSongsByAlbumIdResponse;
+import com.data.track.repository.source.network.response.GetAlbumSongsResponse;
 import com.data.track.repository.source.network.response.TrackListResponse;
 
 import java.util.concurrent.Callable;
@@ -10,7 +14,7 @@ import io.reactivex.Observable;
 
 /*
  * Created by dendy-prtha on 11/06/2019.
- * Netwrok track entity data
+ * Songs entity data
  */
 
 public class NetworkTrackEntityData implements TrackEntityData {
@@ -28,7 +32,21 @@ public class NetworkTrackEntityData implements TrackEntityData {
     @Override
     public Observable<TrackListResponse> findTrackByProductId(FindTrackByProductIdRequest request) {
         return initObservable(()->{
-            return trackNetwork.FindTrackByProductId(request);
+            return trackNetwork.findTrackByProductId(request);
+        });
+    }
+
+    @Override
+    public Observable<GetAlbumSongsResponse> getAlbumSongs(GetAlbumSongRequest request) {
+        return initObservable(()->{
+            return trackNetwork.getalbumSongs(request);
+        });
+    }
+
+    @Override
+    public Observable<FindUserBuyedSongsByAlbumIdResponse> findUserBuyedSongsByAlbumId(FindUserBuyedSongsByAlbumIdRequest request) {
+        return initObservable(()->{
+            return trackNetwork.findUserBuyedSongsByAlbumId(request);
         });
     }
 }

@@ -2,6 +2,7 @@ package com.data.product.mapper;
 
 import com.data.product.ProductEntity;
 import com.data.product.repository.source.network.response.ProductListResponse;
+import com.data.productimage.ProductImageEntity;
 import com.domain.base.entity.Category;
 import com.domain.base.entity.Product;
 import com.domain.base.entity.ProductImage;
@@ -43,42 +44,45 @@ public class ProductListRespondMapper {
                 movieListResult.product.status = productEntity.status;
                 movieListResult.product.created = productEntity.created;
 
-                //product image
-                movieListResult.product.productImageList = new ArrayList<>();
-                for (int imageCount = 0; imageCount < productEntity.productImageList.size(); imageCount++) {
-                    ProductImage productImage = new ProductImage();
-                    productImage.id = productEntity.productImageList.get(imageCount).id;
-                    productImage.imageUrl = productEntity.productImageList.get(imageCount).imageUrl;
-                    productImage.productImageType = new ProductImageType();
-                    if (productEntity.productImageList.get(imageCount).productImageType != null) {
-                        productImage.productImageType.id = productEntity.productImageList.get(imageCount).productImageType.id;
-                        productImage.productImageType.code = productEntity.productImageList.get(imageCount).productImageType.code;
-                        productImage.productImageType.name = productEntity.productImageList.get(imageCount).productImageType.name;
+                if (productEntity.productImageList != null) {
+                    //product image
+                    movieListResult.product.productImageList = new ArrayList<>();
+                    for (ProductImageEntity productImageEntity : productEntity.productImageList) {
+                        ProductImage productImage = new ProductImage();
+                        productImage.id = productImageEntity.id;
+                        productImage.imageUrl = productImageEntity.imageUrl;
+                        productImage.productImageType = new ProductImageType();
+                        if (productImageEntity.productImageType != null) {
+                            productImage.productImageType.id = productImageEntity.productImageType.id;
+                            productImage.productImageType.code = productImageEntity.productImageType.code;
+                            productImage.productImageType.name = productImageEntity.productImageType.name;
+                        }
+                        productImage.product = new Product();
+                        movieListResult.product.productImageList.add(productImage);
                     }
-                    productImage.product = new Product();
-
-                    movieListResult.product.productImageList.add(productImage);
                 }
 
-                movieListResult.product.category = new Category();
-                movieListResult.product.category.id = productEntity.category.id;
-                movieListResult.product.category.name = productEntity.category.name;
-                movieListResult.product.category.isActive = productEntity.category.isActive;
-                movieListResult.product.category.created = productEntity.category.created;
-                movieListResult.product.category.target = productEntity.category.target;
-                movieListResult.product.category.priority = productEntity.category.priority;
+                if (productEntity.category != null) {
+                    movieListResult.product.category = new Category();
+                    movieListResult.product.category.id = productEntity.category.id;
+                    movieListResult.product.category.name = productEntity.category.name;
+                    movieListResult.product.category.isActive = productEntity.category.isActive;
+                    movieListResult.product.category.created = productEntity.category.created;
+                    movieListResult.product.category.target = productEntity.category.target;
+                    movieListResult.product.category.priority = productEntity.category.priority;
+                }
 
-                movieListResult.product.subcategory = new Subcategory();
-                movieListResult.product.subcategory.id = productEntity.subcategory.id;
-                movieListResult.product.subcategory.name = productEntity.subcategory.name;
-                movieListResult.product.subcategory.created = productEntity.subcategory.created;
-                movieListResult.product.subcategory.isActive = productEntity.subcategory.isActive;
-                movieListResult.product.subcategory.target = productEntity.subcategory.target;
-                movieListResult.product.subcategory.priority = productEntity.subcategory.priority;
-
+                if (productEntity.subcategory != null) {
+                    movieListResult.product.subcategory = new Subcategory();
+                    movieListResult.product.subcategory.id = productEntity.subcategory.id;
+                    movieListResult.product.subcategory.name = productEntity.subcategory.name;
+                    movieListResult.product.subcategory.created = productEntity.subcategory.created;
+                    movieListResult.product.subcategory.isActive = productEntity.subcategory.isActive;
+                    movieListResult.product.subcategory.target = productEntity.subcategory.target;
+                    movieListResult.product.subcategory.priority = productEntity.subcategory.priority;
+                }
                 result.add(movieListResult);
             }
-            //result = response.productEntityList;
         }
         return result;
     }

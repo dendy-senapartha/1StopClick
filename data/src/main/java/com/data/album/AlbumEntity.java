@@ -7,7 +7,7 @@ import java.util.List;
 
 /*
  * Created by dendy-prtha on 17/05/2019.
- * actor
+ * Album Entity
  */
 
 public class AlbumEntity {
@@ -17,8 +17,6 @@ public class AlbumEntity {
     public String name;
 
     public Date releaseDate;
-
-    public List<TrackEntity> tracks;
 
     public String albumImageUrl;
 }

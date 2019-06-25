@@ -1,4 +1,4 @@
-package com.a1stopclick.home.musiclist.albumdetails;
+package com.a1stopclick.albumdetails;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a1stopclick.R;
 import com.domain.base.entity.Track;
+import com.domain.base.result.AlbumResult;
+import com.domain.track.SongResult;
 
 import java.util.List;
 
@@ -19,27 +21,26 @@ import java.util.List;
 
 public class TrackListRecyclerViewAdapter extends RecyclerView.Adapter<TrackItemViewHolder> {
 
-    List<Track> items;
+    List<SongResult> items;
     Context context;
+    AlbumResult albumDetails;
 
-    public TrackListRecyclerViewAdapter(List<Track> items, Context context) {
+    public TrackListRecyclerViewAdapter(Context context, List<SongResult> items,  AlbumResult albumDetails) {
         this.items = items;
         this.context = context;
-    }
-
-    public TrackListRecyclerViewAdapter(List<Track> items) {
-        this.items = items;
+        this.albumDetails = albumDetails;
     }
 
     @Override
     public TrackItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_track_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_track_item, parent, false);
         return new TrackItemViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(TrackItemViewHolder holder, int position) {
-        holder.bind(items.get(position));
+        holder.bind(items.get(position), albumDetails);
 
     }
 

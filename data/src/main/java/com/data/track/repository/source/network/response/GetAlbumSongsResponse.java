@@ -1,23 +1,23 @@
-package com.data.product.repository.source.network.response;
+package com.data.track.repository.source.network.response;
 
 import com.data.account.HTTPResponseHeader;
-import com.data.album.AlbumEntity;
 import com.data.product.ProductEntity;
+import com.data.track.TrackEntity;
 
 import java.util.List;
 
 /*
  * Created by dendy-prtha on 18/04/2019.
- * Movie list response container
+ * Track list response container
  */
 
-public class AlbumListResponse {
+public class GetAlbumSongsResponse {
 
-    public List<AlbumEntity> albumEntityList;
+    public List<ProductEntity> albumSongList;
     public HTTPResponseHeader httpResponseHeader;
     public String exception;
 
-    public AlbumListResponse() {
+    public GetAlbumSongsResponse() {
         // Default constructor
     }
 }

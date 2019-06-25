@@ -1,4 +1,4 @@
-package com.a1stopclick.home.musiclist.albumdetails;
+package com.a1stopclick.albumdetails;
 
 
 import android.content.Context;
@@ -10,7 +10,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a1stopclick.R;
+import com.domain.base.entity.ProductImage;
 import com.domain.base.entity.Track;
+import com.domain.base.result.AlbumResult;
+import com.domain.track.SongResult;
 import com.google.android.material.button.MaterialButton;
 import com.vlcplayer.activities.MediaPlayerActivity;
 
@@ -22,8 +25,8 @@ public class TrackItemViewHolder extends RecyclerView.ViewHolder {
 
     public TrackItemViewHolder(View itemView, Context context) {
         super(itemView);
-        trackTitle = (TextView) itemView.findViewById(R.id.trackTitle);
-        button = (MaterialButton) itemView.findViewById(R.id.buyTrack);
+        trackTitle = itemView.findViewById(R.id.trackTitle);
+        button = itemView.findViewById(R.id.buyTrack);
         this.context = context;
     }
 
@@ -31,20 +34,22 @@ public class TrackItemViewHolder extends RecyclerView.ViewHolder {
         trackTitle.setText(text);
     }
 
-    public void bind(Track item) {
-        setTrackTitle(item.product.productName);
+    public void bind(SongResult item, AlbumResult albumDetails) {
+        setTrackTitle(item.song.productName);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 String imageUrl = null;
-                for (int i = 0; i < item.product.productImageList.size(); i++) {
-                    String imageType = item.product.productImageList.get(i).productImageType.code;
-                    if (imageType.equalsIgnoreCase("MovieArt")) {
-                        imageUrl = item.product.productImageList.get(i).imageUrl;
+                imageUrl = albumDetails.album.albumImageUrl;
+
+                for (Track track : item.song.trackList) {
+                    String trackType = track.trackType.code;
+                    if (trackType.equalsIgnoreCase("music")) {
+                        startAudioPlayerActivity(item.song.productName,
+                                Uri.parse(track.streamUrl), Uri.parse(imageUrl));
                     }
                 }
-                startAudioPlayerActivity(item.product.productName, Uri.parse(item.streamUrl), Uri.parse(imageUrl));
             }
         });
     }

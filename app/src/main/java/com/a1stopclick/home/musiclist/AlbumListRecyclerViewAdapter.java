@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.a1stopclick.OneStopClickApplication;
 import com.a1stopclick.R;
+import com.a1stopclick.mylibrary.music.FragmentMusicLibrary;
 import com.domain.base.result.AlbumResult;
 
 import java.util.List;
@@ -27,10 +29,6 @@ public class AlbumListRecyclerViewAdapter extends RecyclerView.Adapter<AlbumItem
         this.parentFragment = fragment;
     }
 
-    public AlbumListRecyclerViewAdapter(List<AlbumResult> items) {
-        this.items = items;
-    }
-
     @Override
     public AlbumItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_album_item, parent, false);
@@ -39,10 +37,19 @@ public class AlbumListRecyclerViewAdapter extends RecyclerView.Adapter<AlbumItem
 
     @Override
     public void onBindViewHolder(AlbumItemViewHolder holder, int position) {
-        holder.bind(items.get(position));
         if (parentFragment != null) {
+            if(parentFragment instanceof FragmentMusicLibrary)
+            {
+                FragmentMusicLibrary musicLibrary = (FragmentMusicLibrary) parentFragment;
+                String userId = ((OneStopClickApplication) musicLibrary.getActivity().getApplication()).getSession().getUid();
+                holder.bind(items.get(position), userId);
+            }
+            else
+            {
+                holder.bind(items.get(position));
+            }
             holder.setMusicPoster(items.get(position).album.albumImageUrl, parentFragment);
-            holder.setItemMovieTitle(items.get(position).album.name);
+            holder.setAlbumItemTitle(items.get(position).album.name);
         }
     }
 

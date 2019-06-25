@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a1stopclick.R;
-import com.a1stopclick.home.musiclist.albumdetails.AlbumDetailActivity;
+import com.a1stopclick.albumdetails.AlbumDetailActivity;
 import com.a1stopclick.util.AndroidUtils;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -28,7 +28,7 @@ public class AlbumItemViewHolder extends RecyclerView.ViewHolder {
         albumPoster = (ImageView) itemView.findViewById(R.id.itemAlbumPoster);
     }
 
-    public void setItemMovieTitle(String text) {
+    public void setAlbumItemTitle(String text) {
          itemMovieTitle.setText(text);
     }
 
@@ -41,14 +41,27 @@ public class AlbumItemViewHolder extends RecyclerView.ViewHolder {
         Glide.with(parentFragment).load(uri).placeholder(R.drawable.placeholder_detail_product).into(albumPoster);
     }
 
-    public void bind(AlbumResult item) {
-        setItemMovieTitle(item.album.name);
-        setItemAlbumYear(AndroidUtils.getYear(item.album.releaseDate.toString()));
+    public void bind(AlbumResult albumItem) {
+        setAlbumItemTitle(albumItem.album.name);
+        setItemAlbumYear(AndroidUtils.getYear(albumItem.album.releaseDate.toString()));
         //holder.setItemMovieRating(items.get(position).subcategory.name);
 
         itemView.setOnClickListener(onClick -> {
                     Intent intent = new Intent(itemView.getContext(), AlbumDetailActivity.class);
-                    intent.putExtra(AlbumDetailActivity.ALBUM_ITEM, JSON.toJSONString(item));
+                    intent.putExtra(AlbumDetailActivity.ALBUM_ITEM, JSON.toJSONString(albumItem));
+                    itemView.getContext().startActivity(intent);
+                }
+        );
+    }
+
+    public void bind(AlbumResult albumItem, String userId) {
+        setAlbumItemTitle(albumItem.album.name);
+        setItemAlbumYear(AndroidUtils.getYear(albumItem.album.releaseDate.toString()));
+
+        itemView.setOnClickListener(onClick -> {
+                    Intent intent = new Intent(itemView.getContext(), AlbumDetailActivity.class);
+                    intent.putExtra(AlbumDetailActivity.ALBUM_ITEM, JSON.toJSONString(albumItem));
+                    intent.putExtra(AlbumDetailActivity.USER_ID_FROM_CALLER, userId);
 
                     itemView.getContext().startActivity(intent);
                 }

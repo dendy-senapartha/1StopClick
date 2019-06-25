@@ -46,8 +46,9 @@ public class TrackRespondMapper {
 
                 trackResult.track.streamUrl = trackEntity.streamUrl;
                 trackResult.track.length = trackEntity.length;
-                trackResult.track.trackType = new Track.TrackType();
+
                 if (trackEntity.trackType != null) {
+                    trackResult.track.trackType = new Track.TrackType();
                     trackResult.track.trackType.id = trackEntity.trackType.id;
                     trackResult.track.trackType.code = trackEntity.trackType.code;
                     trackResult.track.trackType.name = trackEntity.trackType.name;

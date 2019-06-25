@@ -51,24 +51,32 @@ public class VideoRespondMapper {
                     videoResult.video.videoType.name = videoEntity.videoType.name;
                 }
 
-                videoResult.video.actors = new ArrayList<>();
-                for (ActorEntity actorEntity : videoEntity.actors) {
-                    Actor actor = new Actor();
-                    actor.id = actorEntity.id;
-                    actor.firstName = actorEntity.firstName;
-                    actor.lastName = actorEntity.lastName;
-                    videoResult.video.actors.add(actor);
+                if (videoEntity.actors != null) {
+                    videoResult.video.actors = new ArrayList<>();
+                    for (ActorEntity actorEntity : videoEntity.actors) {
+                        Actor actor = new Actor();
+                        actor.id = actorEntity.id;
+                        actor.firstName = actorEntity.firstName;
+                        actor.lastName = actorEntity.lastName;
+                        videoResult.video.actors.add(actor);
+                    }
                 }
 
-                videoResult.video.directors = new ArrayList<>();
-                for (DirectorEntity directorEntity: videoEntity.directors) {
-                    Director director = new Director();
-                    director.id = directorEntity.id;
-                    director.firstName = directorEntity.firstName;
-                    director.lastName = directorEntity.lastName;
-                    videoResult.video.directors.add(director);
+                if (videoEntity.directors != null) {
+                    videoResult.video.directors = new ArrayList<>();
+                    for (DirectorEntity directorEntity: videoEntity.directors) {
+                        Director director = new Director();
+                        director.id = directorEntity.id;
+                        director.firstName = directorEntity.firstName;
+                        director.lastName = directorEntity.lastName;
+                        videoResult.video.directors.add(director);
+                    }
                 }
-                videoResult.video.product = new Product();
+
+                if (videoEntity.product != null) {
+                    videoResult.video.product = new Product();
+                }
+
                 result.add(videoResult);
             }
         }

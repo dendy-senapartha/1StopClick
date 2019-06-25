@@ -9,6 +9,7 @@ import com.a1stopclick.dependencyinjection.modules.ApplicationModule;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.account.repository.AccountRepository;
+import com.domain.album.repository.AlbumRepository;
 import com.domain.product.repository.ProductRepository;
 import com.domain.track.repository.TrackRepository;
 import com.domain.user.repository.UserRepository;
@@ -48,4 +49,6 @@ public interface ApplicationComponent {
     VideoRepository provideVideoRepository();
 
     TrackRepository provideTrackRepository();
+
+    AlbumRepository provideAlbumRepository();
 }

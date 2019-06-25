@@ -6,6 +6,7 @@ import android.content.Context;
 import com.data.JobExecutor;
 import com.a1stopclick.base.UIThread;
 import com.data.account.repository.AccountDataRepository;
+import com.data.album.repository.AlbumDataRepository;
 import com.data.product.repository.ProductDataRepository;
 import com.data.track.repository.TrackDataRepository;
 import com.data.user.repository.UserDataRepository;
@@ -13,6 +14,7 @@ import com.data.video.repository.VideoDataRepository;
 import com.domain.PostExecutionThread;
 import com.domain.ThreadExecutor;
 import com.domain.account.repository.AccountRepository;
+import com.domain.album.repository.AlbumRepository;
 import com.domain.product.repository.ProductRepository;
 import com.domain.track.repository.TrackRepository;
 import com.domain.user.repository.UserRepository;
@@ -89,5 +91,11 @@ public class ApplicationModule {
     @Singleton
     TrackRepository provideTrackRepository(TrackDataRepository trackDataRepository) {
         return trackDataRepository;
+    }
+
+    @Provides
+    @Singleton
+    AlbumRepository provideAlbumRepository(AlbumDataRepository albumDataRepository) {
+        return albumDataRepository;
     }
 }

@@ -22,4 +22,7 @@ public interface BEUrl {
     public static final String GET_USER_BUYED_MOVIES = PREFIX_URL + "movies/get-movies-of-user";
     public static final String GET_USER_BUYED_MOVIES_BY_PRODUCT_ID= PREFIX_URL + "movies/find-movies-of-user-byid";
     public static final String GET_USER_BUYED_MOVIES_BY_PRODUCT_NAME= PREFIX_URL + "movies/find-movies-of-user-product-name";
+    public static final String GET_USER_BUYED_ALBUM = PREFIX_URL + "musics/get-musics-of-user";
+    public static final String GET_ALBUM_SONGS = PREFIX_URL + "track/get-album-songs";
+    public static final String FIND_USER_BUYED_SONGS_BY_ALBUMID = PREFIX_URL + "track/find-userbuyed-songs-by-albumid";
 }

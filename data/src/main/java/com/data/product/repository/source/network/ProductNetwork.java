@@ -9,14 +9,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.data.BEUrl;
 import com.data.Serializer;
 import com.data.account.HTTPResponseHeader;
-import com.data.album.AlbumEntity;
 import com.data.product.ProductEntity;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
 import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
-import com.data.product.repository.source.network.response.AlbumListResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
 import com.data.volley.VolleyHandler;
 
@@ -97,33 +95,6 @@ public class ProductNetwork {
             List<ProductEntity> listResponse = JSON.parseObject(objectResult.toString(), typeRef);
             HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
             response.productEntityList = listResponse;
-            response.httpResponseHeader = httpResponseHeader;
-            response.exception = null;
-            //Log.d(TAG, "Json object : " + object);
-        } catch (InterruptedException | ExecutionException | JSONException e) {
-            Log.e("routes", e.getMessage());
-            e.printStackTrace();
-            response.exception = e.getMessage();
-        }
-        return response;
-    }
-
-    public AlbumListResponse getAlbumList(ProductListRequest request) {
-        AlbumListResponse response = new AlbumListResponse();
-        try {
-            Map<String, String> params = new HashMap<String, String>();
-
-            Map<String, String> paramHeader = new HashMap<String, String>();
-            //hardcoded
-            paramHeader.put("authorization", request.authorization);
-            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.GET_ALBUM_LIST, new JSONObject(params), paramHeader);
-            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
-            JSONArray objectResult = object.getJSONArray("result");
-            TypeReference<List<AlbumEntity>> typeRef = new TypeReference<List<AlbumEntity>>() {
-            };
-            List<AlbumEntity> listResponse = JSON.parseObject(objectResult.toString(), typeRef);
-            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
-            response.albumEntityList = listResponse;
             response.httpResponseHeader = httpResponseHeader;
             response.exception = null;
             //Log.d(TAG, "Json object : " + object);

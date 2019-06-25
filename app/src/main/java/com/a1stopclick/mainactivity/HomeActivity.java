@@ -55,9 +55,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Inject
     HomeContract.Presenter presenter;
 
-    public static final int INDEX_MOVIE_LIST = 0;
-    public static final int INDEX_EBOOK_LIST = INDEX_MOVIE_LIST + 1;
-
     @Override
     public int getLayout() {
         return R.layout.activity_home_layout;
@@ -66,7 +63,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void init() {
         initComponent();
-        setupBottomNavigationView();
+        setupDrawerNavigationView();
         configureVlcPlayer();
         configureToolbar();
 
@@ -100,42 +97,55 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 .withSubtitleEncoding("KOI8-R").build()));
     }
 
-    private void setupBottomNavigationView() {
+    private void setupDrawerNavigationView() {
         NavHostFragment hostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_main_fragment);
         NavigationUI.setupWithNavController(navigationView, hostFragment.getNavController());
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState)
-    {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open_drawer, R.string.navigation_close_drawer){
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open_drawer, R.string.navigation_close_drawer) {
             @Override
-            public void onDrawerClosed(View view)
-            {
+            public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
             }
 
             @Override
-            public void onDrawerOpened(View drawerView)
-            {
+            public void onDrawerOpened(View drawerView) {
                 supportInvalidateOptionsMenu();
             }
         };
         drawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        /*
+        navigationView.setNavigationItemSelectedListener(
+                item -> {
+                    switch (item.getItemId()) {
+                        case R.id.logout:
+                            presenter.logOut();
+                            break;
+                        default:
+                            break;
+                    }
+                    //close the navigation drawer when an item is selected
+                    item.setChecked(true);
+                    drawerLayout.closeDrawers();
+                    return true;
+                }
+        );*/
     }
 
     @Override

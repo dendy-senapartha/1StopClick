@@ -1,12 +1,18 @@
 package com.data.track.repository;
 
 import com.data.Source;
+import com.data.track.mapper.AlbumSongsRespondMapper;
 import com.data.track.mapper.TrackRespondMapper;
 import com.data.track.repository.source.TrackEntityData;
 import com.data.track.repository.source.TrackEntityDataFactory;
 import com.data.track.repository.source.network.request.FindTrackByProductIdRequest;
+import com.data.track.repository.source.network.request.FindUserBuyedSongsByAlbumIdRequest;
+import com.data.track.repository.source.network.request.GetAlbumSongRequest;
+import com.domain.track.SongResult;
 import com.domain.track.TrackResult;
 import com.domain.track.interactor.FindTrackByProductId;
+import com.domain.track.interactor.FindUserBuyedSongsByAlbumId;
+import com.domain.track.interactor.GetAlbumSong;
 import com.domain.track.repository.TrackRepository;
 
 import java.util.List;
@@ -28,10 +34,13 @@ public class TrackDataRepository implements TrackRepository {
 
     private final TrackRespondMapper trackRespondMapper;
 
+    private final AlbumSongsRespondMapper albumSongsMapper;
+
     @Inject
-    public TrackDataRepository(TrackEntityDataFactory videoEntityDataFactory, TrackRespondMapper videoRespondMapper) {
+    public TrackDataRepository(TrackEntityDataFactory videoEntityDataFactory, TrackRespondMapper videoRespondMapper, AlbumSongsRespondMapper albumSongsMapper) {
         this.trackEntityDataFactory = videoEntityDataFactory;
         this.trackRespondMapper = videoRespondMapper;
+        this.albumSongsMapper = albumSongsMapper;
     }
 
     protected <T> Observable<T> initializedRequest(Observable<T> observable) {
@@ -48,6 +57,24 @@ public class TrackDataRepository implements TrackRepository {
         return initializedRequest(createData()
                 .findTrackByProductId(new FindTrackByProductIdRequest(params.authorization, params.productId))
                 .map(trackRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<List<SongResult>> getAlbumSongs(GetAlbumSong.Params params) {
+        return initializedRequest(createData()
+                .getAlbumSongs(new GetAlbumSongRequest(params.authorization, params.albumId))
+                .map(albumSongsMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<List<SongResult>> findUserBuyedSongsByAlbumId(FindUserBuyedSongsByAlbumId.Params params) {
+        return initializedRequest(createData()
+                .findUserBuyedSongsByAlbumId(new FindUserBuyedSongsByAlbumIdRequest(params.authorization,
+                        params.userId,
+                        params.albumId))
+                .map(albumSongsMapper::transform)
         );
     }
 }

@@ -1,7 +1,6 @@
 package com.data.product.repository;
 
 import com.data.Source;
-import com.data.product.mapper.AlbumListRespondMapper;
 import com.data.product.mapper.ProductListRespondMapper;
 import com.data.product.repository.source.ProductEntityData;
 import com.data.product.repository.source.ProductEntityDataFactory;
@@ -10,12 +9,10 @@ import com.data.product.repository.source.network.request.FindUserBuyedMoviesByI
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
 import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
-import com.domain.base.result.AlbumResult;
 import com.domain.product.ProductResult;
 import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.FindTrackByTitle;
 import com.domain.product.interactor.FindUserBuyedMoviesByProductTitle;
-import com.domain.product.interactor.GetAllAlbum;
 import com.domain.product.interactor.GetAllMovie;
 import com.domain.product.interactor.GetAllMusic;
 import com.domain.product.interactor.GetUserBuyedMovies;
@@ -37,17 +34,14 @@ import io.reactivex.Observable;
 @Singleton
 public class ProductDataRepository implements ProductRepository {
 
-    private final ProductEntityDataFactory movieEntityDataFactory;
+    private final ProductEntityDataFactory productEntityDataFactory;
 
     private final ProductListRespondMapper productListRespondMapper;
 
-    private final AlbumListRespondMapper albumListRespondMapper;
-
     @Inject
-    public ProductDataRepository(ProductEntityDataFactory movieEntityDataFactory, ProductListRespondMapper movieListRespondMapper, AlbumListRespondMapper albumListRespondMapper) {
-        this.movieEntityDataFactory = movieEntityDataFactory;
+    public ProductDataRepository(ProductEntityDataFactory movieEntityDataFactory, ProductListRespondMapper movieListRespondMapper) {
+        this.productEntityDataFactory = movieEntityDataFactory;
         this.productListRespondMapper = movieListRespondMapper;
-        this.albumListRespondMapper = albumListRespondMapper;
     }
 
     protected <T> Observable<T> initializedRequest(Observable<T> observable) {
@@ -56,7 +50,7 @@ public class ProductDataRepository implements ProductRepository {
 
 
     private ProductEntityData createData() {
-        return movieEntityDataFactory.createData(Source.NETWORK);
+        return productEntityDataFactory.createData(Source.NETWORK);
     }
 
     @Override
@@ -72,14 +66,6 @@ public class ProductDataRepository implements ProductRepository {
         return initializedRequest(createData()
                 .getMusicList(new ProductListRequest(params.authorization))
                 .map(productListRespondMapper::transform)
-        );
-    }
-
-    @Override
-    public Observable<List<AlbumResult>> getAllAlbum(GetAllAlbum.Params params) {
-        return initializedRequest(createData()
-                .getAlbumList(new ProductListRequest(params.authorization))
-                .map(albumListRespondMapper::transform)
         );
     }
 

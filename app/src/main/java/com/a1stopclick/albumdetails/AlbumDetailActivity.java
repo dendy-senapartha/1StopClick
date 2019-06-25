@@ -1,4 +1,4 @@
-package com.a1stopclick.home.musiclist.albumdetails;
+package com.a1stopclick.albumdetails;
 
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -18,8 +18,8 @@ import com.a1stopclick.dependencyinjection.modules.AlbumDetailsModule;
 import com.a1stopclick.util.AndroidUtils;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.domain.base.entity.Track;
 import com.domain.base.result.AlbumResult;
+import com.domain.track.SongResult;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
@@ -36,7 +36,8 @@ import butterknife.BindViews;
 
 public class AlbumDetailActivity extends BaseActivity implements AlbumDetailContract.View {
 
-    public static final String ALBUM_ITEM = "album_item";
+    public static final String ALBUM_ITEM = "all_album_item";
+    public static final String USER_ID_FROM_CALLER = "user_id_from_caller";
 
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsing_toolbar;
@@ -90,8 +91,7 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsing_toolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
         trRecyclerView.setAdapter(null);
-        String albumItem = getIntent().getStringExtra(ALBUM_ITEM);
-        loadData(albumItem);
+        loadData();
     }
 
     private void initComponent() {
@@ -107,8 +107,9 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
         registerPresenter(presenter);
     }
 
-    private void loadData(String albumItem) {
-        albumDetails = JSON.parseObject(albumItem, AlbumResult.class);
+    private void loadData() {
+        albumDetails = JSON.parseObject(getIntent().getStringExtra(ALBUM_ITEM), AlbumResult.class);
+        String userIdFromCaller = getIntent().getStringExtra(USER_ID_FROM_CALLER);
 
         getSupportActionBar().setTitle(albumDetails.album.name);
         tv_title.setText(albumDetails.album.name);
@@ -118,15 +119,12 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
                 .into(img_backdrop);
 
         tvReleaseDate.setText(AndroidUtils.getLongDate(albumDetails.album.releaseDate.toString()));
-        String genres = "";
-        for (Track track : albumDetails.album.tracks) {
-            genres = track.product.subcategory.name;
-        }
-        tvGenres.setText(genres);
 
-        trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(albumDetails.album.tracks, this));
+        if (userIdFromCaller == null) {
+            presenter.getAlbumSongs("" + albumDetails.album.id);
+        } else {
+            presenter.getUserBuyedAlbumSongs("" + userIdFromCaller, "" + albumDetails.album.id);
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -151,5 +149,27 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
     @Override
     public void onError(String errorMsg) {
 
+    }
+
+    @Override
+    public void onGetAlbumSongsSuccess(List<SongResult> result) {
+        for (SongResult songResult : result) {
+            tvGenres.setText(songResult.song.subcategory.name);
+        }
+
+        trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        trRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(this, result, albumDetails));
+    }
+
+    @Override
+    public void onGetUserBuyedAlbumSongs(List<SongResult> result) {
+        for (SongResult songResult : result) {
+            tvGenres.setText(songResult.song.subcategory.name);
+        }
+
+        trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        trRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(this, result, albumDetails));
     }
 }

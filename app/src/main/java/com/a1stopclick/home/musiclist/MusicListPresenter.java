@@ -5,10 +5,10 @@ import android.content.Context;
 import com.a1stopclick.OneStopClickApplication;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
+import com.domain.album.interactor.GetAllAlbum;
 import com.domain.base.result.AlbumResult;
 import com.domain.product.ProductResult;
 import com.domain.product.interactor.FindTrackByTitle;
-import com.domain.product.interactor.GetAllAlbum;
 
 import java.util.List;
 
