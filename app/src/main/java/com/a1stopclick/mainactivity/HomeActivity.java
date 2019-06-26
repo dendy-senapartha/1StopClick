@@ -75,7 +75,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private void configureToolbar() {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            //getSupportActionBar().setTitle("Home");
         }
     }
 
@@ -129,30 +128,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         drawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
-        /*
-        navigationView.setNavigationItemSelectedListener(
-                item -> {
-                    switch (item.getItemId()) {
-                        case R.id.logout:
-                            presenter.logOut();
-                            break;
-                        default:
-                            break;
-                    }
-                    //close the navigation drawer when an item is selected
-                    item.setChecked(true);
-                    drawerLayout.closeDrawers();
-                    return true;
-                }
-        );*/
-    }
-
-    @Override
-    public void onSuccessLogout() {
-        finish();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
     public void showLoading() {

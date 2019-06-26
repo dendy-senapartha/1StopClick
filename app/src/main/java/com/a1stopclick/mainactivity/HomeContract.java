@@ -10,13 +10,11 @@ import com.a1stopclick.base.BaseContract.BasePresenterContract;
 public interface HomeContract {
     interface View
     {
-        void onSuccessLogout();
         void showLoading();
         void hideLoading();
     }
 
     interface Presenter extends BasePresenterContract
     {
-        void logOut();
     }
 }
