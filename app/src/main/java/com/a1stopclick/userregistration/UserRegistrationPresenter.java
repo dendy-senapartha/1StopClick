@@ -41,7 +41,13 @@ public class UserRegistrationPresenter implements UserRegistrationContract.Prese
         registerUser.execute(new DefaultObserver<UserRegistrationResult>() {
             @Override
             public void onNext(UserRegistrationResult result) {
-                view.onRegisterUserSucces();
+                if(result.status)
+                {
+                    view.onRegisterUserSucces();
+                }
+                else {
+                    view.onRegisterUserFailed(result.errorMessage);
+                }
             }
 
             @Override

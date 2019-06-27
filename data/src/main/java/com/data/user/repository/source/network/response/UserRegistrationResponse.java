@@ -9,7 +9,7 @@ package com.data.user.repository.source.network.response;
 public class UserRegistrationResponse {
 
     public String status;
-    public String exception;
+    public String errorMessage;
 
     public UserRegistrationResponse()
     {

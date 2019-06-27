@@ -20,10 +20,10 @@ public class UserRegistrationResponMapper {
     }
 
     public UserRegistrationResult transform(UserRegistrationResponse response) {
-        UserRegistrationResult result = null;
+        UserRegistrationResult result = new UserRegistrationResult();
         if (response != null) {
-            result = new UserRegistrationResult();
-            result.status = response.status;
+            result.status = Boolean.parseBoolean(response.status);
+            result.errorMessage = response.errorMessage;
         } else {
             result = new UserRegistrationResult();
         }

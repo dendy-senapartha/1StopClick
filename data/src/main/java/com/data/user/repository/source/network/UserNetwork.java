@@ -94,20 +94,23 @@ public class UserNetwork {
             user.put("provider_id", request.providerId);
             user.put("user_profile", userProfile);
             JSONObject object = volleyHandler.postRouteDataObject(BEUrl.REGISTER_USER, new JSONObject(user));
-            String status = object.getString("result");
-            response.status = status;
-            response.exception = null;
+            if (object.get("result") != null) {
+                response.status = object.getString("result");
+            }
+            if (object.get("error_message") != null) {
+                response.errorMessage = object.getString("error_message");
+            }
             Log.d(TAG, "Json object : " + object);
         } catch (InterruptedException | ExecutionException | JSONException e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
-            response.exception = e.getMessage();
+            response.errorMessage = e.getMessage();
         }
         return response;
     }
 
     public ForgetPasswordResponse forgetPassword(ForgetPasswordRequest request)
-            throws NullPointerException{
+            throws NullPointerException {
         ForgetPasswordResponse response = new ForgetPasswordResponse();
         try {
             Map<String, String> params = new HashMap<String, String>();
@@ -115,13 +118,11 @@ public class UserNetwork {
             JSONObject object = volleyHandler.postRouteDataObject(BEUrl.FORGET_PASSWORD, new JSONObject(params));
             boolean status = object.getBoolean("status");
             response.status = status;
-            if(object.get("error_message")!=null)
-            {
+            if (object.get("error_message") != null) {
                 String errorMessage = object.getString("error_message");
                 response.errorMessage = errorMessage;
             }
-        }
-        catch (InterruptedException | ExecutionException | JSONException e) {
+        } catch (InterruptedException | ExecutionException | JSONException e) {
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
             response.errorMessage = e.getMessage();

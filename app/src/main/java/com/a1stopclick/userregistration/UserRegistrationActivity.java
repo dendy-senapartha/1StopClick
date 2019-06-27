@@ -132,7 +132,7 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!isEmailValid( mEmail.getText().toString().trim())) {
+                if (!isEmailValid(mEmail.getText().toString().trim())) {
                     emailTextInputLayout.setErrorEnabled(true);
                     emailTextInputLayout.setError("invalid email address");
                     requestFocus(mEmail);
@@ -244,7 +244,7 @@ public class UserRegistrationActivity extends BaseActivity implements UserRegist
     @Override
     public void onRegisterUserFailed(String msg) {
         Snackbar snackbar = Snackbar
-                .make(parentLayout, "Registration Failed", Snackbar.LENGTH_LONG);
+                .make(parentLayout, "Registration Failed : " + msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 

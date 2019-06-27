@@ -7,7 +7,8 @@ package com.domain.user;
  */
 
 public class UserRegistrationResult {
-    public String status;
+    public boolean status;
+    public String errorMessage;
 
     public UserRegistrationResult()
     {
