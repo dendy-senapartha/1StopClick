@@ -1,12 +1,6 @@
 package com.data.user.mapper;
 
-import com.data.balance.BalanceEntity;
-import com.data.invoice.InvoiceEntity;
 import com.data.user.repository.source.network.response.LoginResponse;
-import com.domain.base.entity.Balance;
-import com.domain.base.entity.BalanceType;
-import com.domain.base.entity.Invoice;
-import com.domain.base.entity.Receipt;
 import com.domain.user.LoginResult;
 
 import java.util.ArrayList;

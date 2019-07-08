@@ -65,7 +65,7 @@ public class PreferenceAccountEntityData implements AccountEntityData {
         return (Function<Throwable, Observable<? extends T>>) throwable -> {
             if (throwable instanceof UnInitializedSecuredPreferencesException) {
                 String userId = "MockUserID";
-                //if (!TextUtils.isEmpty(userId)) {
+                //if (!TextUtils.isEmpty(orderId)) {
                 return init(userId).concatMap(aBoolean -> resumedObservable);
                 //}
             }

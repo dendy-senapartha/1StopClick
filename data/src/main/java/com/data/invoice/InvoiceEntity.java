@@ -1,8 +1,6 @@
 package com.data.invoice;
 
-import com.data.orders.OrderEntity;
-import com.data.receipt.ReceiptEntity;
-import com.data.user.UserEntity;
+import com.data.paymentmehtod.PaymentMethodEntity;
 
 import java.util.Date;
 
@@ -15,12 +13,12 @@ public class InvoiceEntity {
 
     public int id;
 
-    public OrderEntity order;
+    public PaymentMethodEntity paymentMethod;
 
-    public UserEntity user;
+    public String description;
+
+    public String status;
 
     public Date created;
-
-    public ReceiptEntity receipt;
 
 }

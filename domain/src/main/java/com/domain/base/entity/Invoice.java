@@ -1,7 +1,5 @@
 package com.domain.base.entity;
 
-import com.domain.user.LoginResult;
-
 import java.util.Date;
 
 /*
@@ -13,12 +11,11 @@ public class Invoice {
 
     public int id;
 
-    public Order order;
+    public PaymentMethod paymentMethod;
 
-    public LoginResult user;
+    public String description;
+
+    public String status;
 
     public Date created;
-
-    public Receipt receipt;
-
 }

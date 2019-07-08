@@ -27,6 +27,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/transaction"
+        android:name="com.a1stopclick.transaction.TransactionFragment"
+        android:label="Transaction"
+        tools:layout="@layout/fragment_transaction">
+    </fragment>
+
+    <fragment
         android:id="@+id/apps_setting"
         android:name="com.a1stopclick.appssetting.FragmentAppsSetting"
         android:label="Setting"

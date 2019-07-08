@@ -1,10 +1,8 @@
 package com.data.orders;
 
 import com.data.invoice.InvoiceEntity;
-import com.data.orderitem.OrderItemEntity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,15 +11,22 @@ import java.util.List;
  * order entity
  */
 
-public class OrderEntity {
+public class OrderDetailsEntity {
 
     public int id;
-
-    public String orderTitle;
 
     public Date orderDate;
 
     public BigDecimal totalAmount;
 
+    public List<OrderItem> orderItemList;
+
     public InvoiceEntity invoice;
+
+    public class OrderItem {
+        public String productId;
+        public String productName;
+        public String quantity;
+        public String subtotal;
+    }
 }

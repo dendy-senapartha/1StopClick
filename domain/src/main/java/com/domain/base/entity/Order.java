@@ -12,13 +12,11 @@ import java.util.List;
 public class Order {
     public int id;
 
+    public String orderTitle;
+
     public Date orderDate;
 
     public BigDecimal totalAmount;
-
-    public String status;
-
-    public List<OrderItem> itemList;
 
     public Invoice invoice;
 }

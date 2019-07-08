@@ -112,7 +112,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             @Override
             public void onNext(AccountResult result) {
                 String provider = result.getProvider();
-                Log.d("checkLastUsedAccount", "get userId " + provider);
+                Log.d("checkLastUsedAccount", "get orderId " + provider);
 
                 if (provider != null) {
                     switch (provider) {

@@ -1,12 +1,5 @@
 package com.domain.user;
 
-import com.domain.base.entity.Balance;
-import com.domain.base.entity.Invoice;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
 /*
  * Created by dendy-prtha on 11/03/2019.
  * LocalLogin Result

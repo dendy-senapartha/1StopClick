@@ -12,7 +12,9 @@
     <item
         android:id="@+id/my_music_library"
         android:title="My Music" />
-
+    <item
+        android:id="@+id/transaction"
+        android:title="Transaction" />
     <item
         android:id="@+id/apps_setting"
         android:title="Setting" />

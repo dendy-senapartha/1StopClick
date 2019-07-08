@@ -1,19 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.journaldev.tablayoutviewpager.MainActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <!--menu resource of NavigationView each item ID is matching with fragment ID in navigation graph.
     By this NavigationUI will figure out mapping between item and destination and it will
     perform fragment transaction on item selection.-->
     <item
         android:id="@+id/movie_list_dest"
         android:icon="@drawable/ic_movie_black_24dp"
-        android:title="Movie"/>
+        android:title="Movie" />
     <item
         android:id="@+id/music_list_dest"
         android:icon="@drawable/ic_library_music_black_24dp"
-        android:title="Music"/>
+        android:title="Music" />
     <item
         android:id="@+id/ebook_list_dest"
         android:icon="@drawable/ic_library_books_black_24dp"
-        android:title="E-Book"/>
+        android:title="E-Book" />
 </menu>

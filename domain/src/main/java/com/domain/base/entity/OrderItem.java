@@ -8,11 +8,9 @@ import java.math.BigDecimal;
  */
 
 public class OrderItem {
-    public int id;
+    public int productId;
 
-    public Order order;
-
-    public Product product;
+    public String productName;
 
     public int quantity;
 
