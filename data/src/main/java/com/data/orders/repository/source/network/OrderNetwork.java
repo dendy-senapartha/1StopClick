@@ -10,13 +10,18 @@ import com.data.Serializer;
 import com.data.account.HTTPResponseHeader;
 import com.data.orders.OrderDetailsEntity;
 import com.data.orders.OrderEntity;
+import com.data.orders.repository.source.network.request.AddItemToOrderRequest;
 import com.data.orders.repository.source.network.request.FindOrderByUserIdRequest;
 import com.data.orders.repository.source.network.request.GetOrderDetailsRequest;
+import com.data.orders.repository.source.network.request.RemoveItemFromOrderRequest;
+import com.data.orders.repository.source.network.response.AddItemToOrderResponse;
 import com.data.orders.repository.source.network.response.FindOrderByUserIdResponse;
 import com.data.orders.repository.source.network.response.GetOrderIdDetailsResponse;
+import com.data.orders.repository.source.network.response.RemoveItemFromOrderResponse;
 import com.data.volley.VolleyHandler;
 
 import org.json.*;
+
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -114,6 +119,55 @@ public class OrderNetwork {
             OrderDetailsEntity Response = JSON.parseObject(objectResult.toString(), typeRef);
             HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
             response.orderDetailsEntity = Response;
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
+            //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public AddItemToOrderResponse addItemToOrder(AddItemToOrderRequest request) {
+        AddItemToOrderResponse response = new AddItemToOrderResponse();
+        try {
+            JSONObject paramsBody = new JSONObject(JSON.toJSONString(request));
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.ADD_ITEM_TO_ORDER, paramsBody, paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            JSONObject objectResult = object.getJSONObject("result");
+            //TypeReference<OrderDetailsEntity> typeRef = new TypeReference<OrderDetailsEntity>() {};
+            response = JSON.parseObject(objectResult.toString(), AddItemToOrderResponse.class);
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            //response.status= Response;
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
+            //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public RemoveItemFromOrderResponse removeItemFromOrder(RemoveItemFromOrderRequest request) {
+        RemoveItemFromOrderResponse response = new RemoveItemFromOrderResponse();
+        try {
+            JSONObject paramsBody = new JSONObject(JSON.toJSONString(request));
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.REMOVE_ITEM_FROM_ORDER, paramsBody, paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            JSONObject objectResult = object.getJSONObject("result");
+            response = JSON.parseObject(objectResult.toString(), RemoveItemFromOrderResponse.class);
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            //response.status= Response;
             response.httpResponseHeader = httpResponseHeader;
             response.exception = null;
             //Log.d(TAG, "Json object : " + object);

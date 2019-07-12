@@ -1,6 +1,7 @@
 package com.a1stopclick.albumdetails;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,9 +20,11 @@ import com.a1stopclick.util.AndroidUtils;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.domain.base.result.AlbumResult;
+import com.domain.order.AddItemToOrderResult;
 import com.domain.track.SongResult;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,7 +39,7 @@ import butterknife.BindViews;
 
 public class AlbumDetailActivity extends BaseActivity implements AlbumDetailContract.View {
 
-    public static final String ALBUM_ITEM = "all_album_item";
+    public static final String ALBUM_ITEM = "album_item";
     public static final String USER_ID_FROM_CALLER = "user_id_from_caller";
 
     @BindView(R.id.collapsing_toolbar)
@@ -66,6 +69,9 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
     @BindView(R.id.tv_genres)
     TextView tvGenres;
 
+    @BindView(R.id.allSongAlreadyOwned)
+    TextView allSongAlreadyOwned;
+
     @BindView(R.id.img_backdrop)
     ImageView img_backdrop;
 
@@ -78,6 +84,8 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
     AlbumDetailContract.Presenter presenter;
 
     private AlbumDetailsComponent component;
+
+    private List<SongResult> songResultList;
 
     @Override
     public int getLayout() {
@@ -153,23 +161,52 @@ public class AlbumDetailActivity extends BaseActivity implements AlbumDetailCont
 
     @Override
     public void onGetAlbumSongsSuccess(List<SongResult> result) {
-        for (SongResult songResult : result) {
-            tvGenres.setText(songResult.song.subcategory.name);
+        songResultList = result;
+        if (!result.isEmpty()) {
+            trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            trRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(this, result, albumDetails,
+                    TrackListRecyclerViewAdapter.ALBUM_SONGS));
+        } else {
+            trRecyclerView.setVisibility(View.GONE);
+            allSongAlreadyOwned.setVisibility(View.VISIBLE);
         }
+    }
 
-        trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        trRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(this, result, albumDetails));
+    @Override
+    public void setAlbumDetailGenre(List<SongResult> result) {
+        if (!result.isEmpty()) {
+            tvGenres.setText(result.get(0).song.subcategory.name);
+        }
     }
 
     @Override
     public void onGetUserBuyedAlbumSongs(List<SongResult> result) {
-        for (SongResult songResult : result) {
-            tvGenres.setText(songResult.song.subcategory.name);
-        }
-
+        songResultList = result;
         trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         trRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(this, result, albumDetails));
+        trRecyclerView.setAdapter(new TrackListRecyclerViewAdapter(this, result, albumDetails,
+                TrackListRecyclerViewAdapter.USER_SONGS));
+
+    }
+
+    @Override
+    public void onAddSongToOrderSuccess(AddItemToOrderResult result) {
+        if (Boolean.parseBoolean(result.status)) {
+            //remove the song from the album list
+
+            for (Iterator<SongResult> songOfTheAlbumIterator = songResultList.iterator();
+                 songOfTheAlbumIterator.hasNext(); ) {
+                SongResult songOfTheAlbum = songOfTheAlbumIterator.next();
+                if (result.itemId.equalsIgnoreCase(songOfTheAlbum.song.id + "")) {
+                    songOfTheAlbumIterator.remove();
+                }
+            }
+            onGetAlbumSongsSuccess(songResultList);
+        }
+    }
+
+    public AlbumDetailContract.Presenter getPresenter() {
+        return presenter;
     }
 }

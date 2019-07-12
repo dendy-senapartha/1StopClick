@@ -1,6 +1,5 @@
 package com.a1stopclick.home.musiclist;
 
-
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,7 +40,7 @@ public class AlbumItemViewHolder extends RecyclerView.ViewHolder {
         Glide.with(parentFragment).load(uri).placeholder(R.drawable.placeholder_detail_product).into(albumPoster);
     }
 
-    public void bind(AlbumResult albumItem) {
+    public void bindTrackOfAlbum(AlbumResult albumItem) {
         setAlbumItemTitle(albumItem.album.name);
         setItemAlbumYear(AndroidUtils.getYear(albumItem.album.releaseDate.toString()));
         //holder.setItemMovieRating(items.get(position).subcategory.name);
@@ -54,7 +53,7 @@ public class AlbumItemViewHolder extends RecyclerView.ViewHolder {
         );
     }
 
-    public void bind(AlbumResult albumItem, String userId) {
+    public void bindTrackOfUserLib(AlbumResult albumItem, String userId) {
         setAlbumItemTitle(albumItem.album.name);
         setItemAlbumYear(AndroidUtils.getYear(albumItem.album.releaseDate.toString()));
 

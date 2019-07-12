@@ -12,6 +12,8 @@ import com.a1stopclick.R;
 import com.a1stopclick.albumdetails.TrackItemViewHolder;
 import com.domain.base.entity.OrderItem;
 import com.domain.base.result.AlbumResult;
+import com.domain.order.OrderDetailResult;
+import com.domain.order.OrderResult;
 import com.domain.track.SongResult;
 
 import java.util.List;
@@ -22,19 +24,21 @@ import java.util.List;
 
 public class OrderItemRecyclerViewAdapter extends RecyclerView.Adapter<OrderItemViewHolder> {
 
+    OrderResult orderDetail;
     List<OrderItem> items;
     Context context;
 
-    public OrderItemRecyclerViewAdapter(Context context, List<OrderItem> items) {
+    public OrderItemRecyclerViewAdapter(Context context, OrderResult OrderItem, List<OrderItem> items) {
         this.items = items;
         this.context = context;
+        this.orderDetail = OrderItem;
     }
 
     @Override
     public OrderItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_transaction_order_item, parent, false);
-        return new OrderItemViewHolder(view, context);
+        return new OrderItemViewHolder(view, orderDetail, context);
     }
 
     @Override

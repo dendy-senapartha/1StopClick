@@ -19,17 +19,18 @@
 
         <TextView
             android:id="@+id/trackTitle"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:layout_weight="1"
             android:text="Album Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="16sp"
             android:layout_margin="5dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buyTrack"
+            android:id="@+id/buyOrPlayTrack"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"

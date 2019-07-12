@@ -21,14 +21,19 @@ import java.util.List;
 
 public class TrackListRecyclerViewAdapter extends RecyclerView.Adapter<TrackItemViewHolder> {
 
+    public static final String ALBUM_SONGS = "ALBUM_SONGS";
+    public static final String USER_SONGS = "USER_SONGS";
+
     List<SongResult> items;
     Context context;
     AlbumResult albumDetails;
+    String typeOfTrackList;
 
-    public TrackListRecyclerViewAdapter(Context context, List<SongResult> items,  AlbumResult albumDetails) {
+    public TrackListRecyclerViewAdapter(Context context, List<SongResult> items, AlbumResult albumDetails, String typeOfTrackList) {
         this.items = items;
         this.context = context;
         this.albumDetails = albumDetails;
+        this.typeOfTrackList = typeOfTrackList;
     }
 
     @Override
@@ -41,7 +46,11 @@ public class TrackListRecyclerViewAdapter extends RecyclerView.Adapter<TrackItem
     @Override
     public void onBindViewHolder(TrackItemViewHolder holder, int position) {
         holder.bind(items.get(position), albumDetails);
-
+        if (typeOfTrackList.equalsIgnoreCase(ALBUM_SONGS)) {
+            holder.setButtonTitle(TrackItemViewHolder.buyButtonTitle);
+        } else if (typeOfTrackList.equalsIgnoreCase(USER_SONGS)) {
+            holder.setButtonTitle(TrackItemViewHolder.playButtonTitle);
+        }
     }
 
     @Override

@@ -28,4 +28,6 @@ public interface BEUrl {
     public static final String FIND_ORDER_BY_USERID = PREFIX_URL + "order/find-order-by-userid";
     public static final String GET_USER_ORDER_NEED_TO_PAY = PREFIX_URL + "order/get-userorder-need-to-pay";
     public static final String GET_ORDER_DETAILS = PREFIX_URL + "order/get-order-details-by-id";
+    public static final String ADD_ITEM_TO_ORDER = PREFIX_URL + "order/add-item-to-order";
+    public static final String REMOVE_ITEM_FROM_ORDER = PREFIX_URL + "order/remove-item-from-order";
 }

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.a1stopclick.R;
@@ -50,13 +51,18 @@ public class TransactionFragment extends BaseFragment implements BackFragment {
     }
 
     private void prepareTabTransaction() {
-        List<BaseFragment> fragmentList= new ArrayList<>();
+        List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentInvoice());
         fragmentList.add(new FragmentPurchase());
+
         viewPagerTransactionAdapter = new ViewPagerTransactionAdapter(
-                requireActivity().getSupportFragmentManager(),fragmentList);
+                getFragmentManager(), fragmentList);
         viewPager.setAdapter(viewPagerTransactionAdapter);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     public boolean onBackPressed() {

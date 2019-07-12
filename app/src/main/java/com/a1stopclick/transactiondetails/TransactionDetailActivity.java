@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a1stopclick.R;
+import com.a1stopclick.albumdetails.AlbumDetailContract;
 import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerTransactionDetailsComponent;
 import com.a1stopclick.dependencyinjection.components.MovieDetailsComponent;
@@ -28,7 +29,11 @@ import com.alibaba.fastjson.JSON;
 import com.domain.base.entity.OrderItem;
 import com.domain.order.OrderDetailResult;
 import com.domain.order.OrderResult;
+import com.domain.order.RemoveItemFromOrderResult;
+
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -68,6 +73,11 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
     @BindView(R.id.transactionOrderItems)
     RecyclerView trRecyclerView;
 
+    @BindView(R.id.transactionToolbar)
+    Toolbar toolbar;
+
+    private List<OrderItem> orderItemList;
+
     @Override
     public int getLayout() {
         return R.layout.activity_transaction_detail;
@@ -77,6 +87,8 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
     public void init() {
         initComponent();
         loadData();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initComponent() {
@@ -90,6 +102,15 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
 
         presenter.initPresenter();
         registerPresenter(presenter);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadData() {
@@ -122,9 +143,30 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
     }
 
     @Override
-    public void onGetTransactionOrderDetailSuccess(OrderDetailResult result) {
+    public void onGetTransactionOrderDetailSuccess( List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
         trRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         trRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        trRecyclerView.setAdapter(new OrderItemRecyclerViewAdapter(this, result.orderItemList));
+        trRecyclerView.setAdapter(new OrderItemRecyclerViewAdapter(this, orderItem, orderItemList));
+    }
+
+    @Override
+    public void onRemoveItemFromOrderSuccess(RemoveItemFromOrderResult result) {
+        if (Boolean.parseBoolean(result.status)) {
+            //remove the song from the album list
+
+            for (Iterator<OrderItem> songOfTheAlbumIterator = orderItemList.iterator();
+                 songOfTheAlbumIterator.hasNext(); ) {
+                OrderItem orderedItem = songOfTheAlbumIterator.next();
+                if (result.itemId.equalsIgnoreCase(orderedItem.productId + "")) {
+                    songOfTheAlbumIterator.remove();
+                }
+            }
+            onGetTransactionOrderDetailSuccess(orderItemList);
+        }
+    }
+
+    public TransactionDetailContract.Presenter getPresenter() {
+        return presenter;
     }
 }

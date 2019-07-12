@@ -3,6 +3,8 @@ package com.a1stopclick.transaction;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.a1stopclick.base.BaseFragment;
 import com.a1stopclick.transaction.invoice.FragmentInvoice;
@@ -15,23 +17,18 @@ import java.util.List;
  * view pager adapter for Transaction tab
  */
 
-public class ViewPagerTransactionAdapter extends FragmentPagerAdapter {
+public class ViewPagerTransactionAdapter extends FragmentStatePagerAdapter {
 
     List<BaseFragment> fragmentList;
 
     public ViewPagerTransactionAdapter(FragmentManager fm, List<BaseFragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
+
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = null;
-        if (position == 0) {
-            fragment = new FragmentInvoice();
-        } else if (position == 1) {
-            fragment = new FragmentPurchase();
-        }
         return fragmentList.get(position);
     }
 
@@ -42,12 +39,6 @@ public class ViewPagerTransactionAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String title = null;
-        if (position == 0) {
-            title = "Invoice";
-        } else if (position == 1) {
-            title = "Payment";
-        }
         return fragmentList.get(position).getFragmentTitle();
     }
 }

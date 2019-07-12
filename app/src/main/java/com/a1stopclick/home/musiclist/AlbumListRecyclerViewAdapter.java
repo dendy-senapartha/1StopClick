@@ -42,11 +42,11 @@ public class AlbumListRecyclerViewAdapter extends RecyclerView.Adapter<AlbumItem
             {
                 FragmentMusicLibrary musicLibrary = (FragmentMusicLibrary) parentFragment;
                 String userId = ((OneStopClickApplication) musicLibrary.getActivity().getApplication()).getSession().getUid();
-                holder.bind(items.get(position), userId);
+                holder.bindTrackOfUserLib(items.get(position), userId);
             }
             else
             {
-                holder.bind(items.get(position));
+                holder.bindTrackOfAlbum(items.get(position));
             }
             holder.setMusicPoster(items.get(position).album.albumImageUrl, parentFragment);
             holder.setAlbumItemTitle(items.get(position).album.name);

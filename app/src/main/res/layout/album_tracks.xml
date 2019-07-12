@@ -24,6 +24,13 @@
             android:paddingBottom="10dp"
             android:textSize="40sp"
             app:fonts="alanya.regular.ttf" />
+        <TextView
+            android:id="@+id/allSongAlreadyOwned"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="All Song Already Owned!" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tracks_recycler_view"
             android:layout_width="match_parent"

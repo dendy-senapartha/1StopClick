@@ -2,14 +2,18 @@ package com.data.orders.mapper;
 
 import com.data.orders.OrderDetailsEntity;
 import com.data.orders.OrderEntity;
+import com.data.orders.repository.source.network.response.AddItemToOrderResponse;
 import com.data.orders.repository.source.network.response.FindOrderByUserIdResponse;
 import com.data.orders.repository.source.network.response.GetOrderIdDetailsResponse;
+import com.data.orders.repository.source.network.response.RemoveItemFromOrderResponse;
 import com.domain.base.entity.Invoice;
 import com.domain.base.entity.Order;
 import com.domain.base.entity.OrderItem;
 import com.domain.base.entity.PaymentMethod;
+import com.domain.order.AddItemToOrderResult;
 import com.domain.order.OrderDetailResult;
 import com.domain.order.OrderResult;
+import com.domain.order.RemoveItemFromOrderResult;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -89,6 +93,20 @@ public class OrderRespondMapper {
 
             result.orderItemList.add(resultOrderItem);
         }
+        return result;
+    }
+
+    public AddItemToOrderResult transformAddItemToOrder(AddItemToOrderResponse response) {
+        AddItemToOrderResult result = new AddItemToOrderResult();
+        result.status = response.status;
+        result.itemId = response.itemId;
+        return result;
+    }
+
+    public RemoveItemFromOrderResult transformRemoveItemFromOrder(RemoveItemFromOrderResponse response) {
+        RemoveItemFromOrderResult result = new RemoveItemFromOrderResult();
+        result.status = response.status;
+        result.itemId = response.itemId;
         return result;
     }
 }

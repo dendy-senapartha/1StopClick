@@ -1,10 +1,14 @@
 package com.data.orders.repository.source.network;
 
 import com.data.orders.repository.source.OrderEntityData;
+import com.data.orders.repository.source.network.request.AddItemToOrderRequest;
 import com.data.orders.repository.source.network.request.FindOrderByUserIdRequest;
 import com.data.orders.repository.source.network.request.GetOrderDetailsRequest;
+import com.data.orders.repository.source.network.request.RemoveItemFromOrderRequest;
+import com.data.orders.repository.source.network.response.AddItemToOrderResponse;
 import com.data.orders.repository.source.network.response.FindOrderByUserIdResponse;
 import com.data.orders.repository.source.network.response.GetOrderIdDetailsResponse;
+import com.data.orders.repository.source.network.response.RemoveItemFromOrderResponse;
 
 import java.util.concurrent.Callable;
 
@@ -45,6 +49,20 @@ public class NetworkOrderEntityData implements OrderEntityData {
     public Observable<GetOrderIdDetailsResponse> getOrderDetails(GetOrderDetailsRequest request) {
         return initObservable(()->{
             return orderNetwork.getOrderDetails(request);
+        });
+    }
+
+    @Override
+    public Observable<AddItemToOrderResponse> addItemToOrder(AddItemToOrderRequest request) {
+        return initObservable(()->{
+            return orderNetwork.addItemToOrder(request);
+        });
+    }
+
+    @Override
+    public Observable<RemoveItemFromOrderResponse> removeItemFromOrder(RemoveItemFromOrderRequest request) {
+        return initObservable(()->{
+            return orderNetwork.removeItemFromOrder(request);
         });
     }
 }
