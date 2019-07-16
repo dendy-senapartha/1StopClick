@@ -5,6 +5,8 @@ import android.content.Context;
 import com.a1stopclick.OneStopClickApplication;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
+import com.domain.order.AddItemToOrderResult;
+import com.domain.order.interactor.AddItemToOrder;
 import com.domain.product.ProductResult;
 import com.domain.product.interactor.FindUserBuyedMoviesByProductId;
 import com.domain.video.VideoResult;
@@ -28,14 +30,16 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final FindVideoByProductId findVideoByProductId;
     private final FindUserBuyedMoviesByProductId findUserBuyedMoviesByProductId;
     private AccountResult userSession = null;
+    private final AddItemToOrder addItemToOrder;
 
     @Inject
     public MovieDetailPresenter(Context context, MovieDetailContract.View view, FindVideoByProductId findVideoByProductId,
-                                FindUserBuyedMoviesByProductId findUserBuyedMoviesByProductId) {
+                                FindUserBuyedMoviesByProductId findUserBuyedMoviesByProductId, AddItemToOrder addItemToOrder) {
         this.context = context;
         this.view = view;
         this.findVideoByProductId = findVideoByProductId;
         this.findUserBuyedMoviesByProductId = findUserBuyedMoviesByProductId;
+        this.addItemToOrder = addItemToOrder;
     }
 
     private void retrieveSession() {
@@ -81,6 +85,24 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                                                },
                 FindUserBuyedMoviesByProductId.Params.forUserGetBuyedMoviesByProdId(userSession.getAuthorization(),
                         userSession.getUid(), productId)
+        );
+    }
+
+    @Override
+    public void addMovieToOrder(int productId, int quantity) {
+        addItemToOrder.execute(new DefaultObserver<AddItemToOrderResult>() {
+                                   @Override
+                                   public void onNext(AddItemToOrderResult result) {
+                                       view.onAddMovieToOrderSuccess(result);
+                                   }
+
+                                   @Override
+                                   public void onError(Throwable er) {
+                                       //TODO : need show error message based on error code from BE
+                                       view.onError(er.getMessage());
+                                   }
+                               },
+                AddItemToOrder.Params.forAddItemToOrder(userSession.getAuthorization(), userSession.getUid(), productId, quantity)
         );
     }
 

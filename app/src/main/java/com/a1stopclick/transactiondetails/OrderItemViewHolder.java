@@ -16,7 +16,7 @@ import com.google.android.material.button.MaterialButton;
 
 public class OrderItemViewHolder extends RecyclerView.ViewHolder {
 
-    private  OrderResult orderDetail;
+    private OrderResult orderDetail;
     private TextView orderItemTitle;
     private TextView orderItemPrice;
     private MaterialButton button;
@@ -36,15 +36,18 @@ public class OrderItemViewHolder extends RecyclerView.ViewHolder {
         orderItemTitle.setText(item.productName);
         orderItemPrice.setText(item.subtotal.toString());
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (orderDetail.order.invoice.status.equalsIgnoreCase("PAID") || orderDetail.order.invoice.status.equalsIgnoreCase("VOID")) {
+            button.setVisibility(View.GONE);
+        } else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                if (context instanceof TransactionDetailActivity) {
-                    ((TransactionDetailActivity) context).getPresenter().removeItemFromOrder(orderDetail.order.id,item.productId,1);
+                    if (context instanceof TransactionDetailActivity) {
+                        ((TransactionDetailActivity) context).getPresenter().removeItemFromOrder(orderDetail.order.id, item.productId, 1);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
-
 }

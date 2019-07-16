@@ -16,9 +16,11 @@ import com.a1stopclick.base.BaseActivity;
 import com.a1stopclick.dependencyinjection.components.DaggerMovieDetailsComponent;
 import com.a1stopclick.dependencyinjection.components.MovieDetailsComponent;
 import com.a1stopclick.dependencyinjection.modules.MovieDetailsModule;
+import com.a1stopclick.home.movielist.FragmentMovieList;
 import com.a1stopclick.util.AndroidUtils;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.domain.order.AddItemToOrderResult;
 import com.domain.product.ProductResult;
 import com.domain.video.VideoResult;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -177,12 +179,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @OnClick(R.id.btnWatchMovie)
     public void onClickWatchMovie(View view) {
-        if(movieNotBuyed)
-        {
-
-        }
-        else
-        {
+        if (movieNotBuyed) {
+            presenter.addMovieToOrder(product.product.id, 1);
+        } else {
             if (!videoMovieUrl.isEmpty()) {
                 startMediaPlayerActivity(product.product.productName, Uri.parse(videoMovieUrl), null);
             }
@@ -256,13 +255,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void onSuccessFindVideoByProductId(List<ProductResult> result) {
-        if(result.isEmpty())
-        {
+        if (result.isEmpty()) {
             movieNotBuyed = true;
             btnBuyOrWatchMovie.setText("Buy Movie");
-        }
-        else
-        {
+        } else {
             movieNotBuyed = false;
             btnBuyOrWatchMovie.setText("Watch Movie");
         }
@@ -284,5 +280,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     public ProductResult getMovieDetail() {
         return product;
+    }
+
+    @Override
+    public void onAddMovieToOrderSuccess(AddItemToOrderResult result) {
+        setResult(FragmentMovieList.REQUEST_REFRESH_MOVIE_LIST, new Intent());
+        finish();
     }
 }

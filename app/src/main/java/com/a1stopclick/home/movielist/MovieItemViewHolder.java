@@ -20,12 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieItemViewHolder extends RecyclerView.ViewHolder {
     private ImageView itemMoviePoster;
+    private Fragment parentFragment;
 
-
-
-    public MovieItemViewHolder(View itemView) {
+    public MovieItemViewHolder(View itemView, Fragment parentFragment) {
         super(itemView);
         itemMoviePoster = (ImageView) itemView.findViewById(R.id.item_movie_poster);
+        this.parentFragment = parentFragment;
     }
 
     public void setItemMovieTitle(String text) {
@@ -52,7 +52,6 @@ public class MovieItemViewHolder extends RecyclerView.ViewHolder {
         setItemMovieTitle(item.product.productName);
         setItemMovieGenre(item.product.subcategory.name);
         setItemMovieReleaseDate(AndroidUtils.getLongDate(item.product.subcategory.created.toString()));
-        //holder.setItemMovieRating(items.get(position).subcategory.name);
 
         itemView.setOnClickListener(onClick -> {
                     Intent intent = new Intent(itemView.getContext(), MovieDetailActivity.class);
@@ -61,8 +60,12 @@ public class MovieItemViewHolder extends RecyclerView.ViewHolder {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
                                 .makeSceneTransitionAnimation((Activity) itemView.getContext(), itemMoviePoster, "poster");
-                        itemView.getContext().startActivity(intent, activityOptionsCompat.toBundle());
-                    } else itemView.getContext().startActivity(intent);
+                        parentFragment.startActivityForResult(intent,
+                                FragmentMovieList.REQUEST_REFRESH_MOVIE_LIST, activityOptionsCompat.toBundle());
+                    } else {
+                        parentFragment.startActivityForResult(intent,
+                                FragmentMovieList.REQUEST_REFRESH_MOVIE_LIST);
+                    }
                 }
         );
     }

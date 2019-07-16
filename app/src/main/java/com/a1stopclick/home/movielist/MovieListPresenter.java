@@ -8,7 +8,9 @@ import com.domain.account.AccountResult;
 import com.domain.product.ProductResult;
 import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.GetAllMovie;
+import com.domain.product.interactor.GetUserBuyedMovies;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,15 +29,17 @@ public class MovieListPresenter implements MovieListContract.Presenter {
     private final MovieListContract.View view;
     private final GetAllMovie getAllMovie;
     private final FindMovieByTitle findMovieByTitle;
+    private final GetUserBuyedMovies getBuyedMovies;
     private AccountResult userSession = null;
 
     @Inject
     public MovieListPresenter(Context context, MovieListContract.View view, GetAllMovie getAllMovie,
-                              FindMovieByTitle findMovieByTitle) {
+                              FindMovieByTitle findMovieByTitle, GetUserBuyedMovies getBuyedMovies) {
         this.context = context;
         this.view = view;
         this.getAllMovie = getAllMovie;
         this.findMovieByTitle = findMovieByTitle;
+        this.getBuyedMovies = getBuyedMovies;
     }
 
 
@@ -53,9 +57,33 @@ public class MovieListPresenter implements MovieListContract.Presenter {
         view.setLoadingIndicator(true);
         getAllMovie.execute(new DefaultObserver<List<ProductResult>>() {
                                 @Override
-                                public void onNext(List<ProductResult> result) {
-                                    view.setLoadingIndicator(false);
-                                    view.onMovieListSuccess(result);
+                                public void onNext(List<ProductResult> availableMovies) {
+                                    getBuyedMovies.execute(new DefaultObserver<List<ProductResult>>() {
+                                                               @Override
+                                                               public void onNext(List<ProductResult> buyedMovies) {
+                                                                   //check if movie already bought
+                                                                   for (Iterator<ProductResult> availableMovieIterator= availableMovies.iterator();
+                                                                        availableMovieIterator.hasNext(); ) {
+                                                                       ProductResult movie = availableMovieIterator.next();
+                                                                       for (Iterator<ProductResult> userBuyedMovieIterator = buyedMovies.iterator();
+                                                                            userBuyedMovieIterator.hasNext(); ) {
+                                                                           ProductResult userBuyedMovie = userBuyedMovieIterator.next();
+                                                                           if (movie.product.id == userBuyedMovie.product.id) {
+                                                                               availableMovieIterator.remove();
+                                                                           }
+                                                                       }
+                                                                   }
+                                                                   view.setLoadingIndicator(false);
+                                                                   view.onMovieListSuccess(availableMovies);
+                                                               }
+
+                                                               @Override
+                                                               public void onError(Throwable er) {
+                                                                   //TODO : need show error message based on error code from BE
+                                                                   view.setLoadingIndicator(false);
+                                                               }
+                                                           },
+                                            GetUserBuyedMovies.Params.forUserGetBuyedMovies(userSession.getAuthorization(), userSession.getUid()));
                                 }
 
                                 @Override

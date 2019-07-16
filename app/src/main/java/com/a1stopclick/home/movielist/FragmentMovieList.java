@@ -1,6 +1,7 @@
 package com.a1stopclick.home.movielist;
 
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -30,6 +31,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import butterknife.BindView;
 
+import static android.app.Activity.RESULT_FIRST_USER;
+
 /*
  * Created by dendy-prtha on 02/04/2019.
  * Fragment for Movie List
@@ -38,6 +41,8 @@ import butterknife.BindView;
 public class FragmentMovieList extends BaseFragment implements MovieListContract.View {
 
     private final String TAG = FragmentMovieList.class.getSimpleName();
+
+    public static final int REQUEST_REFRESH_MOVIE_LIST = 1;
 
     private MovieListComponent component;
 
@@ -90,6 +95,17 @@ public class FragmentMovieList extends BaseFragment implements MovieListContract
                 if (msg.what == QUERY_SUBMITTED) {
                     fragment.presenter.findMovieByTitle(fragment.searchMoviedQuery);
                 }
+            }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == REQUEST_REFRESH_MOVIE_LIST) {
+            if(resultCode == RESULT_FIRST_USER)
+            {
+                presenter.getMovieList();
             }
         }
     }

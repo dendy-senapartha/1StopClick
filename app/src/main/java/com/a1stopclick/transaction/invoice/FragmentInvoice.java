@@ -1,41 +1,31 @@
 package com.a1stopclick.transaction.invoice;
 
-import android.os.Handler;
-import android.os.Message;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a1stopclick.R;
 import com.a1stopclick.base.BaseFragment;
 import com.a1stopclick.base.ScrollChildSwipe;
-import com.a1stopclick.base.fragmentback.BackFragment;
 import com.a1stopclick.dependencyinjection.components.DaggerInvoiceListComponent;
-import com.a1stopclick.dependencyinjection.components.DaggerMovieLibraryComponent;
 import com.a1stopclick.dependencyinjection.components.InvoiceListComponent;
-import com.a1stopclick.dependencyinjection.components.MovieLibraryComponent;
 import com.a1stopclick.dependencyinjection.modules.InvoiceListModule;
-import com.a1stopclick.dependencyinjection.modules.MovieLibraryModule;
-import com.a1stopclick.home.movielist.MovieRecyclerViewAdapter;
-import com.a1stopclick.mylibrary.movie.MovieLibraryContract;
 import com.a1stopclick.transaction.TransactionRecyclerViewAdapter;
 import com.domain.order.OrderResult;
-import com.domain.product.ProductResult;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+
+import static android.app.Activity.*;
 
 /*
  * Created by dendy-prtha on 12/06/2019.
@@ -45,6 +35,8 @@ import butterknife.BindView;
 public class FragmentInvoice extends BaseFragment implements InvoiceContract.View {
 
     private InvoiceListComponent component;
+
+    public final static int REFRESH_INVOICE_LIST = 1;
 
     @Inject
     InvoiceContract.Presenter presenter;
@@ -63,6 +55,17 @@ public class FragmentInvoice extends BaseFragment implements InvoiceContract.Vie
     public FragmentInvoice() {
         super();
         setFragmentTitle("Invoice");
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == REFRESH_INVOICE_LIST) {
+            if(resultCode == RESULT_FIRST_USER)
+            {
+                presenter.getUserInvoice();
+            }
+        }
     }
 
     @Override
