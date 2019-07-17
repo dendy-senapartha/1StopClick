@@ -1,6 +1,7 @@
 package com.domain.product.repository;
 
 import com.domain.product.ProductResult;
+import com.domain.product.interactor.CheckMovieAlreadyOrdered;
 import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.FindTrackByTitle;
 import com.domain.product.interactor.FindUserBuyedMoviesByProductTitle;
@@ -33,4 +34,6 @@ public interface ProductRepository {
     Observable<List<ProductResult>> findUserBuyedMovieByProductID(FindUserBuyedMoviesByProductId.Params params);
 
     Observable<List<ProductResult>> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitle.Params params);
+
+    Observable<Boolean> checkMovieAlreadyOrdered(CheckMovieAlreadyOrdered.Params params);
 }

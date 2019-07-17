@@ -7,15 +7,18 @@ import com.data.orders.repository.source.OrderEntityDataFactory;
 import com.data.orders.repository.source.network.request.AddItemToOrderRequest;
 import com.data.orders.repository.source.network.request.FindOrderByUserIdRequest;
 import com.data.orders.repository.source.network.request.GetOrderDetailsRequest;
+import com.data.orders.repository.source.network.request.PayingOrderRequest;
 import com.data.orders.repository.source.network.request.RemoveItemFromOrderRequest;
 import com.domain.order.AddItemToOrderResult;
 import com.domain.order.OrderDetailResult;
 import com.domain.order.OrderResult;
+import com.domain.order.PayingOrderResult;
 import com.domain.order.RemoveItemFromOrderResult;
 import com.domain.order.interactor.AddItemToOrder;
 import com.domain.order.interactor.FindOrderByUserId;
 import com.domain.order.interactor.GetOrderDetails;
 import com.domain.order.interactor.GetUserOrderNeedToPay;
+import com.domain.order.interactor.PayingOrder;
 import com.domain.order.interactor.RemoveItemFromOrder;
 import com.domain.order.repository.OrderRepository;
 
@@ -90,5 +93,12 @@ public class OrderDataRepository implements OrderRepository {
         return initializedRequest(createData()
                 .removeItemFromOrder(new RemoveItemFromOrderRequest(params.authorization, params.orderId, params.productId, params.quantity))
                 .map(OrderRespondMapper::transformRemoveItemFromOrder));
+    }
+
+    @Override
+    public Observable<PayingOrderResult> payingOrder(PayingOrder.Params params) {
+        return initializedRequest(createData()
+                .payingOrder(new PayingOrderRequest(params.authorization, params.userId, params.orderId, params.paymentMethodId))
+                .map(OrderRespondMapper::transformPayingOrder));
     }
 }

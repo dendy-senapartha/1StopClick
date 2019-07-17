@@ -8,6 +8,7 @@ import com.domain.account.AccountResult;
 import com.domain.order.AddItemToOrderResult;
 import com.domain.order.interactor.AddItemToOrder;
 import com.domain.product.ProductResult;
+import com.domain.product.interactor.CheckMovieAlreadyOrdered;
 import com.domain.product.interactor.FindUserBuyedMoviesByProductId;
 import com.domain.video.VideoResult;
 import com.domain.video.interactor.FindVideoByProductId;
@@ -28,17 +29,17 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final Context context;
     private final MovieDetailContract.View view;
     private final FindVideoByProductId findVideoByProductId;
-    private final FindUserBuyedMoviesByProductId findUserBuyedMoviesByProductId;
+    private final CheckMovieAlreadyOrdered checkMovieAlreadyOrdered;
     private AccountResult userSession = null;
     private final AddItemToOrder addItemToOrder;
 
     @Inject
     public MovieDetailPresenter(Context context, MovieDetailContract.View view, FindVideoByProductId findVideoByProductId,
-                                FindUserBuyedMoviesByProductId findUserBuyedMoviesByProductId, AddItemToOrder addItemToOrder) {
+                                CheckMovieAlreadyOrdered checkMovieAlreadyOrdered, AddItemToOrder addItemToOrder) {
         this.context = context;
         this.view = view;
         this.findVideoByProductId = findVideoByProductId;
-        this.findUserBuyedMoviesByProductId = findUserBuyedMoviesByProductId;
+        this.checkMovieAlreadyOrdered = checkMovieAlreadyOrdered;
         this.addItemToOrder = addItemToOrder;
     }
 
@@ -71,9 +72,9 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void checAlreadyBuyedkMovie(String productId) {
-        findUserBuyedMoviesByProductId.execute(new DefaultObserver<List<ProductResult>>() {
+        checkMovieAlreadyOrdered.execute(new DefaultObserver<Boolean>() {
                                                    @Override
-                                                   public void onNext(List<ProductResult> result) {
+                                                   public void onNext(Boolean result) {
                                                         view.onSuccessFindVideoByProductId(result);
                                                    }
 
@@ -83,7 +84,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
                                                    }
                                                },
-                FindUserBuyedMoviesByProductId.Params.forUserGetBuyedMoviesByProdId(userSession.getAuthorization(),
+                CheckMovieAlreadyOrdered.Params.forCheckMovieAlreadyOrdered(userSession.getAuthorization(),
                         userSession.getUid(), productId)
         );
     }

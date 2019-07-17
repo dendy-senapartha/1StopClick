@@ -1,6 +1,7 @@
 package com.data.product.mapper;
 
 import com.data.product.ProductEntity;
+import com.data.product.repository.source.network.response.CheckMovieAlreadyOrderedResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
 import com.data.productimage.ProductImageEntity;
 import com.domain.base.entity.Category;
@@ -85,5 +86,9 @@ public class ProductListRespondMapper {
             }
         }
         return result;
+    }
+
+    public boolean transformCheckMovieAlreadyOrdered(CheckMovieAlreadyOrderedResponse response) {
+        return response.status;
     }
 }

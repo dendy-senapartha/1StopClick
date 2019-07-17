@@ -6,8 +6,10 @@ import com.a1stopclick.OneStopClickApplication;
 import com.domain.DefaultObserver;
 import com.domain.account.AccountResult;
 import com.domain.order.OrderDetailResult;
+import com.domain.order.PayingOrderResult;
 import com.domain.order.RemoveItemFromOrderResult;
 import com.domain.order.interactor.GetOrderDetails;
+import com.domain.order.interactor.PayingOrder;
 import com.domain.order.interactor.RemoveItemFromOrder;
 
 import javax.inject.Inject;
@@ -29,15 +31,18 @@ public class TransactionDetailPresenter implements TransactionDetailContract.Pre
 
     private final RemoveItemFromOrder removeItemFromOrder;
 
+    private final PayingOrder payingOrder;
+
     private AccountResult userSession = null;
 
     @Inject
     public TransactionDetailPresenter(Context context, TransactionDetailContract.View view,
-                                      GetOrderDetails getOrderDetails, RemoveItemFromOrder removeItemFromOrder) {
+                                      GetOrderDetails getOrderDetails, RemoveItemFromOrder removeItemFromOrder, PayingOrder payingOrder) {
         this.context = context;
         this.view = view;
         this.getOrderDetails = getOrderDetails;
         this.removeItemFromOrder = removeItemFromOrder;
+        this.payingOrder = payingOrder;
     }
 
     private void retrieveSession() {
@@ -82,6 +87,25 @@ public class TransactionDetailPresenter implements TransactionDetailContract.Pre
                                     }
                                 },
                 GetOrderDetails.Params.forGetOrderDetails(userSession.getAuthorization(), orderId)
+        );
+    }
+
+    @Override
+    public void payingOrder(int orderId, int paymentMehtodId) {
+        payingOrder.execute(new DefaultObserver<PayingOrderResult>() {
+                                @Override
+                                public void onNext(PayingOrderResult result) {
+                                    view.onPayingOrderSuccess(result);
+                                }
+
+                                @Override
+                                public void onError(Throwable er) {
+                                    //TODO : need show error message based on error code from BE
+
+                                }
+                            },
+                PayingOrder.Params.forPayingOrder(userSession.getAuthorization(), userSession.getUid() + "",
+                        orderId + "", paymentMehtodId + "")
         );
     }
 

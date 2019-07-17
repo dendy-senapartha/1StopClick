@@ -4,12 +4,14 @@ import com.data.Source;
 import com.data.product.mapper.ProductListRespondMapper;
 import com.data.product.repository.source.ProductEntityData;
 import com.data.product.repository.source.ProductEntityDataFactory;
+import com.data.product.repository.source.network.request.CheckMovieAlreadyOrderedRequest;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
 import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
 import com.domain.product.ProductResult;
+import com.domain.product.interactor.CheckMovieAlreadyOrdered;
 import com.domain.product.interactor.FindMovieByTitle;
 import com.domain.product.interactor.FindTrackByTitle;
 import com.domain.product.interactor.FindUserBuyedMoviesByProductTitle;
@@ -108,6 +110,14 @@ public class ProductDataRepository implements ProductRepository {
                         params.userId,
                         params.productTitle))
                 .map(productListRespondMapper::transform)
+        );
+    }
+
+    @Override
+    public Observable<Boolean> checkMovieAlreadyOrdered(CheckMovieAlreadyOrdered.Params params) {
+        return initializedRequest(createData()
+                .checkMovieAlreadyOrdered(new CheckMovieAlreadyOrderedRequest(params.authorization,params.userId, params.productId))
+                .map(productListRespondMapper::transformCheckMovieAlreadyOrdered)
         );
     }
 }

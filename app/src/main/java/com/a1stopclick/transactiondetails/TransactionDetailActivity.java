@@ -2,6 +2,7 @@ package com.a1stopclick.transactiondetails;
 
 import android.content.Intent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -19,8 +20,11 @@ import com.alibaba.fastjson.JSON;
 
 import com.domain.base.entity.OrderItem;
 import com.domain.order.OrderResult;
+import com.domain.order.PayingOrderResult;
 import com.domain.order.RemoveItemFromOrderResult;
+import com.google.android.material.button.MaterialButton;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +32,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /*
  * Created by dendy-prtha on 10/05/2019.
@@ -42,8 +47,6 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
     TransactionDetailContract.Presenter presenter;
 
     private TransactionDetailsComponent component;
-
-    OrderResult orderItem = null;
 
     @BindView(R.id.orderDate)
     TextView orderDate;
@@ -66,7 +69,12 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
     @BindView(R.id.transactionToolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.payButton)
+    MaterialButton payButton;
+
     private List<OrderItem> orderItemList;
+
+    OrderResult orderItem = null;
 
     @Override
     public int getLayout() {
@@ -115,6 +123,12 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
         totalAmount.setText(orderItem.order.totalAmount.toString());
         presenter.getTransactionOrderDetail(orderItem.order.id + "");
 
+        if (orderItem.order.invoice.status.equalsIgnoreCase("DRAFT")) {
+            payButton.setVisibility(View.VISIBLE);
+        } else {
+            payButton.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -148,17 +162,33 @@ public class TransactionDetailActivity extends BaseActivity implements Transacti
                  songOfTheAlbumIterator.hasNext(); ) {
                 OrderItem orderedItem = songOfTheAlbumIterator.next();
                 if (result.itemId.equalsIgnoreCase(orderedItem.productId + "")) {
-                    totalAmount.setText(orderItem.order.totalAmount.subtract(orderedItem.subtotal) + "");
+                    orderItem.order.totalAmount = orderItem.order.totalAmount.subtract(orderedItem.subtotal);
+                    totalAmount.setText(orderItem.order.totalAmount + "");
                     songOfTheAlbumIterator.remove();
                 }
             }
             //close the activity if the order item already zero
             onGetTransactionOrderDetailSuccess(orderItemList);
             if (orderItemList.isEmpty()) {
-                setResult(FragmentInvoice.REFRESH_INVOICE_LIST, new Intent());
-                finish();
+                exitAndRefreshInvoiceList();
             }
         }
+    }
+
+    private void exitAndRefreshInvoiceList()
+    {
+        setResult(FragmentInvoice.REFRESH_INVOICE_LIST, new Intent());
+        finish();
+    }
+
+    @Override
+    public void onPayingOrderSuccess(PayingOrderResult result) {
+        exitAndRefreshInvoiceList();
+    }
+
+    @OnClick(R.id.payButton)
+    public void payButtonOnClick(View view) {
+        presenter.payingOrder(orderItem.order.id,orderItem.order.invoice.paymentMethod.id);
     }
 
     public TransactionDetailContract.Presenter getPresenter() {

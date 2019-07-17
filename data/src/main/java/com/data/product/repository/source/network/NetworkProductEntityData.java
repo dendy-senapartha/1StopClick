@@ -1,11 +1,13 @@
 package com.data.product.repository.source.network;
 
 import com.data.product.repository.source.ProductEntityData;
+import com.data.product.repository.source.network.request.CheckMovieAlreadyOrderedRequest;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
 import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
+import com.data.product.repository.source.network.response.CheckMovieAlreadyOrderedResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
 
 import java.util.concurrent.Callable;
@@ -75,6 +77,13 @@ public class NetworkProductEntityData implements ProductEntityData {
     public Observable<ProductListResponse> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitleRequest request) {
         return initObservable(()->{
             return productNetwork.findUserBuyedMoviesByProductName(request);
+        });
+    }
+
+    @Override
+    public Observable<CheckMovieAlreadyOrderedResponse> checkMovieAlreadyOrdered(CheckMovieAlreadyOrderedRequest request) {
+        return initObservable(()->{
+            return productNetwork.checkMovieAlreadyOrdered(request);
         });
     }
 }

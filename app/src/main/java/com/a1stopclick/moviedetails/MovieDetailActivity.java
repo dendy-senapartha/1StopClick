@@ -254,8 +254,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void onSuccessFindVideoByProductId(List<ProductResult> result) {
-        if (result.isEmpty()) {
+    public void onSuccessFindVideoByProductId(Boolean result) {
+        if (!result) {
             movieNotBuyed = true;
             btnBuyOrWatchMovie.setText("Buy Movie");
         } else {

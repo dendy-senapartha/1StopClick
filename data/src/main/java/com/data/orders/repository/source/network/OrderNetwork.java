@@ -13,10 +13,12 @@ import com.data.orders.OrderEntity;
 import com.data.orders.repository.source.network.request.AddItemToOrderRequest;
 import com.data.orders.repository.source.network.request.FindOrderByUserIdRequest;
 import com.data.orders.repository.source.network.request.GetOrderDetailsRequest;
+import com.data.orders.repository.source.network.request.PayingOrderRequest;
 import com.data.orders.repository.source.network.request.RemoveItemFromOrderRequest;
 import com.data.orders.repository.source.network.response.AddItemToOrderResponse;
 import com.data.orders.repository.source.network.response.FindOrderByUserIdResponse;
 import com.data.orders.repository.source.network.response.GetOrderIdDetailsResponse;
+import com.data.orders.repository.source.network.response.PayingOrderResponse;
 import com.data.orders.repository.source.network.response.RemoveItemFromOrderResponse;
 import com.data.volley.VolleyHandler;
 
@@ -171,6 +173,28 @@ public class OrderNetwork {
             response.httpResponseHeader = httpResponseHeader;
             response.exception = null;
             //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public PayingOrderResponse payingOrder(PayingOrderRequest request) {
+        PayingOrderResponse response = new PayingOrderResponse();
+        try {
+            JSONObject paramsBody = new JSONObject(JSON.toJSONString(request));
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.PAYING_ORDER, paramsBody, paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            JSONObject objectResult = object.getJSONObject("result");
+            response = JSON.parseObject(objectResult.toString(), PayingOrderResponse.class);
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
         } catch (InterruptedException | ExecutionException | JSONException e) {
             Log.e("routes", e.getMessage());
             e.printStackTrace();

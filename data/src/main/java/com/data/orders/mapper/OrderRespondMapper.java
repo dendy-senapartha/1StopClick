@@ -5,6 +5,7 @@ import com.data.orders.OrderEntity;
 import com.data.orders.repository.source.network.response.AddItemToOrderResponse;
 import com.data.orders.repository.source.network.response.FindOrderByUserIdResponse;
 import com.data.orders.repository.source.network.response.GetOrderIdDetailsResponse;
+import com.data.orders.repository.source.network.response.PayingOrderResponse;
 import com.data.orders.repository.source.network.response.RemoveItemFromOrderResponse;
 import com.domain.base.entity.Invoice;
 import com.domain.base.entity.Order;
@@ -13,6 +14,7 @@ import com.domain.base.entity.PaymentMethod;
 import com.domain.order.AddItemToOrderResult;
 import com.domain.order.OrderDetailResult;
 import com.domain.order.OrderResult;
+import com.domain.order.PayingOrderResult;
 import com.domain.order.RemoveItemFromOrderResult;
 
 import java.math.BigDecimal;
@@ -107,6 +109,14 @@ public class OrderRespondMapper {
         RemoveItemFromOrderResult result = new RemoveItemFromOrderResult();
         result.status = response.status;
         result.itemId = response.itemId;
+        return result;
+    }
+
+    public PayingOrderResult transformPayingOrder(PayingOrderResponse response) {
+        PayingOrderResult result = new PayingOrderResult();
+        result.status = response.status;
+        result.message = response.message;
+        result.orderId = response.orderId;
         return result;
     }
 }

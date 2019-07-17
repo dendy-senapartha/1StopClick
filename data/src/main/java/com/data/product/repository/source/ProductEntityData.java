@@ -1,10 +1,12 @@
 package com.data.product.repository.source;
 
+import com.data.product.repository.source.network.request.CheckMovieAlreadyOrderedRequest;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
 import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
+import com.data.product.repository.source.network.response.CheckMovieAlreadyOrderedResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
 
 import io.reactivex.Observable;
@@ -29,4 +31,6 @@ public interface ProductEntityData {
     Observable<ProductListResponse> findUserBuyedMovieByProductID(FindUserBuyedMoviesByIdRequest request);
 
     Observable<ProductListResponse> findUserBuyedMovieByProductTitle(FindUserBuyedMoviesByProductTitleRequest request);
+
+    Observable<CheckMovieAlreadyOrderedResponse> checkMovieAlreadyOrdered(CheckMovieAlreadyOrderedRequest request);
 }

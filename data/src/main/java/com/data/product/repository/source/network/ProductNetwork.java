@@ -10,11 +10,13 @@ import com.data.BEUrl;
 import com.data.Serializer;
 import com.data.account.HTTPResponseHeader;
 import com.data.product.ProductEntity;
+import com.data.product.repository.source.network.request.CheckMovieAlreadyOrderedRequest;
 import com.data.product.repository.source.network.request.FindProductByTitleRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByIdRequest;
 import com.data.product.repository.source.network.request.FindUserBuyedMoviesByProductTitleRequest;
 import com.data.product.repository.source.network.request.GetUserBuyedMoviesRequest;
 import com.data.product.repository.source.network.request.ProductListRequest;
+import com.data.product.repository.source.network.response.CheckMovieAlreadyOrderedResponse;
 import com.data.product.repository.source.network.response.ProductListResponse;
 import com.data.volley.VolleyHandler;
 
@@ -265,6 +267,35 @@ public class ProductNetwork {
             response.httpResponseHeader = httpResponseHeader;
             response.exception = null;
             //Log.d(TAG, "Json object : " + object);
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            Log.e("routes", e.getMessage());
+            e.printStackTrace();
+            response.exception = e.getMessage();
+        }
+        return response;
+    }
+
+    public CheckMovieAlreadyOrderedResponse checkMovieAlreadyOrdered(CheckMovieAlreadyOrderedRequest request) {
+        CheckMovieAlreadyOrderedResponse response = new CheckMovieAlreadyOrderedResponse();
+        try {
+            Map<String, String> params = new HashMap<String, String>();
+            //hardocoded
+            params.put("userId", request.userId);
+            params.put("productId", request.productId);
+
+            Map<String, String> paramHeader = new HashMap<String, String>();
+            //hardcoded
+            paramHeader.put("authorization", request.authorization);
+
+            JSONObject object = volleyHandler.postRouteDataObject(BEUrl.CHECK_MOVIE_ALREADY_ORDERED,
+                    new JSONObject(params), paramHeader);
+            JSONObject objectHeader = object.getJSONObject(VolleyHandler.HEADERS);
+            JSONObject objectResult = object.getJSONObject("result");
+            response = JSON.parseObject(objectResult.toString(), CheckMovieAlreadyOrderedResponse.class);
+            HTTPResponseHeader httpResponseHeader = JSON.parseObject(objectHeader.toString(), HTTPResponseHeader.class);
+
+            response.httpResponseHeader = httpResponseHeader;
+            response.exception = null;
         } catch (InterruptedException | ExecutionException | JSONException e) {
             Log.e("routes", e.getMessage());
             e.printStackTrace();

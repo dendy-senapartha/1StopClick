@@ -3,11 +3,13 @@ package com.domain.order.repository;
 import com.domain.order.AddItemToOrderResult;
 import com.domain.order.OrderDetailResult;
 import com.domain.order.OrderResult;
+import com.domain.order.PayingOrderResult;
 import com.domain.order.RemoveItemFromOrderResult;
 import com.domain.order.interactor.AddItemToOrder;
 import com.domain.order.interactor.FindOrderByUserId;
 import com.domain.order.interactor.GetOrderDetails;
 import com.domain.order.interactor.GetUserOrderNeedToPay;
+import com.domain.order.interactor.PayingOrder;
 import com.domain.order.interactor.RemoveItemFromOrder;
 
 import java.util.List;
@@ -25,4 +27,5 @@ public interface OrderRepository {
     Observable<OrderDetailResult> getOrderDetails(GetOrderDetails.Params params);
     Observable<AddItemToOrderResult> addItemToOrder(AddItemToOrder.Params params);
     Observable<RemoveItemFromOrderResult> removeItemFromOrder(RemoveItemFromOrder.Params params);
+    Observable<PayingOrderResult> payingOrder(PayingOrder.Params params);
 }

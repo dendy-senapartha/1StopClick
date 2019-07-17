@@ -4,10 +4,12 @@ import com.data.orders.repository.source.OrderEntityData;
 import com.data.orders.repository.source.network.request.AddItemToOrderRequest;
 import com.data.orders.repository.source.network.request.FindOrderByUserIdRequest;
 import com.data.orders.repository.source.network.request.GetOrderDetailsRequest;
+import com.data.orders.repository.source.network.request.PayingOrderRequest;
 import com.data.orders.repository.source.network.request.RemoveItemFromOrderRequest;
 import com.data.orders.repository.source.network.response.AddItemToOrderResponse;
 import com.data.orders.repository.source.network.response.FindOrderByUserIdResponse;
 import com.data.orders.repository.source.network.response.GetOrderIdDetailsResponse;
+import com.data.orders.repository.source.network.response.PayingOrderResponse;
 import com.data.orders.repository.source.network.response.RemoveItemFromOrderResponse;
 
 import java.util.concurrent.Callable;
@@ -63,6 +65,13 @@ public class NetworkOrderEntityData implements OrderEntityData {
     public Observable<RemoveItemFromOrderResponse> removeItemFromOrder(RemoveItemFromOrderRequest request) {
         return initObservable(()->{
             return orderNetwork.removeItemFromOrder(request);
+        });
+    }
+
+    @Override
+    public Observable<PayingOrderResponse> payingOrder(PayingOrderRequest request) {
+        return initObservable(()->{
+            return orderNetwork.payingOrder(request);
         });
     }
 }

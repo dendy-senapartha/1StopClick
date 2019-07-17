@@ -15,7 +15,7 @@ import java.util.List;
 public interface MovieDetailContract {
     interface View extends BaseContract.BaseViewContract {
         void onGetVideoByProductIdSuccess(List<VideoResult> videoResults);
-        void onSuccessFindVideoByProductId(List<ProductResult> result);
+        void onSuccessFindVideoByProductId(Boolean result);
         ProductResult getMovieDetail();
         void onAddMovieToOrderSuccess(AddItemToOrderResult result);
     }
